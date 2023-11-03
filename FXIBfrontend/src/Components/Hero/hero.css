@@ -1,0 +1,100 @@
+.sub_page .hero_area {
+    min-height: auto;
+}
+.hero_section {
+    height: 60vh;
+    align-items: center;
+    padding: 70px 70px 90px;
+    background: var(--myBlack);
+}
+.tvChart {
+    margin-left: 100px;
+    width: 80%;
+}
+.detail-box {
+    color: var(--myWhite);
+}
+.detail-box h1 {
+    font-weight: bold;
+    margin-bottom: 25px;
+    font-size: 2rem;
+}
+.loginButton {
+    font-size: 1.2rem;
+    padding: 1rem 2.5rem;
+    border: none;
+    outline: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    background-color: var(--myBlack);
+    color: var(--myWhite);
+    font-weight: 700;
+    transition: 0.6s;
+    box-shadow: 0px 0px 60px var(--myLighBlue);
+    -webkit-box-reflect: below 10px linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.4));
+}
+.loginButton:active {
+    scale: 0.85;
+}
+.loginButton:hover {
+    background: linear-gradient(270deg, #76d5f3 0%, var(--myLighBlue) 50%);
+    color: var(--myBlack);
+}
+.registerButton {
+    font-size: 1.2rem;
+    padding: 1rem 2.5rem;
+    border: none;
+    outline: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    background-color: var(--myBlack);
+    color: var(--myWhite);
+    font-weight: 700;
+    transition: 0.6s;
+    box-shadow: 0px 0px 60px #b93333;
+    -webkit-box-reflect: below 10px linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.4));
+}
+.registerButton:active {
+    scale: 0.85;
+}
+.registerButton:hover {
+    background: linear-gradient(270deg, #fd7e7e 0%, var(--myOrange) 50%);
+    color: var(--myBlack);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

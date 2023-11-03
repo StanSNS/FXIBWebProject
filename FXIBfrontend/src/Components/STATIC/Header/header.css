@@ -1,0 +1,217 @@
+.myNav {
+    position: relative;
+    background-color: var(--myBlack);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.nav-link span {
+    color: var(--myWhite);
+    margin-right: 25px;
+}
+
+.hamburgerIcon {
+    color: var(--myWhite);
+    font-size: 35px;
+}
+
+.hamburgerIcon:hover {
+    color: var(--myLighBlue);
+}
+
+.custom_nav-container {
+    padding: 10px 0;
+}
+
+.navbar-brand span {
+    font-weight: bold;
+    color: var(--myWhite);
+    font-size: 40px;
+    text-transform: uppercase;
+}
+
+.removeBorder {
+    border: none;
+    outline: none;
+}
+
+.modal-content {
+    width: 900px;
+    margin: auto;
+}
+
+.biographyContainer {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+.biographyTextSize {
+    max-width: 70%;
+}
+
+.changeBUttonWidth {
+    width: 105px;
+}
+
+.nav-link span:hover {
+    color: var(--myLighBlue);
+}
+
+.colorLogo span:hover {
+    color: var(--myLighBlue);
+}
+
+.errorMessageNoTransactions {
+    color: var(--myEreor);
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.myRedColorPaint {
+    color: var(--myOrange);
+}
+
+.myBlueColorPaint {
+    color: var(--myLighBlue);
+}
+
+.button {
+    margin: 0;
+    height: auto;
+    background: transparent;
+    padding: 0;
+    border: none;
+}
+
+.button {
+    --border-right: 6px;
+    --animation-color: var(--myLighBlue);
+    --fs-size: 2em;
+    letter-spacing: 3px;
+    text-decoration: none;
+    font-size: var(--fs-size);
+    font-family: "Arial";
+    position: relative;
+    text-transform: uppercase;
+    color: transparent;
+}
+
+.hover-text {
+    position: absolute;
+    box-sizing: border-box;
+    content: attr(data-text);
+    color: var(--animation-color);
+    width: 0%;
+    inset: 0;
+    border-right: var(--border-right) solid var(--animation-color);
+    overflow: hidden;
+    transition: 0.5s;
+    -webkit-text-stroke: 1px var(--animation-color);
+}
+
+.button:hover .hover-text {
+    width: 100%;
+    filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+.Btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 45px;
+    height: 45px;
+    border-radius: calc(45px / 2);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+}
+
+.sign {
+    width: 100%;
+    font-size: 2.2em;
+    color: white;
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: white;
+    font-size: 1.4em;
+    font-weight: 500;
+    transition-duration: .3s;
+}
+
+.Btn:hover {
+    width: 125px;
+    transition-duration: .3s;
+}
+
+.Btn:hover .sign {
+    width: 30%;
+    transition-duration: .3s;
+    padding-left: 15px;
+}
+
+.Btn:hover .text {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 15px;
+}
+
+.Btn:active {
+    transform: translate(2px, 2px);
+}
+
+.input-wrapperHeader input {
+    width: 150%;
+    border: none;
+    border-bottom: 3px solid var(--myGray);
+    transition: border-bottom 0.4s ease;
+}
+
+.input-wrapperHeader input:focus {
+    outline: none;
+    border: none;
+    border-bottom: 3px solid var(--myLighBlue);
+}
+
+.refreshTransactionsButton {
+    border-radius: 8px;
+    color: var(--myWhite);
+    background: transparent;
+    box-shadow: transparent;
+    transition: 0.5s ease;
+    user-select: none;
+}
+
+#refreshTransactionsButton:hover {
+    color: var(--myWhite);
+    background: var(--myBlack);
+    border: 1px solid var(--myBlack);
+    text-shadow: 0 0 5px var(--myWhite),
+    0 0 10px var(--myWhite),
+    0 0 20px var(--myWhite);
+    box-shadow: 0 0 5px var(--myBlack),
+    0 0 20px var(--myBlack),
+    0 0 50px var(--myBlack),
+    0 0 100px var(--myBlack);
+}
+
+.customMessageStyleTopModal {
+    font-size: 20px;
+    margin-left: 7%;
+}

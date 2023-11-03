@@ -1,0 +1,201 @@
+.wholePartnersSection {
+    position: relative;
+}
+.wholePartnersSection .box {
+    margin-top: 45px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+    border: var(--myLighBlue) 5px solid;
+    border-radius: 10px;
+    width: 100%;
+}
+
+
+.myWave {
+    background: url("./images/wave.png");
+    width: 119%;
+    height: 50px;
+    margin-bottom: -25px;
+    background-size: 500px 50px;
+}
+.myWave.myWave1 {
+    animation: myWave 6s linear infinite;
+}
+@keyframes myWave {
+    0% {
+        background-position-x: 0;
+    }
+    100% {
+        background-position-x: 1000px;
+    }
+}
+
+
+
+
+
+.partnersBox{
+    color: var(--myBlack);
+    font-weight: bold;
+    font-size: 17.2px;
+}
+.wholePartnersSection .box .img-box {
+    width: 75px;
+    height: 75px;
+    background-color: var(--myWhite);
+    border-radius: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+    padding: 10px;
+}
+.wholePartnersSection .box .img-box img {
+    width: 100%;
+    max-width: 45px;
+    max-height: 45px;
+}
+.wholePartnersSection .box .detail-box h4 {
+    font-weight: bold;
+    font-size: 22px;
+}
+.wholePartnersSection .box .detail-box a {
+    color: var(--myLighBlue);
+}
+.wholePartnersSection .box .detail-box a:hover {
+    color: var(--myLighBlue);
+    text-decoration: none;
+}
+.wholePartnersSection .box:hover .img-box {
+    background-color: var(--myBlack);
+}
+.customButton {
+background-color: var(--myOrange);
+}
+.customButton svg{
+    fill: var(--myWhite);
+}
+.font-weight-bold {
+    color: var(--myWhite);
+}
+.customButton:hover {
+    background-color: var(--myLighBlue);
+    color: var(--myWhite);
+}
+.customButton:hover .font-weight-bold {
+    color: var(--myWhite);
+}
+.customButton:hover svg {
+    fill: var(--myWhite);
+}
+.partnerLearnMoreButton {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    vertical-align: middle;
+    text-decoration: none;
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+}
+.partnerLearnMoreButton.learn-more {
+    width: 12rem;
+    height: auto;
+}
+.partnerLearnMoreButton.learn-more .partnerCircle {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    box-shadow: 0 0 5px 1px white;
+    position: relative;
+    display: block;
+    margin: 0;
+    width: 3rem;
+    height: 3rem;
+    background: #282936;
+    border-radius: 1.625rem;
+}
+.partnerLearnMoreButton.learn-more .partnerCircle .partnerIcon {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: #fff;
+}
+.partnerLearnMoreButton.learn-more .partnerCircle .partnerIcon.partnerArrow {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    left: 0.625rem;
+    width: 1.125rem;
+    height: 0.125rem;
+    background: none;
+}
+.partnerLearnMoreButton.learn-more .partnerCircle .partnerIcon.partnerArrow::before {
+    position: absolute;
+    content: "";
+    top: -0.29rem;
+    right: 0.0625rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-top: 0.125rem solid #fff;
+    border-right: 0.125rem solid #fff;
+    transform: rotate(45deg);
+}
+.partnerLearnMoreButton.learn-more .button-text {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.55rem 0;
+    margin: 0 0 0 1.85rem;
+    color: var(--myBlack);
+    font-weight: bold;
+    line-height: 1.6;
+    text-align: center;
+    text-transform: uppercase;
+}
+.partnerLearnMoreButton:hover .partnerCircle {
+    width: 100%;
+    box-shadow: 0 0 10px 2px white;
+}
+.partnerLearnMoreButton:hover .button-text {
+    transform: translate(-1.7rem, 0);
+}
+.partnerLearnMoreButton:hover .partnerCircle .partnerIcon.partnerArrow {
+    background: #fff;
+    transform: translate(8.7rem, 0);
+}
+.partnerLearnMoreButton:active .partnerCircle .partnerIcon.partnerArrow {
+    transform: translate(9.5rem, 0);
+    transition: all 0.3s;
+}
+.partnerLearnMoreButton:active .partnerCircle {
+    transform: scale(0.9);
+    transition: all 0.3s;
+    box-shadow: 0 0 5px 0.5px white;
+}
+.partnerLearnMoreButton:hover .button-text {
+    color: var(--myWhite);
+}
+.partnerLearnMoreButton:active .button-text {
+    color: var(--myWhite);
+}
