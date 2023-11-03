@@ -21,6 +21,13 @@
 - **IP geolocation**:  Provides functionalities to query and retrieve geolocation data based on IP addresses.
 - **JUnit and AssertJ**: Used for testing and test assertions.
 
+### Entity table relations
+
+- Below, you will find the table relations between the entities in the database.
+  
+![table relations](https://i.imgur.com/IVoDCmB.png)
+
+
 ### Testing
 
 - Below, you will find the coverage percentage obtained from the JUnit testing.
