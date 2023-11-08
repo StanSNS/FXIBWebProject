@@ -19,4 +19,7 @@ public class JwtAuthResponseDTO {
 
     @NotNull
     private Set<String> role;
+
+    @NotNull
+    private String email;
 }

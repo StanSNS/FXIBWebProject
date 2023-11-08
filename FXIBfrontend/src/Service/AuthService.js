@@ -16,17 +16,19 @@ export const storeToken = (token) => localStorage.setItem("token", token);
 export const getToken = () => localStorage.getItem("token");
 
 // Function to save the logged-in user's information in session storage.
-export const saveLoggedUser = (username, role) => {
-    sessionStorage.setItem("authenticatedUser", username);
-    sessionStorage.setItem("role", role);
+export const saveLoggedUser = (username, role, email) => {
+    sessionStorage.setItem("Username", username);
+    sessionStorage.setItem("Role", role);
+    sessionStorage.setItem("Email", email);
 }
 
 // Retrieve the username of the logged-in user from session storage.
-export const loggedUserUsername = sessionStorage.getItem("authenticatedUser");
+export const loggedUserUsername = sessionStorage.getItem("Username");
+export const loggedUserEmail = sessionStorage.getItem("Email");
 
 // Function to check if a user is logged in based on session storage.
 export const isUserLoggedIn = () => {
-    return sessionStorage.getItem("authenticatedUser") != null;
+    return sessionStorage.getItem("Username") != null;
 }
 
 // Function to log out the user by clearing both local and session storage.
@@ -37,7 +39,7 @@ export const logout = () => {
 
 // Function to check if the logged-in user is an administrator based on their role.
 export const isAdministrator = () => {
-    let role = sessionStorage.getItem("role");
+    let role = sessionStorage.getItem("Role");
     if (role && role.length > 4) {
         let rolesArray = role.split(",");
         if (rolesArray.includes("ADMIN")) {
@@ -49,7 +51,7 @@ export const isAdministrator = () => {
 
 // Function to check if the logged-in user is banned based on their role.
 export const isUserBanned = () => {
-    let role = sessionStorage.getItem("role");
+    let role = sessionStorage.getItem("Role");
     if (role && role.length > 4) {
         let rolesArray = role.split(",");
         if (rolesArray.includes("BANNED")) {

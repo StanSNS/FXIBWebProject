@@ -59,8 +59,9 @@ export default function Login() {
                         sessionStorage.clear();
                         const token = 'Bearer ' + response.data.accessToken;
                         const role = response.data.role;
+                        const email = response.data.email;
                         storeToken(token);
-                        saveLoggedUser(username, role);
+                        saveLoggedUser(username, role, email);
                         navigator("/");
                         window.location.reload(false); // Reload the page to apply the changes.
                     }

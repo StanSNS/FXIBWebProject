@@ -15,7 +15,7 @@ import {
 import {Button, Modal} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import {AiFillInfoCircle} from "react-icons/ai";
-import {isUserLoggedIn} from "../../Service/AuthService";
+import {isUserLoggedIn, loggedUserEmail} from "../../Service/AuthService";
 import {getAllPricingData} from "../../Service/InitService";
 
 export default function Pricing() {
@@ -43,7 +43,7 @@ export default function Pricing() {
 
         if (redirectUrl) {
             // If a redirect URL is set, open it in a new tab or window
-            window.open(redirectUrl, '_blank');
+            window.open(redirectUrl + "?prefilled_email=" + loggedUserEmail, '_blank');
         }
     };
 

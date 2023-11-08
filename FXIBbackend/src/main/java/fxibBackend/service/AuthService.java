@@ -169,7 +169,7 @@ public class AuthService {
             throw new InternalErrorException();
         }
         jwtAuthResponse.setAccessToken(token);
-
+        jwtAuthResponse.setEmail(user.getEmail());
         // Validate the JWT response
         if (!validationUtil.isValid(jwtAuthResponse)) {
             throw new DataValidationException();
@@ -180,6 +180,8 @@ public class AuthService {
         if (locationService.isLocationDifferent(user.getLocationEntity(), user.getUsername())) {
             user.setNumberOfLogins(MAX_LOGINS);
         }
+
+
         return jwtAuthResponse;
     }
 
