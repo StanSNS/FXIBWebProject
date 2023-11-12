@@ -1,0 +1,339 @@
+.sub_page .hero_area {
+    min-height: auto;
+}
+
+.price_section .price_container {
+
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.price_section .price_container .box {
+    margin-top: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 5px solid var(--myLighBlue);
+    border-radius: 30px;
+}
+
+.price_section .price_container .box .priceBox {
+    width: 300px;
+    padding: 15px 20px 15px 20px;
+    background-color: var(--myWhite);
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.price_section .price_container .box .priceBox h2 {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.price_section .price_container .box .priceBox h2 span {
+    font-size: 3rem;
+}
+
+.price_section .price_container .box .priceBox h6 {
+    text-transform: uppercase;
+    color: var(--myLighBlue);
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.price_section .price_container .box .btn-box a {
+    display: inline-block;
+    padding: 10px 35px;
+    background-color: var(--myOrange);
+    color: var(--myWhite);
+    border-radius: 5px;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    border: none;
+}
+
+.price_section .price_container .box .btn-box a:hover {
+    background-color: var(--myLighBlue);
+    color: var(--myWhite);
+    text-decoration: none;
+}
+
+.price_section .price_container .box:hover {
+    color: var(--myWhite);
+}
+
+.price_section .price_container .box:hover .priceBox {
+    background-color: var(--myLighBlue);
+    color: var(--myWhite);
+}
+
+.price_section .price_container .box:hover h6 {
+    color: var(--myWhite);
+}
+
+.price_section .price_container .box:hover h6 span {
+    color: var(--myWhite);
+}
+
+.price_section .price_container .box:hover a {
+    background-color: var(--myLighBlue);
+    color: var(--myWhite);
+}
+
+.heading_container h2 {
+    font-weight: bold;
+}
+
+.heading_container.heading_center {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+}
+
+.heading_container p {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.calendarIcon {
+    color: var(--myBlack);
+}
+
+.priceBox {
+    color: var(--myBlack);
+}
+
+.addMarginTop {
+    margin-top: 100px;
+}
+
+.first-letter-pricing-pop {
+    animation: first-letter-pricing-pop 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
+    animation-delay: 0ms;
+}
+
+@keyframes first-letter-pricing-pop {
+    0% {
+        transform: translateY(0);
+        transform-origin: 50% 50%;
+        text-shadow: none;
+    }
+    100% {
+        transform: translateY(-30px);
+        transform-origin: 50% 50%;
+        text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.second-letter-pricing-pop {
+    animation: second-letter-pricing-pop 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
+    animation-delay: 20ms;
+}
+
+@keyframes second-letter-pricing-pop {
+    0% {
+        transform: translateY(0);
+        transform-origin: 50% 50%;
+        text-shadow: none;
+    }
+    100% {
+        transform: translateY(-30px);
+        transform-origin: 50% 50%;
+        text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.third-pop-up-top {
+    animation: third-pop-up-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
+    animation-delay: 40ms;
+}
+
+@keyframes third-pop-up-top {
+    0% {
+        transform: translateY(0);
+        transform-origin: 50% 50%;
+        text-shadow: none;
+    }
+    100% {
+        transform: translateY(-30px);
+        transform-origin: 50% 50%;
+        text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.fourth-pop-up-top {
+    animation: fourth-pop-up-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
+    animation-delay: 60ms;
+}
+
+@keyframes fourth-pop-up-top {
+    0% {
+        transform: translateY(0);
+        transform-origin: 50% 50%;
+        text-shadow: none;
+    }
+    100% {
+        transform: translateY(-30px);
+        transform-origin: 50% 50%;
+        text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.fifth-pop-up-top {
+    animation: fifth-pop-up-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
+    animation-delay: 80ms;
+}
+
+@keyframes fifth-pop-up-top {
+    0% {
+        transform: translateY(0);
+        transform-origin: 50% 50%;
+        text-shadow: none;
+    }
+    100% {
+        transform: translateY(-30px);
+        transform-origin: 50% 50%;
+        text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.sixth-pop-up-top {
+    animation: sixth-pop-up-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
+    animation-delay: 100ms;
+}
+
+@keyframes sixth-pop-up-top {
+    0% {
+        transform: translateY(0);
+        transform-origin: 50% 50%;
+        text-shadow: none;
+    }
+    100% {
+        transform: translateY(-30px);
+        transform-origin: 50% 50%;
+        text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.seventh-pop-up-top {
+    animation: seventh-pop-up-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
+    animation-delay: 120ms;
+}
+
+@keyframes seventh-pop-up-top {
+    0% {
+        transform: translateY(0);
+        transform-origin: 50% 50%;
+        text-shadow: none;
+    }
+    100% {
+        transform: translateY(-30px);
+        transform-origin: 50% 50%;
+        text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.eight-pop-up-top {
+    animation: eigth-pop-up-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
+    animation-delay: 140ms;
+}
+
+@keyframes eigth-pop-up-top {
+    0% {
+        transform: translateY(0);
+        transform-origin: 50% 50%;
+        text-shadow: none;
+    }
+    100% {
+        transform: translateY(-30px);
+        transform-origin: 50% 50%;
+        text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.sectionHeaderStyling {
+    font-size: 50px;
+}
+
+.myLittleIconInfo {
+    color: var(--myLighBlue);
+}
+
+.myLittleIconInfoOrange {
+    color: var(--myOrange);
+}
+
+.customLinkDesign {
+    color: var(--myLighBlue);
+    font-weight: bold;
+}
+
+.customLinkDesign:hover {
+    color: var(--myLighBlue);
+    text-decoration: none;
+}
+
+
+/* The switch - the box around the slider */
+.switch {
+    font-size: 12px;
+    position: relative;
+    display: inline-block;
+    width: 3.5em;
+    height: 2em;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    border: 1px solid #adb5bd;
+    transition: .4s;
+    border-radius: 30px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 1.4em;
+    width: 1.4em;
+    border-radius: 20px;
+    left: 0.27em;
+    bottom: 0.25em;
+    background-color: #adb5bd;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--myLighBlue);
+    border: 1px solid var(--myLighBlue);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--myLighBlue);
+}
+
+input:checked + .slider:before {
+    transform: translateX(1.4em);
+    background-color: var(--myWhite)
+}
