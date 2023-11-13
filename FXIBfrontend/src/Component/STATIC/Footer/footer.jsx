@@ -75,11 +75,11 @@ export default function Footer() {
                             <br/>
                             <br/>
                             <Link to='/' className="firstCol ml-5" onClick={handleScrollToTop}>
-                                <img src={require('./images/logo.png')} alt="logo"/>
+                                <img src={require('../../../images/logoFooter.png')} alt="logo"/>
                             </Link>
                             <br/>
                             <Link to='https://stripe.com/en-bg' target="_blank" className="firstCol ml-5">
-                                <img src={require('./images/stripe.png')} alt="stripe"/>
+                                <img src={require('../../../images/stripe.png')} alt="stripe"/>
                             </Link>
                             <br/>
                             <Link to='/risk-disclousure-terms-conditions' className="firstCol ml-5"

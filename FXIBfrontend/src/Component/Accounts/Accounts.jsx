@@ -6,7 +6,6 @@ import {RiRefreshFill} from "react-icons/ri";
 import {GiReceiveMoney} from "react-icons/gi";
 import React, {useEffect, useState} from "react";
 import {getAllTradingAccounts} from "../../Service/TradingAccount";
-import {BiErrorCircle} from "react-icons/bi";
 import 'jquery/dist/jquery.min.js';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import {FaArrowTrendDown, FaArrowTrendUp} from "react-icons/fa6";

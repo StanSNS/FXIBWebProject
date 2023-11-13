@@ -97,7 +97,7 @@ ul, li, ol {
 }
 .wave {
     margin-top: 300px;
-    background: url("./images/wave.png");
+    background: url("../../../images/waveFooter.png");
     bottom: 0;
     left: 0;
     width: 100%;

@@ -57,7 +57,7 @@ export default function Partners() {
                             <div className={`col-md-6 col-lg-4 ${index < 3 ? 'less-rows' : ''}`} key={index}>
                                 <div className="box">
                                     <div className="img-box mb-1">
-                                        <img src={require(`./images/${partner.title}.jpg`)} alt={partner.title}/>
+                                        <img src={require(`../../images/${partner.title}.jpg`)} alt={partner.title}/>
                                     </div>
                                     <div className="partnersBox">
                                         <h4 className="mb-2">{partner.title}</h4>

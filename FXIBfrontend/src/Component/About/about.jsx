@@ -3,8 +3,8 @@ import './about.css';
 import '../../globalCSS/css/bootstrap.css';
 import {getAllAboutData} from "../../Service/InitService";
 import {useNavigate} from "react-router-dom";
-import rightImage from './images/rightImage.png';
-import leftImage from './images/leftImage.png';
+import rightImage from '../../images/rightImage.png';
+import leftImage from '../../images/leftImage.png';
 import AboutSkeleton from "../../SkeletonLoader/AboutSkeleton";
 
 export default function About() {
