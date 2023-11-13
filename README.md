@@ -63,5 +63,27 @@ This project is a testament to effective development practices and the utilizati
 in a comprehensive and well-rounded software solution.
 
 
+## Gallery
 
-
+<img src="https://i.imgur.com/6dXhrHX.png" alt="First page" style="padding: 5px">
+<img src="https://i.imgur.com/XleovlP.png" alt="Terms and Conditions" style="padding: 5px">
+<img src="https://i.imgur.com/jSkla0d.png" alt="Register" style=" padding: 5px">
+<img src="https://i.imgur.com/0Ym0E9W.png" alt="Login" style=" padding: 5px;">
+<img src="https://i.imgur.com/A3ca1FU.png" alt="Reset-Password" style="padding: 5px">
+<img src="https://i.imgur.com/0WfYW9p.png" alt="Reset-Password-Email" style="padding: 5px;">
+<img src="https://i.imgur.com/w82OJAe.png" alt="Reset-Password-Email-Update" style="padding: 5px;">
+<img src="https://i.imgur.com/xrljSFk.png" alt="Two-Factor-Login-Email" style=" padding: 5px">
+<img src="https://i.imgur.com/nu6lwHq.png" alt="Two-Factor-Login" style=" padding: 5px">
+<img src="https://i.imgur.com/lJRJups.png" alt="User-Details" style="padding: 5px">
+<img src="https://i.imgur.com/yLqNcTL.png" alt="User-Details-Transactions" style="padding: 5px">
+<img src="https://i.imgur.com/cKrf4nA.png" alt="Change-Password" style="padding: 5px">
+<img src="https://i.imgur.com/6xMi9jH.png" alt="Admin-Page" style="padding: 5px">
+<img src="https://i.imgur.com/5wqtKW6.png" alt="About-Page" style="padding: 5px">
+<img src="https://i.imgur.com/7E0RuDy.png" alt="Partners-Page" style="padding: 5px">
+<img src="https://i.imgur.com/UdFElzX.png" alt="Account-Page" style="padding: 5px">
+<img src="https://i.imgur.com/Uf03Egq.png" alt="Account-Page-Open" style="padding: 5px">
+<img src="https://i.imgur.com/DO00fpt.png" alt="Community-Page" style="padding: 5px">
+<img src="https://i.imgur.com/ixmNA8B.png" alt="Community-Page-Open" style="padding: 5px">
+<img src="https://i.imgur.com/xiRnMBW.png" alt="Pricing-Page" style="padding: 5px">
+<img src="https://i.imgur.com/9rDzJaB.png" alt="Pricing-Page-Open" style="padding: 5px">
+<img src="https://i.imgur.com/9AhzHJt.png" alt="Pricing-Page-Open-Stripe" style="padding: 5px">
