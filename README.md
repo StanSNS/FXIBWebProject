@@ -55,13 +55,6 @@
 - web-vitals
 - react-ts-tradingview-widgets
 - react-loading-skeleton
-   
-## Conclusion
-
-### This project demonstrates a robust and well-structured system encompassing both the **backend** and **frontend** components.
-
-This project is a testament to effective development practices and the utilization of cutting-edge tools, resulting
-in a comprehensive and well-rounded software solution.
 
 
 ## Project Setup Instructions
