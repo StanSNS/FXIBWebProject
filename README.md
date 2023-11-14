@@ -13,6 +13,7 @@
     - `jjwt-api`
     - `jjwt-impl`
     - `jjwt-jackson`
+    - `react-loading-skeleton`
 - **Project Lombok**: A library that simplifies the creation of Java classes by reducing boilerplate code.
 - **Model Mapping**: Facilitates object-to-object mapping.
 - **Stripe Integration**: Implements Stripe payment integration with the `stripe-java` dependency.
