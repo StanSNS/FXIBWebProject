@@ -64,6 +64,78 @@ This project is a testament to effective development practices and the utilizati
 in a comprehensive and well-rounded software solution.
 
 
+## Project Setup Instructions
+
+1. Make sure to clone or download the whole project.
+2. Separate **[FXIBbackend]** and **[FXIBfrontend + fxibfrontend.iml]** into two individual folders.
+
+### Backend (Spring Boot):
+
+1. **Install Java:**
+    - Make sure you have Java 17 installed on your computer:
+      [Java 17 official download](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+
+
+2. **Install Maven:**
+    - Install Maven on your computer. You can download it
+      from [Maven official website](https://maven.apache.org/download.cgi).
+
+
+3. **Install MySQL Community Server:**
+    - Install MySQL Server on your computer. You can download it
+      from [MySQL official website](https://dev.mysql.com/downloads/installer/).
+
+
+4. **Open the backend project**
+    - Go to **application.properties** file and change the **spring.datasource.(username & password)** values to your
+      MySQL
+      credentials
+
+
+5. **Run the backend server:**
+    - Open **FxibBackendApplication.java** class - right click and run the program.
+
+This will build your project and start the Spring Boot application.
+
+5. **Verify:**
+    - Open a web browser and go to [localhost:8000](http://localhost:8000) to verify that your backend is running.
+
+### Frontend (React):
+
+1. **Install Node.js:**
+    - Make sure you have Node.js installed on your computer. You can download it
+      from [Node.js official website](https://nodejs.org/).
+
+
+2. **Open The frontend project**
+    - In order everything to workout smoothly make sure that the **fxibfrontend.iml** file is outside the 
+   **FXIBfrontend** folder. Then open the **FXIBfrontend** folder.
+
+
+3. **Install Dependencies:**
+   - Open a terminal in the frontend project directory.
+   - Run the following command to install the required dependencies:
+     ```bash
+     npm install
+     ```
+
+4. **Start the React App:**
+   - Run the following command in the terminal to start the React development server:
+     ```bash
+     npm start
+     ```
+   This will start the React app and open it in your default web browser.
+
+
+5. **Verify:**
+   - Open a web browser and go to [localhost:3000](http://localhost:3000) to verify that your frontend is running.
+
+Now, both your Spring Boot backend and React frontend should be up and running. Make sure that the
+backend and frontend are successfully communicating with each other. If there are any API endpoints, ensure that the
+React app is making requests to the correct backend URLs.
+
+
+
 ## Gallery
 
 <img src="https://i.imgur.com/6dXhrHX.png" alt="First page" style="padding: 5px">
