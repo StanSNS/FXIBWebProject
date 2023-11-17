@@ -81,6 +81,24 @@ public class ConfigConst {
                 <p>FXIB</p>
             </body>
             </html>""";
+
+    public final static String REGISTRATION_SUCCESS_SUBJECT = "FXIB - Successful Registration";
+
+    public static final String REGISTRATION_SUCCESS_HTML_TEMPLATE = """
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Successful Registration</title>
+                </head>
+                    <body>
+                <h1>Hello %s,</h1>
+                <p>Congratulations! You have successfully registered with FXIB.</p>
+                <p>Thank you for choosing FXIB!</p>
+            </body>
+                </html>""";
+
     public final static String EMAIL_ENCODING = "UTF-8";
     public final static String STRIPE_API_KEY = "sk_test_51IlHWpGlSGATKmQPCHQ7IkuW2JX6oYZbQaxYtclDmIFVcM2mQ6aoAWYucKJk6TV2NffBiXH6UUmZTlorAoCgAYab00THACivIs";
     public final static String MYFXBOOK_SESSION_ID = "5RUboY2LjLlnTl6937uo1984674";

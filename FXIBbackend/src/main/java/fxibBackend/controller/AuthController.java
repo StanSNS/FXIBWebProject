@@ -33,7 +33,7 @@ public class AuthController {
      * @return A ResponseEntity with a success message if registration is successful, or an error response if registration fails.
      */
     @PostMapping(AUTH_CONTROLLER_MAPPING_REGISTER)
-    public ResponseEntity<String> register(@RequestBody RegisterDTO registerDto) {
+    public ResponseEntity<String> register(@RequestBody RegisterDTO registerDto) throws MessagingException {
         // Attempt to register a new user with the provided data
         return new ResponseEntity<>(authService.register(registerDto), HttpStatus.CREATED);
     }

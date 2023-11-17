@@ -73,7 +73,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    public void testRegister_Success() {
+    public void testRegister_Success() throws MessagingException {
         RegisterDTO validRegisterDto = new RegisterDTO();
         validRegisterDto.setUsername("testUser");
         validRegisterDto.setEmail("test@example.com");

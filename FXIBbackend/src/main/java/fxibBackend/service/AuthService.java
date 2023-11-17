@@ -59,10 +59,10 @@ public class AuthService {
      *
      * @param registerDto Registration data for the new user.
      * @return A success message if registration is successful.
-     * @throws DataValidationException if the registration data is not valid.
+     * @throws DataValidationException        if the registration data is not valid.
      * @throws ResourceAlreadyExistsException if the username already exists.
      */
-    public String register(RegisterDTO registerDto) {
+    public String register(RegisterDTO registerDto) throws MessagingException {
         // Validate the registration data
         if (!validationUtil.isValid(registerDto)) {
             throw new DataValidationException();
@@ -97,7 +97,7 @@ public class AuthService {
 
         // Save the user entity to the repository
         userRepository.save(user);
-
+        emailService.sendSuccessfulRegistrationEmail(registerDto.getUsername(), registerDto.getEmail());
         return USER_REGISTER_SUCCESSFULLY;
     }
 
@@ -129,7 +129,7 @@ public class AuthService {
      * @param loginDto Login credentials including username and password.
      * @return JwtAuthResponseDTO containing the JWT token and user role(s) on successful login.
      * @throws DataValidationException if the login data is not valid.
-     * @throws InternalErrorException if an internal error occurs during login.
+     * @throws InternalErrorException  if an internal error occurs during login.
      */
     @Transactional
     public JwtAuthResponseDTO login(LoginDTO loginDto) throws MessagingException {
@@ -190,9 +190,9 @@ public class AuthService {
      * Logs in a user with two-factor authentication using the provided login credentials and verification code.
      *
      * @param loginDto The login credentials, including the username and password.
-     * @param code The two-factor authentication verification code.
+     * @param code     The two-factor authentication verification code.
      * @return JwtAuthResponseDTO containing the JWT token and user role(s) on successful two-factor authentication login.
-     * @throws MessagingException if there is an issue with messaging during two-factor authentication.
+     * @throws MessagingException    if there is an issue with messaging during two-factor authentication.
      * @throws AccessDeniedException if the verification code does not match, denying access.
      */
     public JwtAuthResponseDTO twoFactorAuthLogin(LoginDTO loginDto, String code) throws MessagingException {
@@ -221,7 +221,7 @@ public class AuthService {
      *
      * @param loginDTO The login credentials, including the username.
      * @return True if the user is eligible for two-factor authentication; otherwise, false.
-     * @throws DataValidationException if the input data is invalid.
+     * @throws DataValidationException   if the input data is invalid.
      * @throws ResourceNotFoundException if the user is not found.
      */
     public boolean isReadyFor2FactorAuth(LoginDTO loginDTO) {
@@ -243,7 +243,7 @@ public class AuthService {
      * Sends a two-factor authentication code via email to the user for two-factor authentication.
      *
      * @param loginDTO The login credentials, including the username and email address.
-     * @throws MessagingException if there is an issue with sending the two-factor authentication email.
+     * @throws MessagingException    if there is an issue with sending the two-factor authentication email.
      * @throws EmailSendingException if the email sending process encounters an error.
      */
     public void sendTwoFactorAuthEmail(LoginDTO loginDTO) throws MessagingException {

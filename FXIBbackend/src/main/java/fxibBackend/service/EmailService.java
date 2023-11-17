@@ -35,7 +35,7 @@ public class EmailService {
      *
      * @param toEmail The email address to which the reset password email will be sent.
      * @return A success message indicating that the password change email was sent.
-     * @throws MessagingException If there is an issue with sending the email.
+     * @throws MessagingException        If there is an issue with sending the email.
      * @throws ResourceNotFoundException If the user with the specified email is not found.
      */
     public String sendResetPasswordEmail(String toEmail) throws MessagingException {
@@ -111,8 +111,8 @@ public class EmailService {
     /**
      * Sends an email to the user when a location difference is detected.
      *
-     * @param originalLocationDTO   The original location information.
-     * @param currentLocationDTO    The current location information.
+     * @param originalLocationDTO The original location information.
+     * @param currentLocationDTO  The current location information.
      * @return A success message indicating that the location difference email was sent.
      * @throws MessagingException If there is an issue with sending the email.
      */
@@ -141,6 +141,16 @@ public class EmailService {
         javaMailSender.send(message);
 
         return LOCATION_DIFFERENCE_EMAIL_SENT_SUCCESSFULLY;
+    }
+
+    public void sendSuccessfulRegistrationEmail(String username, String email) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
+        helper.setFrom(EMAIL_ORIGIN);
+        helper.setTo(email);
+        helper.setSubject(REGISTRATION_SUCCESS_SUBJECT);
+        helper.setText(String.format(REGISTRATION_SUCCESS_HTML_TEMPLATE, username),true);
+        javaMailSender.send(message);
     }
 
 }
