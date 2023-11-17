@@ -236,26 +236,10 @@
 }
 
 .scrollable-table::-webkit-scrollbar {
-    width: 12px;
+    width: 0.01px;
 }
 
 
-.scrollable-table::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background-color: var(--myLighBlue);
-}
-
-.scrollable-table::-webkit-scrollbar-thumb:hover {
-    background-color: #2ebae0;
-}
-
-.scrollable-table::-webkit-scrollbar-track {
-    background-color: transparent;
-}
-
-.scrollable-table::-webkit-scrollbar-corner {
-    background-color: transparent;
-}
 .table-wrapper {
     padding-right: 10px; /* Adjust the padding as needed */
 }
