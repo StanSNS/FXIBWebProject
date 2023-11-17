@@ -10,4 +10,8 @@ import java.util.List;
 public interface TransactionEntityRepository extends JpaRepository<TransactionEntity, Long> {
 
     List<TransactionEntity> findAllByUserEmail(String userEmail);
+    List<TransactionEntity> findAllByEmailSent(boolean isEmailSent);
+
+    boolean existsByAmountAndBillingDateAndCardAndDurationAndEndOfBillingDateAndUserEmail(String amount, String billingDate, String card, String duration, String endOfBilling, String userEmail);
+
 }

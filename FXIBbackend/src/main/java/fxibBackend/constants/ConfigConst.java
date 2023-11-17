@@ -99,6 +99,35 @@ public class ConfigConst {
             </body>
                 </html>""";
 
+
+    public static final String SUBSCRIPTION_SUCCESS_SUBJECT = "FXIB - Subscription Successful!";
+    public static final String SUBSCRIPTION_SUCCESS_HTML_TEMPLATE = """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Subscription Successful!</title>
+        </head>
+        <body>
+            <h1>Hello %s,</h1>
+            <p>Thank you for subscribing to FXIB services. Your subscription details are as follows:
+            <ul>
+                <li>Billing Date: %s</li>
+                <li>Duration: %s</li>
+                <li>End of Billing Date: %s</li>
+                <li>Amount: %s</li>
+                <li>Card: %s</li>
+                <li>Status: %s</li>
+                <li>Receipt: %s</li>
+                <li>Description: %s</li>
+            </ul>
+            </p>
+            <p>If you have any questions or concerns, please contact our support team.</p>
+            <p>Thank you for choosing FXIB!</p>
+        </body>
+        </html>""";
+
     public final static String EMAIL_ENCODING = "UTF-8";
     public final static String STRIPE_API_KEY = "sk_test_51IlHWpGlSGATKmQPCHQ7IkuW2JX6oYZbQaxYtclDmIFVcM2mQ6aoAWYucKJk6TV2NffBiXH6UUmZTlorAoCgAYab00THACivIs";
     public final static String MYFXBOOK_SESSION_ID = "5RUboY2LjLlnTl6937uo1984674";

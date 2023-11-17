@@ -295,6 +295,7 @@ public class EntityTests {
         transactionEntity.setStatus("Status");
         transactionEntity.setReceipt("Receipt");
         transactionEntity.setDescription("Description");
+        transactionEntity.setEmailSent(true);
         transactionEntity.setUserEntity(user);
 
         assertEquals("Email", transactionEntity.getUserEmail());
@@ -306,6 +307,7 @@ public class EntityTests {
         assertEquals("Status", transactionEntity.getStatus());
         assertEquals("Receipt", transactionEntity.getReceipt());
         assertEquals("Description", transactionEntity.getDescription());
+        assertTrue(transactionEntity.isEmailSent());
         assertNotNull(transactionEntity.getUserEntity());
     }
 

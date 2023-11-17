@@ -5,10 +5,13 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import com.stripe.model.ChargeCollection;
 import fxibBackend.dto.UserDetailsDTO.StripeTransactionDTO;
+import fxibBackend.repository.TopicEntityRepository;
+import fxibBackend.repository.TransactionEntityRepository;
 import fxibBackend.service.StripeService;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -31,9 +34,12 @@ public class StripeServiceTest {
 
     private StripeService stripeService;
 
+    @Mock
+    private TransactionEntityRepository transactionEntityRepository;
+
     @Before
     public void setUp() {
-        stripeService = new StripeService();
+        stripeService = new StripeService(transactionEntityRepository);
     }
 
     @Test

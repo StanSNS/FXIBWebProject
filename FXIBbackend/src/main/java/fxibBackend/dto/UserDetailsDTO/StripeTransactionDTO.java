@@ -36,4 +36,7 @@ public class StripeTransactionDTO {
 
     @NotNull
     private String description;
+
+    @NotNull
+    private boolean emailSent = false;
 }

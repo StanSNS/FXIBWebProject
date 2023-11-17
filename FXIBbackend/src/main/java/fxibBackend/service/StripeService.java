@@ -6,6 +6,8 @@ import com.stripe.model.Charge;
 import com.stripe.model.ChargeCollection;
 import fxibBackend.dto.UserDetailsDTO.StripeTransactionDTO;
 import fxibBackend.exception.ResourceNotFoundException;
+import fxibBackend.repository.TransactionEntityRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -22,14 +24,18 @@ import static fxibBackend.constants.ConfigConst.STRIPE_API_KEY;
 import static fxibBackend.constants.OtherConst.*;
 
 @Service
+@RequiredArgsConstructor
 public class StripeService {
+
+    private final TransactionEntityRepository transactionEntityRepository;
+
 
     /**
      * Retrieves a list of Stripe transactions associated with a given email.
      *
      * @param email The email for which to fetch transactions.
      * @return A list of Stripe transaction DTOs.
-     * @throws StripeException If there's an issue with the Stripe API.
+     * @throws StripeException           If there's an issue with the Stripe API.
      * @throws ResourceNotFoundException If no transactions are found for the given email.
      */
     public List<StripeTransactionDTO> getAllTransactionsFromEmail(String email) throws StripeException {
@@ -59,7 +65,17 @@ public class StripeService {
                 stripeTransactionDTO.setStatus(charge.getStatus());
                 stripeTransactionDTO.setReceipt(charge.getReceiptUrl());
                 stripeTransactionDTO.setDescription(charge.getCalculatedStatementDescriptor());
-                transactionDTOS.add(stripeTransactionDTO);
+                if (!transactionEntityRepository
+                        .existsByAmountAndBillingDateAndCardAndDurationAndEndOfBillingDateAndUserEmail(
+                                stripeTransactionDTO.getAmount(),
+                                stripeTransactionDTO.getBillingDate(),
+                                stripeTransactionDTO.getCard(),
+                                stripeTransactionDTO.getDuration(),
+                                stripeTransactionDTO.getEndOfBillingDate(),
+                                stripeTransactionDTO.getUserEmail()
+                        )) {
+                    transactionDTOS.add(stripeTransactionDTO);
+                }
             }
         }
         return transactionDTOS;

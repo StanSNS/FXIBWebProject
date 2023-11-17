@@ -38,7 +38,7 @@ public class DataScheduler {
      * @throws IOException If there is an issue with reading or writing data.
      */
     @Scheduled(fixedDelay = 10800000) //3 Hours
-    public void scheduler() throws IOException {
+    public void dataCheckScheduler() throws IOException {
         String outputMessage = "This data has been inserted into the database: ";
         boolean isSomethingMissing = false;
         if (aboutEntityRepository.count() == 0) {
@@ -73,7 +73,7 @@ public class DataScheduler {
         }
 
         if (!isSomethingMissing) {
-            outputMessage = "Nothing was missing. Everything is fine ! ";
+            outputMessage = "Nothing is missing. Everything is fine ! ";
         }
         System.out.println(outputMessage);
     }

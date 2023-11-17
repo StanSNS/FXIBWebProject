@@ -2,6 +2,7 @@ package fxibBackend.service;
 
 import fxibBackend.dto.AuthorizationDTOS.LoginDTO;
 import fxibBackend.dto.UserDetailsDTO.LocationDTO;
+import fxibBackend.entity.TransactionEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.repository.UserEntityRepository;
@@ -149,8 +150,29 @@ public class EmailService {
         helper.setFrom(EMAIL_ORIGIN);
         helper.setTo(email);
         helper.setSubject(REGISTRATION_SUCCESS_SUBJECT);
-        helper.setText(String.format(REGISTRATION_SUCCESS_HTML_TEMPLATE, username),true);
+        helper.setText(String.format(REGISTRATION_SUCCESS_HTML_TEMPLATE, username), true);
         javaMailSender.send(message);
+    }
+
+    public void sendSuccessfulPaymentEmail(TransactionEntity transactionEntity, String username) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
+        helper.setFrom(EMAIL_ORIGIN);
+        helper.setTo(transactionEntity.getUserEmail());
+        helper.setSubject(SUBSCRIPTION_SUCCESS_SUBJECT);
+        helper.setText(String.format(SUBSCRIPTION_SUCCESS_HTML_TEMPLATE,
+                username
+                , transactionEntity.getBillingDate()
+                , transactionEntity.getDuration()
+                , transactionEntity.getEndOfBillingDate()
+                , transactionEntity.getAmount()
+                , transactionEntity.getCard()
+                , transactionEntity.getStatus()
+                , transactionEntity.getReceipt()
+                , transactionEntity.getDescription()
+        ), true);
+        javaMailSender.send(message);
+
     }
 
 }

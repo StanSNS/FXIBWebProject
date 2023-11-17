@@ -70,7 +70,7 @@ public class DataSchedulerTest {
         Mockito.doNothing().when(topicInit).topicInit();
         Mockito.doNothing().when(tradingAccountsInit).initTradingAccounts();
 
-        dataScheduler.scheduler();
+        dataScheduler.dataCheckScheduler();
 
         Mockito.verify(aboutInit).aboutContentInit();
         Mockito.verify(partnerInit).partnerContentInit();
@@ -90,10 +90,10 @@ public class DataSchedulerTest {
         Mockito.when(tradeEntityRepository.count()).thenReturn(1L);
         Mockito.when(tradingAccountEntityRepository.count()).thenReturn(1L);
 
-        dataScheduler.scheduler();
+        dataScheduler.dataCheckScheduler();
 
         String actualOutput = outputStream.toString();
-        String expectedMessage = "Nothing was missing. Everything is fine ! ";
+        String expectedMessage = "Nothing is missing. Everything is fine ! ";
         assert actualOutput.contains(expectedMessage);
     }
 

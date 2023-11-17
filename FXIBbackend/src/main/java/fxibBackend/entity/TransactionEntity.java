@@ -46,6 +46,9 @@ public class TransactionEntity extends BaseEntity {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
+    private boolean emailSent;
+
     @ManyToOne
     private UserEntity userEntity;
 }

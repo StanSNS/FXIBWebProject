@@ -8,7 +8,7 @@ import {
     getToken,
     isAdministrator,
     isUserBanned,
-    isUserLoggedIn,
+    isUserLoggedIn, loggedUserEmail,
     loggedUserUsername,
     logout
 } from "../../../Service/AuthService";
@@ -21,7 +21,6 @@ import {
 import {FaUserLargeSlash} from "react-icons/fa6";
 import UserDetailsSkeleton from "../../../SkeletonLoader/UserDetailsSkeleton";
 import UserTransactionsSkeleton from "../../../SkeletonLoader/UserTrsnsactionsSkeleton";
-import Skeleton from "react-loading-skeleton";
 
 export default function Header() {
     // Check if the user is banned, logged in, or an administrator
@@ -328,8 +327,7 @@ export default function Header() {
 
 
                         <div className=" customMessageStyleTopModal mt-1 font-weight-bolder">These transactions were
-                            made with <span className="customLinkDesign">EMAIL: </span>
-                            {userTransactions.length > 0 ? userTransactions[0].userEmail : <Skeleton width={250}/>}
+                            made with <span className="customLinkDesign">EMAIL: </span> {loggedUserEmail}
                         </div>
 
 
