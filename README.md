@@ -148,7 +148,7 @@ React app is making requests to the correct backend URLs.
 <img src="https://i.imgur.com/5wqtKW6.png" alt="About-Page" style="padding: 5px">
 <img src="https://i.imgur.com/7E0RuDy.png" alt="Partners-Page" style="padding: 5px">
 <img src="https://i.imgur.com/UdFElzX.png" alt="Account-Page" style="padding: 5px">
-<img src="https://i.imgur.com/Uf03Egq.png" alt="Account-Page-Open" style="padding: 5px">
+<img src="https://i.imgur.com/bnZyuZV.png" alt="Account-Page-Open" style="padding: 5px">
 <img src="https://i.imgur.com/DO00fpt.png" alt="Community-Page" style="padding: 5px">
 <img src="https://i.imgur.com/ixmNA8B.png" alt="Community-Page-Open" style="padding: 5px">
 <img src="https://i.imgur.com/xiRnMBW.png" alt="Pricing-Page" style="padding: 5px">
