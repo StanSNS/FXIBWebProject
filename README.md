@@ -25,7 +25,7 @@
 
 - Below, you will find the table relations between the entities in the database.
   
-![table relations](https://i.imgur.com/IVoDCmB.png)
+![table relations](https://i.imgur.com/J8xgNct.png)
 
 
 ### Testing
