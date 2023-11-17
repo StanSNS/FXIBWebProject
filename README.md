@@ -154,3 +154,4 @@ React app is making requests to the correct backend URLs.
 <img src="https://i.imgur.com/xiRnMBW.png" alt="Pricing-Page" style="padding: 5px">
 <img src="https://i.imgur.com/9rDzJaB.png" alt="Pricing-Page-Open" style="padding: 5px">
 <img src="https://i.imgur.com/9AhzHJt.png" alt="Pricing-Page-Open-Stripe" style="padding: 5px">
+<img src="https://i.imgur.com/rtV5mV2.png" alt="Stripe Email Sent after payment " style="padding: 5px">
