@@ -26,6 +26,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 public class DTOTests {
@@ -61,10 +62,13 @@ public class DTOTests {
         JwtAuthResponseDTO jwtAuthResponseDTO = new JwtAuthResponseDTO();
         jwtAuthResponseDTO.setAccessToken("sampleAccessToken");
         jwtAuthResponseDTO.setRole(Set.of("ROLE_USER"));
+        jwtAuthResponseDTO.setEmail("testEmail@abv.bg");
 
         assertThat(jwtAuthResponseDTO.getAccessToken()).isEqualTo("sampleAccessToken");
         assertThat(jwtAuthResponseDTO.getTokenType()).isEqualTo("Bearer");
         assertThat(jwtAuthResponseDTO.getRole()).containsExactly("ROLE_USER");
+        assertThat(jwtAuthResponseDTO.getEmail()).isEqualTo("testEmail@abv.bg");
+
     }
 
     @Test
@@ -196,6 +200,7 @@ public class DTOTests {
         assertThat(stripeTransactionDTO.getStatus()).isEqualTo("Paid");
         assertThat(stripeTransactionDTO.getReceipt()).isEqualTo("receipt123");
         assertThat(stripeTransactionDTO.getDescription()).isEqualTo("Payment for subscription");
+        assertFalse(stripeTransactionDTO.isEmailSent());
     }
 
     @Test

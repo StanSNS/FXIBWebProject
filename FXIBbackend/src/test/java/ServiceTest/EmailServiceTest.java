@@ -2,6 +2,7 @@ package ServiceTest;
 
 import fxibBackend.dto.AuthorizationDTOS.LoginDTO;
 import fxibBackend.dto.UserDetailsDTO.LocationDTO;
+import fxibBackend.entity.TransactionEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.repository.UserEntityRepository;
@@ -91,6 +92,32 @@ public class EmailServiceTest {
         emailService.sendLocationDifferenceEmail(originalLocationDTO, currentLocationDTO);
 
         verify(javaMailSender, times(1)).send(any(MimeMessage.class));
+    }
+
+
+    @Test
+    public void testSendSuccessfulRegistrationEmail() throws MessagingException {
+        String username = "testUser";
+        String email = "test@example.com";
+
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        emailService.sendSuccessfulRegistrationEmail(username, email);
+
+        verify(javaMailSender, times(1)).send(any(MimeMessage.class));
+
+    }
+
+    @Test
+    public void testSendSuccessfulPaymentEmail() throws MessagingException {
+        TransactionEntity transactionEntity = new TransactionEntity();
+        transactionEntity.setUserEmail("Test");
+        String username = "testUser";
+
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        emailService.sendSuccessfulPaymentEmail(transactionEntity, username);
+
+        verify(javaMailSender, times(1)).send(any(MimeMessage.class));
+
     }
 
 }
