@@ -3,43 +3,53 @@ ul, li, ol {
     padding: 0;
     list-style: none;
 }
+
 .footer p {
     font-weight: 500;
     font-size: 15px;
     line-height: 24px;
 }
+
 .footer {
     background: var(--myBlack);
     text-align: center;
 }
+
 .border_bo1 a {
     color: var(--myWhite);
 }
-.border_bo1 a:hover  {
+
+.border_bo1 a:hover {
     color: var(--myLighBlue);
     text-decoration: none;
 
 }
+
 .firstCol p {
     text-underline: none;
     color: var(--myWhite);
 }
+
 .firstCol p:hover {
     color: var(--myLighBlue);
 }
+
 .firstCol {
     text-align: left;
     display: flex;
     width: 211px;
     color: var(--myWhite);
 }
+
 .form_subscri {
     margin-right: 31px;
 }
+
 .infoma {
     margin-top: 50px;
     display: block;
 }
+
 .infoma h3 {
     text-align: left;
     font-weight: bold;
@@ -48,14 +58,17 @@ ul, li, ol {
     color: var(--myWhite);
     padding-bottom: 10px;
 }
+
 .infoma ul li {
     color: var(--myWhite);
     font-size: 14px;
     text-align: left;
 }
+
 .footer ul.conta {
     padding-top: 2px;
 }
+
 .footer ul.conta li {
     color: var(--myWhite);
     text-align: left;
@@ -65,13 +78,16 @@ ul, li, ol {
     display: flex;
     align-items: center;
 }
+
 .footer ul.conta li a {
     margin-left: 15px;
 }
+
 .footer ul.social_icon li {
     display: inline-block;
     margin: 0 10px;
 }
+
 .footer ul.social_icon li a .socIcon {
     width: 33px;
     height: 33px;
@@ -81,12 +97,13 @@ ul, li, ol {
     font-size: 23px;
     color: var(--myWhite);
 }
+
 .copyright {
-    margin-top: 20px;
     padding-bottom: 10px;
     border-right: inherit;
     border-left: inherit;
 }
+
 .copyright p {
     border-top: 1px var(--myGray) solid;
     color: var(--myGray);
@@ -95,6 +112,7 @@ ul, li, ol {
     text-align: center;
     padding-top: 5px;
 }
+
 .wave {
     margin-top: 300px;
     background: url("../../../images/waveFooter.png");
@@ -104,10 +122,12 @@ ul, li, ol {
     height: 100px;
     background-size: 1000px 100px;
 }
+
 .wave.wave1 {
     animation: animateWave 30s linear infinite;
     animation-delay: 0s;
 }
+
 @keyframes animateWave {
     0% {
         background-position-x: 0;
@@ -115,4 +135,26 @@ ul, li, ol {
     100% {
         background-position-x: 1000px;
     }
+}
+
+.footerInquiryButton {
+    width: fit-content;
+    display: flex;
+    padding: 0.8em 1.1em;
+    gap: 0.4rem;
+    border: none;
+    font-weight: bold;
+    border-radius: 30px;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+    background: rgb(3,167,211);
+    background: linear-gradient(90deg, rgba(3,167,211,1) 0%, rgba(253,70,70,1) 100%);
+    background-position: left center;
+    transition: background .3s ease;
+    color: #fff;
+}
+
+.footerInquiryButton:hover {
+    background-size: 320%;
+    background-position: right center;
+    scale: 1.05;
 }

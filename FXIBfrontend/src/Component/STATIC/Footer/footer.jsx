@@ -3,20 +3,26 @@ import './footer.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {FaArrowTrendDown, FaArrowTrendUp, FaDiscord, FaReddit, FaTelegram, FaTwitter} from "react-icons/fa6";
 import {Link} from 'react-router-dom';
-import {FaRegQuestionCircle} from "react-icons/fa";
+import {FaEnvelopeOpenText, FaRegQuestionCircle, FaTimes} from "react-icons/fa";
 import {PiInstagramLogoFill} from "react-icons/pi";
 import {IoCalendarSharp} from "react-icons/io5";
 import {BiSolidBank} from "react-icons/bi";
 import {GiBank} from "react-icons/gi";
-import {Button, Modal} from "react-bootstrap";
-import {AiFillInfoCircle} from "react-icons/ai";
+import {Button, Form, Modal} from "react-bootstrap";
 import {getAllTradingAccountsForFooter} from "../../../Service/TradingAccount";
+import {isUserLoggedIn, loggedUserEmail} from "../../../Service/AuthService";
 
 export default function Footer() {
 
     const [tradingAccounts, setTradingAccounts] = useState([]); // State to store trading accounts data
-    const [showModal, setShowModal] = useState(false); // State to control the visibility of the modal
-    const [redirectUrl, setRedirectUrl] = useState(""); // State to store the URL to be opened
+    const [contactInfoModal, setContactInfoModal] = useState(false);
+    const [messageTitle, setMessageTitle] = useState("");
+    const [messageContent, setMessageContent] = useState("");
+    const [titleCharCount, setTitleCharCount] = useState(0);
+    const [contentCharCount, setContentCharCount] = useState(0);
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+    const [titleCharColor, setTitleCharColor] = useState("text-info");
+    const [contentCharColor, setContentCharColor] = useState("text-info");
 
     // Fetch trading accounts data when the component mounts
     useEffect(() => {
@@ -32,42 +38,59 @@ export default function Footer() {
     // Function to scroll to the top of the page smoothly
     const handleScrollToTop = () => {
         const rootElement = document.documentElement;
-        rootElement.scrollIntoView({ behavior: 'smooth' });
+        rootElement.scrollIntoView({behavior: 'smooth'});
     }
 
-
-    // Function to show the modal
-    const handleShowModal = () => {
-        setShowModal(true);
+    const handleContactInfoModal = () => {
+        setContactInfoModal(true);
     };
 
-    // Function to close the modal and open the stored URL if available
-    const handleCloseModal = () => {
-        setShowModal(false);
-        if (redirectUrl) {
-            window.open(redirectUrl, '_blank');
+    const handleCloseContactInfoModal = () => {
+        setContactInfoModal(false);
+    };
+
+    // Function to handle submitting the contact info form
+    const handleContactInfoSubmit = () => {
+        if (messageTitle.length <= 50 && messageContent.length <= 1500) {
+            handleCloseContactInfoModal();
         }
     };
 
-    // Function to handle a link click by showing the modal
-    const handleLinkClick = (event) => {
-        event.preventDefault();
-        handleShowModal();
+    const handleTitleChange = (e) => {
+        const value = e.target.value;
+        setMessageTitle(value);
+        setTitleCharCount(value.length);
+        updateSubmitButton(value, messageContent);
+        updateCharColor(value.length, 50, setTitleCharColor);
     };
 
-    // Function to handle the OK button click in the modal
-    const handleOKButtonClick = () => {
-        handleCloseModal();
+    const handleContentChange = (e) => {
+        const value = e.target.value;
+        setMessageContent(value);
+        setContentCharCount(value.length);
+        updateSubmitButton(messageTitle, value);
+        updateCharColor(value.length, 1500, setContentCharColor);
     };
 
-    // Function to set the redirect URL
-    const setRedirect = (url) => {
-        setRedirectUrl(url);
+    const updateSubmitButton = (title, content) => {
+        const isTitleValid = title.length <= 50 && title.length > 0;
+        const isContentValid = content.length <= 1500 && content.length > 0
+        setIsSubmitDisabled(!isTitleValid || !isContentValid);
     };
+
+    const updateCharColor = (count, limit, setColor) => {
+        if (count > limit) {
+            setColor("text-danger");
+        } else {
+            setColor("text-info");
+        }
+    };
+
 
     return (
         <footer className="my-footer">
             <div className="wave wave1 text-center "></div>
+
             <div className="footer">
                 <div className="container">
                     <div className="row border_bo1 ">
@@ -90,6 +113,7 @@ export default function Footer() {
                                 </p>
                             </Link>
                         </div>
+
                         <div className="col-lg-2 col-md-4 col-sm-6">
                             <div className="infoma">
                                 <h3><a href="/partners">Partners</a></h3>
@@ -127,40 +151,30 @@ export default function Footer() {
                                 </ul>
                             </div>
                         </div>
+
                         <div className="col-lg-2 col-md-4 col-sm-6 ">
                             <div className="infoma">
                                 <h3><a href="/pricing">Pricing</a></h3>
                                 <ul>
                                     <li className="mb-1 mt-2">
-                                        <Link to={"https://buy.stripe.com/test_dR67vr7nS0v0fewbII"}
-                                              onClick={(event) => {
-                                                  handleLinkClick(event);
-                                                  setRedirect("https://buy.stripe.com/test_dR67vr7nS0v0fewbII");
-                                              }}>
+                                        <Link to={"/pricing"} onClick={handleScrollToTop}>
                                             <span className="align-text-bottom "><IoCalendarSharp/> </span>1 Month
                                         </Link>
                                     </li>
                                     <li className="mb-1 mt-2">
-                                        <Link to={"https://buy.stripe.com/test_28o02ZbE85Pk4zScMN"}
-                                              onClick={(event) => {
-                                                  handleLinkClick(event);
-                                                  setRedirect("https://buy.stripe.com/test_28o02ZbE85Pk4zScMN");
-                                              }}>
+                                        <Link to={"/pricing"} onClick={handleScrollToTop}>
                                             <span className="align-text-bottom "><IoCalendarSharp/> </span>6 Months
                                         </Link>
                                     </li>
                                     <li className="mt-2">
-                                        <Link to={"https://buy.stripe.com/test_3csbLH4bGa5Ad6ofZ0"}
-                                              onClick={(event) => {
-                                                  handleLinkClick(event);
-                                                  setRedirect("https://buy.stripe.com/test_3csbLH4bGa5Ad6ofZ0");
-                                              }}>
+                                        <Link to={"/pricing"} onClick={handleScrollToTop}>
                                             <span className="align-text-bottom "><IoCalendarSharp/> </span>12 Months
                                         </Link>
                                     </li>
                                 </ul>
                             </div>
                         </div>
+
                         <div className="col-lg-2 col-md-4 col-sm-6">
                             <div className="infoma">
                                 <h3><a href="/accounts">Accounts</a></h3>
@@ -178,6 +192,7 @@ export default function Footer() {
                                 </ul>
                             </div>
                         </div>
+
                         <div className="col-lg-2 col-md-4 col-sm-6">
                             <div className="infoma">
                                 <h3>Contacts</h3>
@@ -209,11 +224,21 @@ export default function Footer() {
                                             <PiInstagramLogoFill/> <span className="ml-2">Instagram</span>
                                         </Link>
                                     </li>
+
+
+                                    {isUserLoggedIn() && <li>
+                                        <button className="footerInquiryButton"
+                                                onClick={handleContactInfoModal}>
+                                            <FaEnvelopeOpenText/> Email us !
+                                        </button>
+                                    </li>}
+
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div className="copyright">
                     <div className="container">
                         <div className="row">
@@ -241,22 +266,69 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <Modal show={showModal} onHide={handleCloseModal} backdrop="static" keyboard={false}>
-                <Modal.Header className="removeBorder">
+
+            <Modal show={contactInfoModal} onHide={handleCloseContactInfoModal} size="lg">
+                <Modal.Header>
                     <Modal.Title>
-                        <span className="align-text-bottom myLittleIconInfo"><AiFillInfoCircle/></span>
-                        <span> Information</span>
+                        <span className="align-text-bottom myLittleIconInfo"><FaEnvelopeOpenText/> </span>
+                        Contact Information
                     </Modal.Title>
+
+                    <Button
+                        variant="link"
+                        className="close"
+                        onClick={handleCloseContactInfoModal}>
+                        <FaTimes/>
+                    </Button>
                 </Modal.Header>
-                <Modal.Body className="mt-2">
-                    <p className="text-center">
-                        <strong> Before proceeding, kindly ensure that you use the email address associated with your
-                            registration on our website in the billing form.</strong></p>
+
+                <Modal.Body>
+                    <Form>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <Form.Group controlId="formTitle">
+                                    <Form.Label>Title</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter title"
+                                        value={messageTitle}
+                                        onChange={handleTitleChange}
+                                    />
+                                    <small className="text-muted"> <span
+                                        className={`${titleCharColor}`}>{titleCharCount}</span> /50 characters </small>
+                                </Form.Group>
+                            </div>
+                            <div className="col-md-6 ">
+                                <Form.Group controlId="formContent">
+                                    <Form.Label>Email: </Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        disabled={true}
+                                        value={loggedUserEmail}
+                                    />
+                                </Form.Group>
+                            </div>
+                        </div>
+                        <Form.Group controlId="formContent" className="mt-3">
+                            <Form.Label>Content</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={10}
+                                placeholder="Enter content"
+                                value={messageContent}
+                                onChange={handleContentChange}
+                            />
+                            <small className="text-muted"> <span
+                                className={`${contentCharColor}`}>{contentCharCount}</span> /1500 characters </small>
+                        </Form.Group>
+                    </Form>
                 </Modal.Body>
-                <Modal.Footer className='removeBorder'>
-                    <Button variant="info" onClick={handleOKButtonClick}
-                            className="mx-auto">
-                        OK
+                <Modal.Footer className="justify-content-center">
+                    <Button variant="dark" onClick={handleCloseContactInfoModal}>
+                        Close
+                    </Button>
+                    <Button variant="info" onClick={handleContactInfoSubmit} disabled={isSubmitDisabled}>
+                        Submit
                     </Button>
                 </Modal.Footer>
             </Modal>
