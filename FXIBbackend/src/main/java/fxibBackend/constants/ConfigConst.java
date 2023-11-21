@@ -127,6 +127,20 @@ public class ConfigConst {
             <p>Thank you for choosing FXIB!</p>
         </body>
         </html>""";
+    public static final String INQUIRY_EMAIL_HTML_TEMPLATE = """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>%s</title>
+        </head>
+        <body>
+            <p>%s</p>
+            <p>Sent on: %s by %s</p>
+        </body>
+        </html>""";
+
 
     public final static String EMAIL_ENCODING = "UTF-8";
     public final static String STRIPE_API_KEY = "sk_test_51IlHWpGlSGATKmQPCHQ7IkuW2JX6oYZbQaxYtclDmIFVcM2mQ6aoAWYucKJk6TV2NffBiXH6UUmZTlorAoCgAYab00THACivIs";

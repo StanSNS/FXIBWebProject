@@ -5,15 +5,18 @@ import com.stripe.exception.StripeException;
 import fxibBackend.dto.UserDetailsDTO.StripeTransactionDTO;
 import fxibBackend.dto.UserDetailsDTO.UpdateUserBiographyDTO;
 import fxibBackend.dto.UserDetailsDTO.UserDetailsDTO;
+import fxibBackend.entity.InquiryEntity;
 import fxibBackend.entity.TransactionEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.AccessDeniedException;
 import fxibBackend.exception.DataValidationException;
 import fxibBackend.exception.ResourceNotFoundException;
+import fxibBackend.repository.InquiryEntityRepository;
 import fxibBackend.repository.TransactionEntityRepository;
 import fxibBackend.repository.UserEntityRepository;
 import fxibBackend.util.ValidateData;
 import fxibBackend.util.ValidationUtil;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.modelmapper.ModelMapper;
@@ -21,10 +24,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
+import static fxibBackend.constants.ConfigConst.CUSTOM_DATE_FORMAT;
 import static fxibBackend.constants.OtherConst.*;
 import static fxibBackend.constants.ResponseConst.*;
 
@@ -42,6 +49,8 @@ public class UserDetailsService {
     private final ValidationUtil validationUtil;
     private final ModelMapper modelMapper;
     private final TransactionEntityRepository transactionEntityRepository;
+    private final EmailService emailService;
+    private final InquiryEntityRepository inquiryEntityRepository;
 
     /**
      * Retrieves user details DTO based on the provided username and JWT token.
@@ -72,9 +81,9 @@ public class UserDetailsService {
     /**
      * Updates user's biography and returns an UpdateUserBiographyDTO.
      *
-     * @param username   The username of the user.
-     * @param jwtToken   The JWT token for user authentication.
-     * @param biography  The updated user biography.
+     * @param username  The username of the user.
+     * @param jwtToken  The JWT token for user authentication.
+     * @param biography The updated user biography.
      * @return UpdateUserBiographyDTO containing the updated biography.
      * @throws DataValidationException if the provided data is not valid.
      */
@@ -167,8 +176,8 @@ public class UserDetailsService {
     /**
      * Retrieves all Stripe transactions for a user and ensures they are synchronized with the database.
      *
-     * @param username  The username of the user.
-     * @param jwtToken  The JWT token for user authentication.
+     * @param username The username of the user.
+     * @param jwtToken The JWT token for user authentication.
      * @return A list of Stripe transaction DTOs.
      * @throws StripeException If there is an issue with Stripe API calls.
      */
@@ -206,6 +215,58 @@ public class UserDetailsService {
         SecurityContextHolder.clearContext();
 
         return SUCCESSFUL_LOGOUT;
+    }
+
+    /**
+     * Validates user data with JWT, creates and saves an inquiry entity, and sends an email.
+     *
+     * @param title     The title of the inquiry.
+     * @param content   The content of the inquiry.
+     * @param username  The username associated with the inquiry.
+     * @param jwtToken  The JWT token for authorization.
+     * @throws MessagingException If there is an issue with sending the email.
+     */
+    public void sendInquiryEmailAndSave(String title, String content, String username, String jwtToken) throws MessagingException {
+        UserEntity userEntity = validateData.validateUserWithJWT(username, jwtToken);
+        InquiryEntity inquiryEntity = new InquiryEntity();
+        inquiryEntity.setDate(formatLocalDateTimeAsString(LocalDateTime.now()));
+        inquiryEntity.setContent(content);
+        inquiryEntity.setTitle(title);
+        inquiryEntity.setCustomID(getRandomCustomIDNumber());
+        inquiryEntity.setUserEntity(userEntity);
+        inquiryEntityRepository.save(inquiryEntity);
+
+        emailService.sendInquiryEmail(inquiryEntity);
+    }
+
+
+    /**
+     * Formats a LocalDateTime object as a string using a custom date format.
+     *
+     * @param localDateTime The LocalDateTime object to be formatted.
+     * @return The formatted date string.
+     */
+    private String formatLocalDateTimeAsString(LocalDateTime localDateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(CUSTOM_DATE_FORMAT);
+        return localDateTime.format(formatter);
+    }
+
+
+    /**
+     * Generates a random custom ID number for the inquiry entity.
+     *
+     * @return The generated custom ID number.
+     */
+    private String getRandomCustomIDNumber() {
+        int min = 10000000; // Smallest 8-digit number
+        int max = 99999999; // Largest 8-digit number
+        String randomNumber = "INQ-" + (new Random().nextInt(max - min + 1) + min);
+
+        if (inquiryEntityRepository.existsByCustomID(randomNumber) ) {
+            getRandomCustomIDNumber();
+        }
+
+        return randomNumber;
     }
 
 

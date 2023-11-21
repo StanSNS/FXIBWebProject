@@ -1,7 +1,15 @@
 import React, {useEffect, useState} from "react";
 import './footer.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {FaArrowTrendDown, FaArrowTrendUp, FaDiscord, FaReddit, FaTelegram, FaTwitter} from "react-icons/fa6";
+import {
+    FaArrowTrendDown,
+    FaArrowTrendUp,
+    FaDiscord,
+    FaEnvelopeCircleCheck,
+    FaReddit,
+    FaTelegram,
+    FaTwitter
+} from "react-icons/fa6";
 import {Link} from 'react-router-dom';
 import {FaEnvelopeOpenText, FaRegQuestionCircle, FaTimes} from "react-icons/fa";
 import {PiInstagramLogoFill} from "react-icons/pi";
@@ -10,19 +18,22 @@ import {BiSolidBank} from "react-icons/bi";
 import {GiBank} from "react-icons/gi";
 import {Button, Form, Modal} from "react-bootstrap";
 import {getAllTradingAccountsForFooter} from "../../../Service/TradingAccount";
-import {isUserLoggedIn, loggedUserEmail} from "../../../Service/AuthService";
+import {getToken, isUserLoggedIn, loggedUserEmail, loggedUserUsername} from "../../../Service/AuthService";
+import {sendInquiryEmail} from "../../../Service/UserService";
 
 export default function Footer() {
 
     const [tradingAccounts, setTradingAccounts] = useState([]); // State to store trading accounts data
-    const [contactInfoModal, setContactInfoModal] = useState(false);
-    const [messageTitle, setMessageTitle] = useState("");
-    const [messageContent, setMessageContent] = useState("");
-    const [titleCharCount, setTitleCharCount] = useState(0);
-    const [contentCharCount, setContentCharCount] = useState(0);
-    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
-    const [titleCharColor, setTitleCharColor] = useState("text-info");
-    const [contentCharColor, setContentCharColor] = useState("text-info");
+    const [contactInfoModal, setContactInfoModal] = useState(false); // State to control the visibility of the contact info modal
+    const [messageTitle, setMessageTitle] = useState(""); // State to store the title of a message
+    const [messageContent, setMessageContent] = useState(""); // State to store the content of a message
+    const [titleCharCount, setTitleCharCount] = useState(0); // State to track the character count of the message title
+    const [contentCharCount, setContentCharCount] = useState(0); // State to track the character count of the message content
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true); // State to control the submit button's disabled state based on input validity
+    const [titleCharColor, setTitleCharColor] = useState("text-info"); // State to determine the color of the character count for the message title
+    const [contentCharColor, setContentCharColor] = useState("text-info"); // State to determine the color of the character count for the message content
+    const [showSuccessModal, setShowSuccessModal] = useState(false); // State to control the visibility of the success modal
+
 
     // Fetch trading accounts data when the component mounts
     useEffect(() => {
@@ -49,13 +60,38 @@ export default function Footer() {
         setContactInfoModal(false);
     };
 
+    // Function to show success modal and automatically close it after 5 seconds
+    const showSuccessAndCloseModal = () => {
+        setShowSuccessModal(true);
+
+        // Automatically close the success modal after 5 seconds
+        setTimeout(() => {
+            setShowSuccessModal(false);
+            handleCloseContactInfoModal();
+        }, 2000);
+    };
+
     // Function to handle submitting the contact info form
     const handleContactInfoSubmit = () => {
         if (messageTitle.length <= 50 && messageContent.length <= 1500) {
-            handleCloseContactInfoModal();
+            sendInquiryEmail(messageTitle, messageContent, loggedUserUsername, getToken().substring(7))
+                .then((response) => {
+                    if (response.status === 200) {
+                        setMessageTitle("")
+                        setMessageContent("")
+                        setTitleCharCount(0)
+                        setContentCharCount(0)
+                        showSuccessAndCloseModal();
+                    }
+                })
+                .catch((error) => {
+                    // Handle error if the submission fails
+                    console.error('Failed to submit contact info', error);
+                });
         }
     };
 
+    // Handle changes in the message title input
     const handleTitleChange = (e) => {
         const value = e.target.value;
         setMessageTitle(value);
@@ -64,6 +100,7 @@ export default function Footer() {
         updateCharColor(value.length, 50, setTitleCharColor);
     };
 
+    // Handle changes in the message content input
     const handleContentChange = (e) => {
         const value = e.target.value;
         setMessageContent(value);
@@ -72,12 +109,14 @@ export default function Footer() {
         updateCharColor(value.length, 1500, setContentCharColor);
     };
 
+    // Update the submit button's disabled state based on title and content validity
     const updateSubmitButton = (title, content) => {
         const isTitleValid = title.length <= 50 && title.length > 0;
         const isContentValid = content.length <= 1500 && content.length > 0
         setIsSubmitDisabled(!isTitleValid || !isContentValid);
     };
 
+    // Update the character count color based on the current count and limit
     const updateCharColor = (count, limit, setColor) => {
         if (count > limit) {
             setColor("text-danger");
@@ -331,6 +370,15 @@ export default function Footer() {
                         Submit
                     </Button>
                 </Modal.Footer>
+            </Modal>
+
+
+            <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)} centered>
+                <Modal.Body>
+                    <h2 className="text-success text-center">Submission successful!
+                        <span className="align-text-top"><FaEnvelopeCircleCheck/></span>
+                    </h2>
+                </Modal.Body>
             </Modal>
         </footer>
     );

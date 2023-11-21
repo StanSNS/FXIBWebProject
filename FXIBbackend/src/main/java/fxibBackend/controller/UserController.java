@@ -4,6 +4,7 @@ import com.stripe.exception.StripeException;
 import fxibBackend.dto.UserDetailsDTO.UpdateUserBiographyDTO;
 import fxibBackend.exception.MissingParameterException;
 import fxibBackend.service.UserDetailsService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,8 +42,10 @@ public class UserController {
     public ResponseEntity<?> getUserDetails(@RequestParam String action, @RequestParam String username, @RequestParam String jwtToken) throws StripeException {
         // Handle user details or transactions request based on the provided action
         return switch (action) {
-            case GET_ALL_USER_DETAILS -> new ResponseEntity<>(userDetailsService.getUserDetailsDTO(username, jwtToken), HttpStatus.OK);
-            case GET_ALL_USER_TRANSACTIONS -> new ResponseEntity<>(userDetailsService.getAllUserTransactions(username, jwtToken), HttpStatus.OK);
+            case GET_ALL_USER_DETAILS ->
+                    new ResponseEntity<>(userDetailsService.getUserDetailsDTO(username, jwtToken), HttpStatus.OK);
+            case GET_ALL_USER_TRANSACTIONS ->
+                    new ResponseEntity<>(userDetailsService.getAllUserTransactions(username, jwtToken), HttpStatus.OK);
             default -> throw new MissingParameterException();
         };
     }
@@ -74,6 +77,28 @@ public class UserController {
     public ResponseEntity<?> logoutUser(@RequestParam String username, @RequestParam String jwtToken) {
         // Log the user out and return the appropriate response
         return new ResponseEntity<>(userDetailsService.logoutUser(username, jwtToken), HttpStatus.OK);
+    }
+
+
+    /**
+     * Handles a POST request for sending an inquiry email.
+     *
+     * @param title     The title of the inquiry.
+     * @param content   The content of the inquiry.
+     * @param username  The username associated with the inquiry.
+     * @param jwtToken  The JWT token for authorization.
+     * @return ResponseEntity with HTTP status OK if the email is sent successfully.
+     * @throws MessagingException If there is an issue with sending the email.
+     */
+    @PreAuthorize("hasAnyRole('ADMIN','USER','BANNED')")
+    @PostMapping
+    public ResponseEntity<?> sendInquiryEmail(@RequestParam String title,
+                                              @RequestParam String content,
+                                              @RequestParam String username,
+                                              @RequestParam String jwtToken) throws MessagingException {
+
+        userDetailsService.sendInquiryEmailAndSave(title,content,username,jwtToken);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

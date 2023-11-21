@@ -2,6 +2,7 @@ package fxibBackend.service;
 
 import fxibBackend.dto.AuthorizationDTOS.LoginDTO;
 import fxibBackend.dto.UserDetailsDTO.LocationDTO;
+import fxibBackend.entity.InquiryEntity;
 import fxibBackend.entity.TransactionEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.ResourceNotFoundException;
@@ -144,6 +145,14 @@ public class EmailService {
         return LOCATION_DIFFERENCE_EMAIL_SENT_SUCCESSFULLY;
     }
 
+
+    /**
+     * Sends a successful registration email to the user.
+     *
+     * @param username The username of the registered user.
+     * @param email    The email address of the registered user.
+     * @throws MessagingException If there is an issue with sending the email.
+     */
     public void sendSuccessfulRegistrationEmail(String username, String email) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
@@ -154,6 +163,14 @@ public class EmailService {
         javaMailSender.send(message);
     }
 
+
+    /**
+     * Sends a successful payment and subscription email to the user.
+     *
+     * @param transactionEntity The transaction details.
+     * @param username          The username of the user.
+     * @throws MessagingException If there is an issue with sending the email.
+     */
     public void sendSuccessfulPaymentEmail(TransactionEntity transactionEntity, String username) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
@@ -171,6 +188,28 @@ public class EmailService {
                 , transactionEntity.getReceipt()
                 , transactionEntity.getDescription()
         ), true);
+        javaMailSender.send(message);
+    }
+
+
+
+    /**
+     * Sends an inquiry email to the support team.
+     *
+     * @param inquiryEntity The details of the inquiry.
+     * @throws MessagingException If there is an issue with sending the email.
+     */
+    public void sendInquiryEmail(InquiryEntity inquiryEntity) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
+        helper.setFrom(inquiryEntity.getUserEntity().getEmail());
+        helper.setTo(EMAIL_ORIGIN);
+        helper.setSubject(inquiryEntity.getCustomID());
+        helper.setText(String.format(INQUIRY_EMAIL_HTML_TEMPLATE
+                        , inquiryEntity.getTitle()
+                        , inquiryEntity.getContent()
+                        , inquiryEntity.getDate(), inquiryEntity.getUserEntity().getEmail())
+                , true);
         javaMailSender.send(message);
 
     }

@@ -128,6 +128,11 @@ export const changeUserPassword = (username, jwtToken, oldPassword, newPassword)
 export const logoutUser = (username, jwtToken) => {
     const url = `http://localhost:8000/custom-logout?username=${username}&jwtToken=${jwtToken}`
     return axios.post(url)
+};
 
+// Function to send inquiry email.
+export const sendInquiryEmail = (title, content, username, jwtToken) => {
+    const url = `http://localhost:8000?title=${title}&content=${content}&username=${username}&jwtToken=${jwtToken}`
+    return axios.post(url)
 };
 

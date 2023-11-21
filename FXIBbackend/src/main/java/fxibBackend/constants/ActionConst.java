@@ -14,4 +14,6 @@ public class ActionConst {
     public static final String SOLVE_QUESTION = "solveQuestion";
     public static final String GET_ALL_USER_DETAILS = "getAllUserDetails";
     public static final String GET_ALL_USER_TRANSACTIONS = "getAllUserTransactions";
+    public static final String LOGOUT_USER = "logoutUser";
+    public static final String SEND_INQUIRY = "sendInquiry";
 }

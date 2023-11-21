@@ -14,4 +14,5 @@ public class TableNameConst {
     public static final String TRANSACTIONS_TABLE = "transactions";
     public static final String TRADING_ACCOUNTS_TABLE = "trading_accounts";
     public static final String TRADES_TABLE = "trades";
+    public static final String INQUIRIES_TABLE = "inquiries";
 }

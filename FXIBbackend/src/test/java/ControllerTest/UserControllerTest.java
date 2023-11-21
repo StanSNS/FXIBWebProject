@@ -5,8 +5,11 @@ import fxibBackend.controller.UserController;
 import fxibBackend.dto.UserDetailsDTO.StripeTransactionDTO;
 import fxibBackend.dto.UserDetailsDTO.UpdateUserBiographyDTO;
 import fxibBackend.dto.UserDetailsDTO.UserDetailsDTO;
+import fxibBackend.exception.AccessDeniedException;
 import fxibBackend.exception.MissingParameterException;
+import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.service.UserDetailsService;
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -21,7 +24,8 @@ import static fxibBackend.constants.ActionConst.GET_ALL_USER_DETAILS;
 import static fxibBackend.constants.ActionConst.GET_ALL_USER_TRANSACTIONS;
 import static org.aspectj.bridge.MessageUtil.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 class UserControllerTest {
 
@@ -86,4 +90,22 @@ class UserControllerTest {
 
         }
     }
+
+    @Test
+    void testSendInquiryEmail() throws MessagingException {
+        ResponseEntity<?> response = userController.sendInquiryEmail("Test Title", "Test Content", "testUser", "jwtToken");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(userDetailsService).sendInquiryEmailAndSave("Test Title", "Test Content", "testUser", "jwtToken");
+    }
+
+    @Test
+    void testSendInquiryEmailWithMissingParameters() throws MessagingException {
+        doThrow(new MissingParameterException()).when(userDetailsService)
+                .sendInquiryEmailAndSave("Test Title", "Test Content", "testUser", "jwtToken");
+
+        assertThrows(MissingParameterException.class,() -> userController.sendInquiryEmail("Test Title", "Test Content", "testUser", "jwtToken"));
+    }
+
+
 }

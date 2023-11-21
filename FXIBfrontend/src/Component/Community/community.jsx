@@ -561,7 +561,7 @@ const Community = () => {
                                 </div>
                             </div>
                             <p className="mb-0">
-                                <strong className=""> @{question.writer} </strong>
+                                <strong> @{question.writer} </strong>
                                 <span className="fontColor ml-3 align-text-bottom"><IoCalendarSharp/> </span>
                                 <span>{question.date}</span>
                                 <strong className="fontColor ml-3 align-text-bottom">

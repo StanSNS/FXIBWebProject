@@ -311,4 +311,30 @@ public class EntityTests {
         assertNotNull(transactionEntity.getUserEntity());
     }
 
+    @Test
+    public void testInquiryEntityProperties() {
+        // Create a sample UserEntity for testing
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername("testUser");
+
+        // Create an InquiryEntity
+        InquiryEntity inquiryEntity = new InquiryEntity();
+        inquiryEntity.setCustomID("INQ-12345678");
+        inquiryEntity.setTitle("Test Inquiry");
+        inquiryEntity.setContent("This is a test inquiry.");
+        inquiryEntity.setDate("2023-11-21");
+        inquiryEntity.setUserEntity(userEntity);
+
+        // Validate the InquiryEntity using Bean Validation
+        var violations = validator.validate(inquiryEntity);
+        assertTrue(violations.isEmpty(), "Validation should pass for InquiryEntity");
+
+        // Test InquiryEntity properties
+        assertEquals("INQ-12345678", inquiryEntity.getCustomID());
+        assertEquals("Test Inquiry", inquiryEntity.getTitle());
+        assertEquals("This is a test inquiry.", inquiryEntity.getContent());
+        assertEquals("2023-11-21", inquiryEntity.getDate());
+        assertNotNull(inquiryEntity.getUserEntity());
+        assertEquals("testUser", inquiryEntity.getUserEntity().getUsername());
+    }
 }
