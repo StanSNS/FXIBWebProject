@@ -8,12 +8,14 @@ import {Button, Modal} from "react-bootstrap";
 import {AiOutlineCheckCircle} from "react-icons/ai";
 
 export default function ChangePassword() {
-    const navigator = useNavigate();
-    const [oldPassword, setOldPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmNewPassword, setConfirmNewPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const navigator = useNavigate(); // Import the useNavigate hook from the routing library
+    const [oldPassword, setOldPassword] = useState(""); // State variable to store the old password input value
+    const [newPassword, setNewPassword] = useState(""); // State variable to store the new password input value
+    const [confirmNewPassword, setConfirmNewPassword] = useState(""); // State variable to store the confirm new password input value
+    const [errorMessage, setErrorMessage] = useState(""); // State variable to store error messages related to password change
+    const [showSuccessModal, setShowSuccessModal] = useState(false); // State variable to control the visibility of the success modal
+
+    // Function to handle the password change process
     const handleChangePassword = async () => {
         setErrorMessage("");
         if (!oldPassword && !newPassword && !confirmNewPassword) {
@@ -55,10 +57,14 @@ export default function ChangePassword() {
             setErrorMessage("Failed to change password.");
         }
     };
+
+// Function to handle the closure of the success modal and navigate to the home page
     const handleCloseSuccessModal = () => {
         setShowSuccessModal(false);
         navigator('/');
     };
+
+
     return (
         <div className="container mt-5 mt-5">
             <div className="row justify-content-center mt">

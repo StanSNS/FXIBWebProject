@@ -34,7 +34,7 @@ public class AdminInterceptorTest {
 
     @Test
     void preHandle_AllConditionsMet_ReturnsTrue() {
-        when(request.getQueryString()).thenReturn("username=test&jwtToken=validToken");
+        when(request.getQueryString()).thenReturn("action=test&username=test&jwtToken=validToken");
         when(validateData.validateUserWithJWT("test", "validToken")).thenReturn(new UserEntity());
         when(validateData.isUserAdmin(any())).thenReturn(true);
         when(jwtTokenProvider.validateToken("validToken")).thenReturn(true);
@@ -46,7 +46,7 @@ public class AdminInterceptorTest {
 
     @Test
     void preHandle_InvalidAdminUser_ReturnsFalse() {
-        when(request.getQueryString()).thenReturn("username=test&jwtToken=validToken");
+        when(request.getQueryString()).thenReturn("action=adad&username=test&jwtToken=validToken");
         when(validateData.validateUserWithJWT("test", "validToken")).thenReturn(new UserEntity()); // Non-admin user
         when(jwtTokenProvider.validateToken("validToken")).thenReturn(true);
 
@@ -57,7 +57,7 @@ public class AdminInterceptorTest {
 
     @Test
     void preHandle_InvalidToken_ReturnsFalse() {
-        when(request.getQueryString()).thenReturn("username=test&jwtToken=invalidToken");
+        when(request.getQueryString()).thenReturn("action=123&username=test&jwtToken=invalidToken");
         when(jwtTokenProvider.validateToken("invalidToken")).thenReturn(false);
 
         boolean result = adminInterceptor.preHandle(request, response, new Object());

@@ -32,8 +32,8 @@ public class AdminInterceptor implements HandlerInterceptor {
         if (!queryString.isEmpty()) {
             // Split the query string into parts
             String[] parts = queryString.split("&");
-            String username = parts[0].split("=")[1];
-            String jwtToken = parts[1].split("=")[1];
+            String username = parts[1].split("=")[1];
+            String jwtToken = parts[2].split("=")[1];
 
             // Validate the user with the JWT token
             UserEntity userEntity = validateData.validateUserWithJWT(username, jwtToken);

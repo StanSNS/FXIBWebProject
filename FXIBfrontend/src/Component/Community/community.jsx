@@ -44,7 +44,7 @@ import CommunitySkeleton from "../../SkeletonLoader/CommunitySkeleton";
 const Community = () => {
 
     // State variables
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true); // Initializing state variable isLoading with initial value true
     const [allQuestions, setAllQuestions] = useState([]); // Stores the list of all questions.
     const [dropdownOptions, setDropdownOptions] = useState([]); // Stores the dropdown options for topics.
     const [newQuestionContent, setNewQuestionContent] = useState(''); // Stores the content of the new question.

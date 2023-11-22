@@ -2,10 +2,14 @@ package fxibBackend.service;
 
 
 import fxibBackend.dto.AdminDTOS.AdminUserDTO;
+import fxibBackend.dto.AdminDTOS.InquiryDTO;
 import fxibBackend.dto.AdminDTOS.RolesAdminDTO;
+import fxibBackend.entity.InquiryEntity;
 import fxibBackend.entity.RoleEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.DataValidationException;
+import fxibBackend.exception.ResourceNotFoundException;
+import fxibBackend.repository.InquiryEntityRepository;
 import fxibBackend.repository.UserEntityRepository;
 import fxibBackend.util.ValidateData;
 import fxibBackend.util.ValidationUtil;
@@ -14,10 +18,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static fxibBackend.constants.ResponseConst.BANNED_USER_STATUS;
+import static fxibBackend.constants.ResponseConst.USER_BANNED_SUCCESSFULLY;
 import static fxibBackend.constants.RoleConst.ADMIN_C;
 
 @Service
@@ -31,6 +37,7 @@ public class AdminService {
     private final ModelMapper modelMapper;
     private final ValidateData validateData;
     private final ValidationUtil validationUtil;
+    private final InquiryEntityRepository inquiryEntityRepository;
 
     /**
      * Retrieves a list of All users for the admin page which are not administrators.
@@ -66,13 +73,13 @@ public class AdminService {
      * Administrator is banning a User
      * Sets new roles for a user and updates their biography and agreedToTerms status.
      *
-     * @param username      The username of the user whose roles are to be updated.
-     * @param roles         A set of RolesAdminDTO representing the new roles to assign.
-     * @param jwtToken      JWT token for authentication.
-     * @param loggedUsername  The username of the requester who is making this change.
+     * @param username       The username of the user whose roles are to be updated.
+     * @param roles          A set of RolesAdminDTO representing the new roles to assign.
+     * @param jwtToken       JWT token for authentication.
+     * @param loggedUsername The username of the requester who is making this change.
      * @throws DataValidationException if data validation fails for user roles or if the requester lacks authority.
      */
-    public void setUserNewRoles(String username, Set<RolesAdminDTO> roles, String jwtToken, String loggedUsername) {
+    public String setUserNewRoles(String username, Set<RolesAdminDTO> roles, String jwtToken, String loggedUsername) {
         // Validate the user with JWT token
         validateData.validateUserWithJWT(loggedUsername, jwtToken);
 
@@ -103,7 +110,33 @@ public class AdminService {
 
         // Save the updated user entity
         userRepository.save(userEntity);
+
+        return USER_BANNED_SUCCESSFULLY;
     }
 
 
+    /**
+     * Retrieves all inquiries for a specified user and returns them as a list of InquiryDTO objects.
+     *
+     * @param currentUsername Username of the requester making the request.
+     * @param jwtToken        JWT token for authentication.
+     * @param username        Username of the user for whom inquiries are to be retrieved.
+     * @return A list of InquiryDTO objects representing the inquiries for the specified user.
+     * @throws ResourceNotFoundException if the specified user is not found.
+     */
+    public List<InquiryDTO> getAllInquiriesForUser(String currentUsername, String jwtToken, String username) {
+        validateData.validateUserWithJWT(username, jwtToken);
+
+        Optional<UserEntity> userEntityOptional = userRepository.findByUsername(currentUsername);
+        if (userEntityOptional.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
+
+        return inquiryEntityRepository
+                .findAllByUserEntity_Id(userEntityOptional.get().getId())
+                .stream()
+                .map(inquiryEntity -> modelMapper
+                        .map(inquiryEntity, InquiryDTO.class))
+                .toList();
+    }
 }

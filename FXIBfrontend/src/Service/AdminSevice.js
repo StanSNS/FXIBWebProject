@@ -15,12 +15,26 @@ axios.interceptors.request.use(
 
 // Function to get all users based on the provided username and JWT token.
 export const getAllUsers = (username, jwtToken) => {
-    return axios.get(`http://localhost:8000/admin?username=${username}&jwtToken=${jwtToken}`)
+    return axios.get(`http://localhost:8000/admin?action=getAllUsersAsAdmin&username=${username}&jwtToken=${jwtToken}`)
         .then((response) => {
             if (response.status === 200) {
                 return response.data;
             } else {
                 throw new Error('Failed to get all users');
+            }
+        })
+        .catch((error) => {
+            throw error;
+        });
+};
+
+export const getAllInquiriesForUser = (username, jwtToken, currentUsername) => {
+    return axios.get(`http://localhost:8000/admin?action=getAllInquiriesForUser&username=${username}&jwtToken=${jwtToken}&currentUsername=${currentUsername}`)
+        .then((response) => {
+            if (response.status === 200) {
+                return response.data;
+            } else {
+                throw new Error('Failed to get all inquiries');
             }
         })
         .catch((error) => {

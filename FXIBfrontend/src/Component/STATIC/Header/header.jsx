@@ -23,13 +23,13 @@ import UserDetailsSkeleton from "../../../SkeletonLoader/UserDetailsSkeleton";
 import UserTransactionsSkeleton from "../../../SkeletonLoader/UserTrsnsactionsSkeleton";
 
 export default function Header() {
-    // Check if the user is banned, logged in, or an administrator
-    const isBanned = isUserBanned();
-    const isAuth = isUserLoggedIn();
-    const isAdmin = isAdministrator();
-    const navigator = useNavigate();
-    const [isUserDetailsLoading, setIsUserDetailsLoading] = useState(true);
-    const [isTransactionsLoading, setIsTransactionsLoading] = useState(true);
+
+    const isBanned = isUserBanned(); // Check if the user is banned
+    const isAuth = isUserLoggedIn(); // Check if the user is authenticated/logged in
+    const isAdmin = isAdministrator(); // Check if the user is an administrator
+    const navigator = useNavigate(); // Import the useNavigate hook from the routing library
+    const [isUserDetailsLoading, setIsUserDetailsLoading] = useState(true); // State variable to track loading status of user details
+    const [isTransactionsLoading, setIsTransactionsLoading] = useState(true); // State variable to track loading status of transactions
 
 
     const [showUserDetailsModal, setShowUserDetailsModal] = useState(false);// State to control the visibility of the user details modal

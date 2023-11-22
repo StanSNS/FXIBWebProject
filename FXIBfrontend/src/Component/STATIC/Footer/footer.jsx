@@ -52,10 +52,12 @@ export default function Footer() {
         rootElement.scrollIntoView({behavior: 'smooth'});
     }
 
+    // Function to handle opening the contact info modal
     const handleContactInfoModal = () => {
         setContactInfoModal(true);
     };
 
+    // Function to handle closing the contact info modal
     const handleCloseContactInfoModal = () => {
         setContactInfoModal(false);
     };
@@ -68,7 +70,7 @@ export default function Footer() {
         setTimeout(() => {
             setShowSuccessModal(false);
             handleCloseContactInfoModal();
-        }, 2000);
+        }, 750);
     };
 
     // Function to handle submitting the contact info form

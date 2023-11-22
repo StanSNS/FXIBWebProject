@@ -1,10 +1,14 @@
 package ServiceTest;
 
 import fxibBackend.dto.AdminDTOS.AdminUserDTO;
+import fxibBackend.dto.AdminDTOS.InquiryDTO;
 import fxibBackend.dto.AdminDTOS.RolesAdminDTO;
+import fxibBackend.entity.InquiryEntity;
 import fxibBackend.entity.RoleEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.DataValidationException;
+import fxibBackend.exception.ResourceNotFoundException;
+import fxibBackend.repository.InquiryEntityRepository;
 import fxibBackend.repository.UserEntityRepository;
 import fxibBackend.service.AdminService;
 import fxibBackend.util.ValidateData;
@@ -39,6 +43,9 @@ public class AdminServiceTest {
 
     @Mock
     private ValidationUtil validationUtil;
+
+    @Mock
+    private InquiryEntityRepository inquiryEntityRepository;
 
     @Test
     void testGetAllAdminUserDTO() {
@@ -140,6 +147,86 @@ public class AdminServiceTest {
         when(validationUtil.isValid(any(RoleEntity.class))).thenReturn(false);
 
         assertThrows(DataValidationException.class, () -> adminService.setUserNewRoles(username, roles, jwtToken, loggedUsername));
+    }
+
+
+
+    @Test
+    void testGetAllInquiriesForUser() {
+        // Mock data
+        String currentUsername = "mockUser";
+        String jwtToken = "mockToken";
+        String username = "user1";
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(1L);
+
+        when(validateData.validateUserWithJWT(username, jwtToken)).thenReturn(userEntity);
+
+        InquiryEntity inquiry1 = new InquiryEntity();
+        inquiry1.setCustomID("ID_1");
+        inquiry1.setTitle("Inquiry 1");
+        inquiry1.setContent("Content 1");
+        inquiry1.setDate("2023-01-01");
+        inquiry1.setUserEntity(userEntity);
+
+        InquiryEntity inquiry2 = new InquiryEntity();
+        inquiry2.setCustomID("ID_2");
+        inquiry2.setTitle("Inquiry 2");
+        inquiry2.setContent("Content 2");
+        inquiry2.setDate("2023-01-02");
+        inquiry2.setUserEntity(userEntity);
+
+        when(userRepository.findByUsername(currentUsername)).thenReturn(Optional.of(userEntity));
+        when(inquiryEntityRepository.findAllByUserEntity_Id(userEntity.getId())).thenReturn(List.of(inquiry1, inquiry2));
+
+        InquiryDTO inquiryDTO1 = new InquiryDTO();
+        inquiryDTO1.setCustomID("ID_1");
+        inquiryDTO1.setTitle("Inquiry 1");
+        inquiryDTO1.setDate("2023-01-01");
+
+        InquiryDTO inquiryDTO2 = new InquiryDTO();
+        inquiryDTO2.setCustomID("ID_2");
+        inquiryDTO2.setTitle("Inquiry 2");
+        inquiryDTO2.setDate("2023-01-02");
+
+        when(modelMapper.map(inquiry1, InquiryDTO.class)).thenReturn(inquiryDTO1);
+        when(modelMapper.map(inquiry2, InquiryDTO.class)).thenReturn(inquiryDTO2);
+
+        // Perform the method call
+        List<InquiryDTO> result = adminService.getAllInquiriesForUser(currentUsername, jwtToken, username);
+
+        // Verify the results
+        assertEquals(2, result.size());
+        assertEquals("ID_1", result.get(0).getCustomID());
+        assertEquals("Inquiry 1", result.get(0).getTitle());
+        assertEquals("2023-01-01", result.get(0).getDate());
+        assertEquals("ID_2", result.get(1).getCustomID());
+        assertEquals("Inquiry 2", result.get(1).getTitle());
+        assertEquals("2023-01-02", result.get(1).getDate());
+
+        // Verify that the mock methods were called
+        Mockito.verify(validateData, Mockito.times(1)).validateUserWithJWT(username, jwtToken);
+        Mockito.verify(userRepository, Mockito.times(1)).findByUsername(currentUsername);
+        Mockito.verify(inquiryEntityRepository, Mockito.times(1)).findAllByUserEntity_Id(userEntity.getId());
+        Mockito.verify(modelMapper, Mockito.times(2)).map(Mockito.any(InquiryEntity.class), Mockito.eq(InquiryDTO.class));
+    }
+
+    @Test
+    void testGetAllInquiriesForUserWithInvalidUser() {
+        // Mock data
+        String currentUsername = "mockUser";
+        String jwtToken = "mockToken";
+        String username = "user1";
+
+        when(validateData.validateUserWithJWT(username, jwtToken)).thenThrow(ResourceNotFoundException.class);
+
+        // Perform the method call and expect an exception
+        assertThrows(ResourceNotFoundException.class, () ->
+                adminService.getAllInquiriesForUser(currentUsername, jwtToken, username));
+
+        // Verify that the mock method was called
+        Mockito.verify(validateData, Mockito.times(1)).validateUserWithJWT(username, jwtToken);
     }
 
 }

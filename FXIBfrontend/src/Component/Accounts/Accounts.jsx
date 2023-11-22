@@ -14,9 +14,8 @@ import AccountsSkeleton from "../../SkeletonLoader/AccountsSkeleton";
 
 
 export default function Accounts() {
-    const [isLoading, setIsLoading] = useState(true);
-    // Initialize the state variable for storing trading accounts data.
-    const [tradingAccounts, setTradingAccounts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);// Initializing state variable isLoading with initial value true
+    const [tradingAccounts, setTradingAccounts] = useState([]);// Initialize the state variable for storing trading accounts data.
 
     useEffect(() => {
         // Call the API service function to fetch trading accounts data.

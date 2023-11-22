@@ -1,22 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Button, Modal, Form} from 'react-bootstrap';
+import {Button, Card, Form, Modal} from 'react-bootstrap';
 import './admin.css';
-import {FaLock, FaLockOpen, FaSearch, FaTimes, FaUserTimes} from "react-icons/fa";
-import {getAllUsers, updateBlockedUserRoles} from "../../Service/AdminSevice";
+import {FaExclamationTriangle, FaListAlt, FaLock, FaLockOpen, FaSearch, FaTimes, FaUserTimes} from "react-icons/fa";
+import {getAllInquiriesForUser, getAllUsers, updateBlockedUserRoles} from "../../Service/AdminSevice";
 import {getToken, loggedUserUsername} from "../../Service/AuthService";
 import AdminSkeleton from "../../SkeletonLoader/AdminSkeleton";
 
 const AdminSection = () => {
 
-    // Initialize state variables.
-    const [isLoading, setIsLoading] = useState(true);
-    const [users, setUsers] = useState([]);
-    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-    const [userToBlock, setUserToBlock] = useState(null);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [isLoading, setIsLoading] = useState(true); // State variable for loading indicator
+    const [users, setUsers] = useState([]); // State variable for storing an array of users
+    const [inquiries, setInquiries] = useState([]); // State variable for storing an array of inquiries
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false); // State variable to control the visibility of a confirmation modal
+    const [userToBlock, setUserToBlock] = useState(null); // State variable to store information about the user to be blocked
+    const [searchTerm, setSearchTerm] = useState(''); // State variable for storing the search term used in filtering
+    const [selectedUser, setSelectedUser] = useState(''); // State variable for storing the selected user
+    const [showInquiriesModal, setShowInquiriesModal] = useState(false); // State variable to control the visibility of an inquiries modal
 
-    // Filter users based on the search term.
-    const filteredUsers = users.filter((user) => user.username.toLowerCase().includes(searchTerm.toLowerCase()));
+    const filteredUsers = users.filter((user) => user.username.toLowerCase().includes(searchTerm.toLowerCase()));  // Filter users based on the search term.
 
     // Function to handle blocking and unblocking a user.
     const handleBlockAndUnblockUser = () => {
@@ -57,6 +58,23 @@ const AdminSection = () => {
                 console.error('Failed to fetch user accounts:', error);
             });
     }, []);
+
+    // Function to open the inquiries modal
+    const openInquiriesModal = (currUsername) => {
+        setShowInquiriesModal(true);
+        getAllInquiriesForUser(loggedUserUsername, getToken().substring(7), currUsername)
+            .then((data) => {
+                setInquiries(data)
+                setSelectedUser(currUsername)
+            })
+
+    };
+
+    // Function to close the inquiries modal
+    const closeInquiriesModal = () => {
+        setShowInquiriesModal(false);
+    };
+
 
     return (
         <div className="container-fluid d-flex flex-column align-items-center admin-hero-section mt-5">
@@ -105,7 +123,14 @@ const AdminSection = () => {
                                           : ''}`}>
                                     <Card.Body className="d-flex flex-column rounded">
                                         <Card.Title
-                                            className="font-weight-bold mb-0 usernameColor">@{user.username.toUpperCase()}
+                                            className="font-weight-bold mb-0 usernameColor customDisplayTitle">
+                                            <div className="mt-1">@{user.username.toUpperCase()}</div>
+
+                                            <button className="customColorListAdmin"
+                                                    onClick={() => openInquiriesModal(user.username)}>
+                                                <span><FaListAlt/></span>
+                                            </button>
+
                                         </Card.Title>
                                         <Card.Text className="mt-2 p-1">
                                             <strong>Email:</strong> {user.email}
@@ -133,6 +158,7 @@ const AdminSection = () => {
                         ))
                     )}
             </div>
+
             <div className="modal-content">
                 <Modal show={showConfirmationModal} onHide={() => setShowConfirmationModal(false)} centered>
                     <div className=" custom-modal-content">
@@ -162,6 +188,42 @@ const AdminSection = () => {
                     </div>
                 </Modal>
             </div>
+
+            <Modal show={showInquiriesModal} onHide={closeInquiriesModal} centered size="xl">
+                <Modal.Header className="removeBorder">
+                    <Modal.Title>User Inquiries: <span
+                        className="customTextColorAdmin"> @{selectedUser}</span></Modal.Title>
+                    <Button variant="link" className="close"
+                            onClick={closeInquiriesModal}><FaTimes/></Button>
+                </Modal.Header>
+                <Modal.Body>
+                    {inquiries.length === 0
+                        ? (<div>
+                            <h4 className="text-center">
+                                <strong>No data found </strong> <FaExclamationTriangle className="mb-1 ml-1"/>
+                            </h4>
+                        </div>)
+                        : <table className="table">
+                            <thead>
+                            <tr>
+                                <th>INQ-ID</th>
+                                <th>Submission Date</th>
+                                <th>Title</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {inquiries.map((inquiry, index) => (
+                                <tr key={index}>
+                                    <td>{inquiry.customID}</td>
+                                    <td>{inquiry.date}</td>
+                                    <td>{inquiry.title}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    }
+                </Modal.Body>
+            </Modal>
         </div>
     );
 };

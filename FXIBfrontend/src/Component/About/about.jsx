@@ -9,13 +9,9 @@ import AboutSkeleton from "../../SkeletonLoader/AboutSkeleton";
 
 export default function About() {
 
-    const [isLoading, setIsLoading] = useState(true);
-
-    // Create a navigator to redirect to different pages.
-    const navigator = useNavigate();
-
-    // Initialize the state variable for storing aboutData.
-    const [aboutData, setAboutData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);// Initializing state variable isLoading with initial value true
+    const navigator = useNavigate();  // Create a navigator to redirect to different pages.
+    const [aboutData, setAboutData] = useState([]); // Initialize the state variable for storing aboutData.
 
     useEffect(() => {
         // Call the API service function to fetch about data.

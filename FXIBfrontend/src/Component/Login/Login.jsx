@@ -6,10 +6,10 @@ import {loginAPICall, saveLoggedUser, storeToken} from "../../Service/AuthServic
 
 export default function Login() {
 
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const navigator = useNavigate();
-    const [error, setError] = useState("");
+    const [username, setUsername] = useState(""); // State variable to store the username input value
+    const [password, setPassword] = useState(""); // State variable to store the password input value
+    const navigator = useNavigate(); // Import the useNavigate hook from the routing library
+    const [error, setError] = useState(""); // State variable to store error messages related to login
 
     // Handle the login form submission
     async function handleLoginForm(e) {

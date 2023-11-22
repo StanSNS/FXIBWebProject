@@ -1,6 +1,7 @@
 package fxibBackend.controller;
-import fxibBackend.dto.AdminDTOS.AdminUserDTO;
+
 import fxibBackend.dto.AdminDTOS.RolesAdminDTO;
+import fxibBackend.exception.MissingParameterException;
 import fxibBackend.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -8,10 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
+
+import static fxibBackend.constants.ActionConst.GET_ALL_INQUIRIES_FOR_USER;
+import static fxibBackend.constants.ActionConst.GET_ALL_USERS_AS_ADMIN;
 import static fxibBackend.constants.MappingConstants.ADMIN_CONTROLLER_MAPPING;
-import static fxibBackend.constants.ResponseConst.USER_BANNED_SUCCESSFULLY;
 import static fxibBackend.constants.URLAccessConst.FRONTEND_BASE_URL;
 
 @CrossOrigin(FRONTEND_BASE_URL)
@@ -25,21 +27,30 @@ public class AdminController {
      */
     private final AdminService adminService;
 
+
+
     /**
-     * Retrieves a list of AdminUserDTO objects for users without the 'ADMIN' role.
+     * Retrieves various administrative commands based on the provided action parameter.
      *
-     * @param jwtToken  JWT token for authentication.
-     * @param username  Username of the requester.
-     * @return A ResponseEntity containing a list of AdminUserDTO objects, otherwise returns an unauthorized response.
+     * @param action           The action to be performed, such as retrieving all users or inquiries for a user.
+     * @param currentUsername  Username of the requester making the request.
+     * @param jwtToken         JWT token for authentication.
+     * @param username         Username relevant to the action (e.g., target user for inquiries).
+     * @return A ResponseEntity containing the result of the specified administrative action.
+     * @throws MissingParameterException if the action parameter is not recognized.
      */
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(ADMIN_CONTROLLER_MAPPING)
-    public ResponseEntity<List<AdminUserDTO>> getAllUsers(@RequestParam String jwtToken, @RequestParam String username) {
-        // Fetch a list of AdminUserDTO objects based on the requester's role and provided parameters
-        List<AdminUserDTO> adminUserDTOs = adminService.getAllAdminUserDTO(jwtToken, username);
+    public ResponseEntity<?> getCommands(@RequestParam String action,
+                                         @RequestParam(required = false) String currentUsername,
+                                         @RequestParam String jwtToken,
+                                         @RequestParam String username) {
 
-        // Return a ResponseEntity with the AdminUserDTO list and an HTTP OK status if authorized
-        return new ResponseEntity<>(adminUserDTOs, HttpStatus.OK);
+        return switch (action) {
+            case GET_ALL_USERS_AS_ADMIN -> new ResponseEntity<>(adminService.getAllAdminUserDTO(jwtToken, username), HttpStatus.OK);
+            case GET_ALL_INQUIRIES_FOR_USER -> new ResponseEntity<>(adminService.getAllInquiriesForUser(currentUsername, jwtToken, username), HttpStatus.OK);
+            default -> throw new MissingParameterException();
+        };
     }
 
     /**
@@ -54,11 +65,8 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(ADMIN_CONTROLLER_MAPPING)
     public ResponseEntity<String> updateBanRoleUser(@RequestParam String jwtToken, @RequestParam String loggedUsername, @RequestParam String banUsername, @RequestBody Set<RolesAdminDTO> roles) {
-        // Update user roles and ban status based on provided parameters and requester's role
-        adminService.setUserNewRoles(banUsername, roles, jwtToken, loggedUsername);
-
         // Return a ResponseEntity with a success message and an HTTP OK status if authorized
-        return new ResponseEntity<>(USER_BANNED_SUCCESSFULLY, HttpStatus.OK);
+        return new ResponseEntity<>(adminService.setUserNewRoles(banUsername, roles, jwtToken, loggedUsername), HttpStatus.OK);
     }
 
 

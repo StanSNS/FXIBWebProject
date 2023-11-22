@@ -6,9 +6,7 @@ import {isUserLoggedIn} from "../../Service/AuthService";
 
 
 export default function Hero() {
-
-    // Check if the user is authenticated (logged in).
-    const isAuth = isUserLoggedIn();
+    const isAuth = isUserLoggedIn(); // Check if the user is authenticated (logged in).
 
     return (
         <>
