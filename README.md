@@ -25,14 +25,14 @@
 
 - Below, you will find the table relations between the entities in the database.
   
-![table relations](https://i.imgur.com/J8xgNct.png)
+![table relations](https://i.imgur.com/ONQpWSe.png)
 
 
 ### Testing
 
 - Below, you will find the coverage percentage obtained from the JUnit testing.
   
-![test coverage](https://i.imgur.com/25XXRtk.png)
+![test coverage](https://i.imgur.com/6oIMLOt.png)
 
 ## Frontend
 
@@ -47,6 +47,7 @@
     - @react-icons/all-files
     - and react-icons
 - **jQuery**: The project depends on the jQuery library.
+- **Encrypt & Decrypt**: `Crypto.js` is added for encrypting and decrypting sessionStorage data.
 - **Module System**: Utilizes the esm package for ECMAScript Modules (ESM) support in Node.js.
 
 ### Other Dependencies are also part of the project:
@@ -131,7 +132,7 @@ React app is making requests to the correct backend URLs.
 
 ## Gallery
 
-<img src="https://i.imgur.com/6dXhrHX.png" alt="First page" style="padding: 5px">
+<img src="https://i.imgur.com/6cVinKU.png" alt="First page" style="padding: 5px">
 <img src="https://i.imgur.com/XleovlP.png" alt="Terms and Conditions" style="padding: 5px">
 <img src="https://i.imgur.com/jSkla0d.png" alt="Register" style=" padding: 5px">
 <img src="https://i.imgur.com/5r4quXw.png" alt="Register Email" style=" padding: 5px">
@@ -141,17 +142,20 @@ React app is making requests to the correct backend URLs.
 <img src="https://i.imgur.com/w82OJAe.png" alt="Reset-Password-Email-Update" style="padding: 5px;">
 <img src="https://i.imgur.com/xrljSFk.png" alt="Two-Factor-Login-Email" style=" padding: 5px">
 <img src="https://i.imgur.com/nu6lwHq.png" alt="Two-Factor-Login" style=" padding: 5px">
-<img src="https://i.imgur.com/lJRJups.png" alt="User-Details" style="padding: 5px">
-<img src="https://i.imgur.com/yLqNcTL.png" alt="User-Details-Transactions" style="padding: 5px">
-<img src="https://i.imgur.com/cKrf4nA.png" alt="Change-Password" style="padding: 5px">
-<img src="https://i.imgur.com/6xMi9jH.png" alt="Admin-Page" style="padding: 5px">
+<img src="https://i.imgur.com/tAH3E3L.png" alt="User-Details" style="padding: 5px">
+<img src="https://i.imgur.com/uHHTrMD.png" alt="User-Details-Transactions" style="padding: 5px">
+<img src="https://i.imgur.com/WvUklEO.png" alt="Change-Password" style="padding: 5px">
+<img src="https://i.imgur.com/B3Rl1GU.png" alt="Admin-Page" style="padding: 5px">
+<img src="https://i.imgur.com/98Qe8QC.png" alt="Admin-Page-Open" style="padding: 5px">
+<img src="https://i.imgur.com/dF3FYLP.png" alt="Banned-User-Email" style="padding: 5px">
+<img src="https://i.imgur.com/yJu1N45.png" alt="Unbanned-User-Email" style="padding: 5px">
 <img src="https://i.imgur.com/5wqtKW6.png" alt="About-Page" style="padding: 5px">
 <img src="https://i.imgur.com/7E0RuDy.png" alt="Partners-Page" style="padding: 5px">
-<img src="https://i.imgur.com/UdFElzX.png" alt="Account-Page" style="padding: 5px">
-<img src="https://i.imgur.com/bnZyuZV.png" alt="Account-Page-Open" style="padding: 5px">
+<img src="https://i.imgur.com/n4qnwdp.png" alt="Account-Page-Open" style="padding: 5px">
 <img src="https://i.imgur.com/DO00fpt.png" alt="Community-Page" style="padding: 5px">
 <img src="https://i.imgur.com/ixmNA8B.png" alt="Community-Page-Open" style="padding: 5px">
 <img src="https://i.imgur.com/xiRnMBW.png" alt="Pricing-Page" style="padding: 5px">
 <img src="https://i.imgur.com/9rDzJaB.png" alt="Pricing-Page-Open" style="padding: 5px">
 <img src="https://i.imgur.com/9AhzHJt.png" alt="Pricing-Page-Open-Stripe" style="padding: 5px">
 <img src="https://i.imgur.com/rtV5mV2.png" alt="Stripe Email Sent after payment " style="padding: 5px">
+<img src="https://i.imgur.com/LWbvm3r.png" alt="Inquiry Modal " style="padding: 5px">
