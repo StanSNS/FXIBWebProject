@@ -1,4 +1,5 @@
 import axios from "axios";
+import CryptoJS from 'crypto-js';
 
 // Function to make an API call for user registration.
 export const registerAPICall = (registerObj) => axios.post(`http://localhost:8000/auth/register`, registerObj);
@@ -9,40 +10,64 @@ export const loginAPICall = (username, password) => axios.post(`http://localhost
     password
 });
 
+// Secret key for encryption and decryption
+const SECRET_KEY = "FXIB_SECRET"
+
+const encryptData = (data) => {
+    let encJson = CryptoJS.AES.encrypt(JSON.stringify(data), SECRET_KEY).toString();
+    return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(encJson));
+}
+
+const decryptData = (data) => {
+    let decData = CryptoJS.enc.Base64.parse(data).toString(CryptoJS.enc.Utf8);
+    let bytes = CryptoJS.AES.decrypt(decData, SECRET_KEY).toString(CryptoJS.enc.Utf8);
+    return JSON.parse(bytes)
+}
+
 // Function to store a token in the local storage.
 export const storeToken = (token) => localStorage.setItem("token", token);
 
 // Function to retrieve a token from the local storage.
-export const getToken = () => localStorage.getItem("token");
+export const getToken = () => (localStorage.getItem("token"));
+
+
+
 
 // Function to save the logged-in user's information in session storage.
 export const saveLoggedUser = (username, role, email) => {
-    sessionStorage.setItem("Username", username);
-    sessionStorage.setItem("Role", role);
-    sessionStorage.setItem("Email", email);
+    sessionStorage.setItem("Username", encryptData(username));
+    sessionStorage.setItem("Roles", encryptData(role));
+    sessionStorage.setItem("Email", encryptData(email));
 }
 
 // Retrieve the username of the logged-in user from session storage.
-export const loggedUserUsername = sessionStorage.getItem("Username");
-export const loggedUserEmail = sessionStorage.getItem("Email");
+export const loggedUserUsername = () => {
+    const username = sessionStorage.getItem("Username");
+    if (username) {
+        return decryptData(username);
+    }
+}
+
+export const loggedUserEmail = () => {
+    const email = sessionStorage.getItem("Email");
+    if (email) {
+        return decryptData(email);
+    }
+}
 
 // Function to check if a user is logged in based on session storage.
 export const isUserLoggedIn = () => {
     return sessionStorage.getItem("Username") != null;
 }
 
-// Function to log out the user by clearing both local and session storage.
-export const logout = () => {
-    localStorage.clear();
-    sessionStorage.clear();
-};
 
 // Function to check if the logged-in user is an administrator based on their role.
 export const isAdministrator = () => {
-    let role = sessionStorage.getItem("Role");
-    if (role && role.length > 4) {
-        let rolesArray = role.split(",");
-        if (rolesArray.includes("ADMIN")) {
+    let role = sessionStorage.getItem("Roles");
+
+    if (role) {
+        role = decryptData(role);
+        if (role.includes("ADMIN")) {
             return true;
         }
     }
@@ -51,20 +76,25 @@ export const isAdministrator = () => {
 
 // Function to check if the logged-in user is banned based on their role.
 export const isUserBanned = () => {
-    let role = sessionStorage.getItem("Role");
-    if (role && role.length > 4) {
-        let rolesArray = role.split(",");
-        if (rolesArray.includes("BANNED")) {
+    let role = sessionStorage.getItem("Roles");
+
+    if (role) {
+        role = decryptData(role);
+        if (role.includes("BANNED")) {
             return true;
         }
+
     }
     return false;
 }
+
+// Function to log out the user by clearing both local and session storage.
+export const logout = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+};
 
 // Function to perform login with two-factor authentication.
 export const loginWith2FACode = (username, password, code) => {
     return axios.post(`http://localhost:8000/auth/login/two-factor-auth?username=${username}&password=${password}&code=${code}`)
 };
-
-
-

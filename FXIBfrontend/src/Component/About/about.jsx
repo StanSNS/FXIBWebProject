@@ -14,7 +14,6 @@ export default function About() {
     const [aboutData, setAboutData] = useState([]); // Initialize the state variable for storing aboutData.
 
     useEffect(() => {
-        // Call the API service function to fetch about data.
         getAllAboutData()
             .then((response) => {
                 // Check if the API request was successful (status 200).
@@ -29,6 +28,8 @@ export default function About() {
                 console.error(error);
             });
     }, [isLoading, navigator]);
+
+
     return (
         <div className="addMarginTop">
             <div className="d-flex justify-content-center mt-3 mb-3">

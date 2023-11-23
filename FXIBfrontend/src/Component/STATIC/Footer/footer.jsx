@@ -76,7 +76,7 @@ export default function Footer() {
     // Function to handle submitting the contact info form
     const handleContactInfoSubmit = () => {
         if (messageTitle.length <= 50 && messageContent.length <= 1500) {
-            sendInquiryEmail(messageTitle, messageContent, loggedUserUsername, getToken().substring(7))
+            sendInquiryEmail(messageTitle, messageContent, loggedUserUsername(), getToken().substring(7))
                 .then((response) => {
                     if (response.status === 200) {
                         setMessageTitle("")
@@ -345,7 +345,7 @@ export default function Footer() {
                                     <Form.Control
                                         type="text"
                                         disabled={true}
-                                        value={loggedUserEmail}
+                                        value={loggedUserEmail()}
                                     />
                                 </Form.Group>
                             </div>

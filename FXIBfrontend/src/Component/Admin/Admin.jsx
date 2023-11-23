@@ -31,7 +31,7 @@ const AdminSection = () => {
                             : [...user.roles, {id: 3, name: "BANNED"}];
 
                         // Call the API service to update blocked user roles.
-                        updateBlockedUserRoles(loggedUserUsername, getToken().substring(7), user.username, updatedRoles)
+                        updateBlockedUserRoles(loggedUserUsername(), getToken().substring(7), user.username, updatedRoles)
                             .catch((error) => {
                                 console.error("Failed to block user ", error);
                             });
@@ -49,7 +49,7 @@ const AdminSection = () => {
 
     // Use the useEffect hook to fetch user data when the component mounts.
     useEffect(() => {
-        getAllUsers(loggedUserUsername, getToken().substring(7))
+        getAllUsers(loggedUserUsername(), getToken().substring(7))
             .then((data) => {
                 setUsers(data);
                 setIsLoading(false)
@@ -62,7 +62,7 @@ const AdminSection = () => {
     // Function to open the inquiries modal
     const openInquiriesModal = (currUsername) => {
         setShowInquiriesModal(true);
-        getAllInquiriesForUser(loggedUserUsername, getToken().substring(7), currUsername)
+        getAllInquiriesForUser(loggedUserUsername(), getToken().substring(7), currUsername)
             .then((data) => {
                 setInquiries(data)
                 setSelectedUser(currUsername)

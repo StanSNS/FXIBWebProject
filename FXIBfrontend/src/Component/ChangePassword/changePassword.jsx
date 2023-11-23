@@ -51,7 +51,7 @@ export default function ChangePassword() {
             return;
         }
         try {
-            await changeUserPassword(loggedUserUsername, getToken().substring(7), oldPassword, newPassword);
+            await changeUserPassword(loggedUserUsername(), getToken().substring(7), oldPassword, newPassword);
             setShowSuccessModal(true);
         } catch (error) {
             setErrorMessage("Failed to change password.");

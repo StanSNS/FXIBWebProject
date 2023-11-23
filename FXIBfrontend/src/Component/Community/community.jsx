@@ -104,7 +104,7 @@ const Community = () => {
     // Fetch user data and display terms modal if needed.
     useEffect(() => {
         if (isAuth) {
-            getUserAgreedToTermsAndConditions(loggedUserUsername, getToken().substring(7))
+            getUserAgreedToTermsAndConditions(loggedUserUsername(), getToken().substring(7))
                 .then((data) => {
                     if (data.agreedToTerms === false) {
                         if (!isBanned) {
@@ -130,7 +130,7 @@ const Community = () => {
 
     // Handles user acceptance of terms and conditions.
     const handleAcceptTerms = () => {
-        setUserAgreedToTermsAndConditions(loggedUserUsername, getToken().substring(7), true)
+        setUserAgreedToTermsAndConditions(loggedUserUsername(), getToken().substring(7), true)
             .then((data) => {
                 handleHideTerms();
                 setUserDetails(data)
@@ -152,7 +152,7 @@ const Community = () => {
 
     // Fetches questions based on the selected topic.
     const fetchQuestionsByTopic = (topic) => {
-        getAllQuestions(topic, loggedUserUsername, getToken())
+        getAllQuestions(topic, loggedUserUsername(), getToken())
             .then((data) => {
                 setAllQuestions(data);
                 setNewQuestionContent("");
@@ -181,10 +181,10 @@ const Community = () => {
                 const updatedAnswers = question.answers.map((answer) => {
                     if (answer.id === answerId) {
                         if (!answer.liked) {
-                            increaseAnswerVoteCount(loggedUserUsername, getToken().substring(7), answerId)
+                            increaseAnswerVoteCount(loggedUserUsername(), getToken().substring(7), answerId)
                             return {...answer, voteCount: answer.voteCount + 1, liked: true};
                         } else {
-                            decreaseAnswerVoteCount(loggedUserUsername, getToken().substring(7), answerId)
+                            decreaseAnswerVoteCount(loggedUserUsername(), getToken().substring(7), answerId)
                             return {...answer, voteCount: answer.voteCount - 1, liked: false};
                         }
                     }
@@ -218,7 +218,7 @@ const Community = () => {
             setQuestionErrorMessage("Question must be max 1500 characters.")
             return;
         }
-        addNewQuestion(loggedUserUsername, getToken().substring(7), newQuestionContent, selectedTopic)
+        addNewQuestion(loggedUserUsername(), getToken().substring(7), newQuestionContent, selectedTopic)
             .then((data) => {
                 const updatedQuestions = [...allQuestions, data];
                 setAllQuestions(updatedQuestions);
@@ -242,7 +242,7 @@ const Community = () => {
             setAnswerInputErrors({...answerInputErrors, [questionId]: "Answer must be max 1500 characters."});
             return;
         }
-        addNewAnswerToTheQuestion(loggedUserUsername, getToken().substring(7), answerInputs[questionId], questionId)
+        addNewAnswerToTheQuestion(loggedUserUsername(), getToken().substring(7), answerInputs[questionId], questionId)
             .then((data) => {
                 const updatedQuestions = allQuestions.map((question) => {
                     if (question.id === questionId) {
@@ -289,7 +289,7 @@ const Community = () => {
 
     // Toggles a question's solved status.
     const toggleSolvedNotSolved = (questionID) => {
-        setSolvedQuestion(loggedUserUsername, getToken().substring(7), questionID)
+        setSolvedQuestion(loggedUserUsername(), getToken().substring(7), questionID)
             .then(() => {
                 const updatedQuestions = [...allQuestions];
                 const questionIndex = updatedQuestions.findIndex((question) => question.id === questionID);
@@ -325,7 +325,7 @@ const Community = () => {
 
     // Handles deleting a question.
     const handleDeleteQuestion = () => {
-        deleteQuestionID(loggedUserUsername, getToken().substring(7), selectedQuestionId)
+        deleteQuestionID(loggedUserUsername(), getToken().substring(7), selectedQuestionId)
             .then(() => {
                 if (selectedQuestionId) {
                     const updatedQuestions = allQuestions.filter((question) => question.id !== selectedQuestionId);
@@ -344,7 +344,7 @@ const Community = () => {
 
     // Handles deleting an answer.
     const handleDeleteAnswer = () => {
-        deleteAnswerID(loggedUserUsername, getToken().substring(7), selectedAnswerId)
+        deleteAnswerID(loggedUserUsername(), getToken().substring(7), selectedAnswerId)
             .then(() => {
                 if (selectedAnswerId) {
                     const updatedQuestions = allQuestions.map((question) => {
@@ -547,7 +547,7 @@ const Community = () => {
                                             ? <span className="notSolvedText">Not Solved</span>
                                             : <span className="solvedText">Solved</span>}
                                     </span>
-                                    {question.writer === loggedUserUsername && question.solved === false &&
+                                    {question.writer === loggedUserUsername() && question.solved === false &&
                                         <span className="checkbox-wrapper-25 ml-4 mt-2">
                                               <input type="checkbox"
                                                      onClick={() => toggleSolvedNotSolved(question.id)}/>

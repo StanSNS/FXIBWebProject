@@ -52,7 +52,7 @@ export default function Header() {
     useEffect(() => {
         async function fetchUserDetails() {
             try {
-                const userDetailsResponse = await getUserDetailsService(loggedUserUsername, getToken().substring(7));
+                const userDetailsResponse = await getUserDetailsService(loggedUserUsername(), getToken().substring(7));
                 setUserDetails(userDetailsResponse);
                 setIsUserDetailsLoading(false)
             } catch (error) {
@@ -67,7 +67,7 @@ export default function Header() {
 
     // Function to handle showing the user transactions
     const handleShowTransactions = async () => {
-        getAllUserTransactions(loggedUserUsername, getToken().substring(7))
+        getAllUserTransactions(loggedUserUsername(), getToken().substring(7))
             .then((data) => {
                 setUserTransactions(data)
                 setIsTransactionsLoading(false)
@@ -85,8 +85,8 @@ export default function Header() {
     // Function to update the user's biography
     const updateUserBiography = async () => {
         try {
-            await updateUserBiographyService(loggedUserUsername, getToken().substring(7), editedBiography);
-            const userDetailsResponse = await getUserDetailsService(loggedUserUsername, getToken().substring(7));
+            await updateUserBiographyService(loggedUserUsername(), getToken().substring(7), editedBiography);
+            const userDetailsResponse = await getUserDetailsService(loggedUserUsername(), getToken().substring(7));
             setUserDetails(userDetailsResponse);
         } catch (error) {
             console.error("Error updating user biography:" + error);
@@ -126,10 +126,9 @@ export default function Header() {
 
     // Function to handle user logout
     function handleLogout() {
-        logoutUser(loggedUserUsername, getToken().substring(7))
+        logoutUser(loggedUserUsername(), getToken().substring(7))
             .then((response) => {
                 if (response.status === 200) {
-                    console.log("Its working")
                     setShowUserDetailsModal(false);
                     logout();
                     navigator('/')
@@ -191,8 +190,8 @@ export default function Header() {
                         </Link>
                         {(isAuth &&
                             <Link to="" className="nav-link" onClick={() => handleShowUserDetailsModal()}>
-                                {loggedUserUsername && (
-                                    <span>@{loggedUserUsername.toUpperCase()}</span>
+                                {loggedUserUsername() && (
+                                    <span>@{loggedUserUsername().toUpperCase()}</span>
                                 )}
                             </Link>
                         )}
@@ -327,7 +326,7 @@ export default function Header() {
 
 
                         <div className=" customMessageStyleTopModal mt-1 font-weight-bolder">These transactions were
-                            made with <span className="customLinkDesign">EMAIL: </span> {loggedUserEmail}
+                            made with <span className="customLinkDesign">EMAIL: </span> {loggedUserEmail()}
                         </div>
 
 

@@ -43,7 +43,7 @@ export const getAllInquiriesForUser = (username, jwtToken, currentUsername) => {
 };
 
 // Function to update the roles of a user.
-export const updateBlockedUserRoles = (loggedUsername,jwtToken, banUsername, roles) => {
+export const updateBlockedUserRoles = (loggedUsername, jwtToken, banUsername, roles) => {
     return axios.put(`http://localhost:8000/admin?banUsername=${banUsername}&loggedUsername=${loggedUsername}&jwtToken=${jwtToken}`, roles)
         .then((response) => {
             if (response.status === 200) {

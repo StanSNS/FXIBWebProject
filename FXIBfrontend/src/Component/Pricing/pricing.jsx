@@ -45,7 +45,7 @@ export default function Pricing() {
 
         if (redirectUrl) {
             // If a redirect URL is set, open it in a new tab or window
-            window.open(redirectUrl + "?prefilled_email=" + loggedUserEmail, '_blank');
+            window.open(redirectUrl + "?prefilled_email=" + loggedUserEmail(), '_blank');
         }
     };
 

@@ -20,7 +20,6 @@ import Error404 from "./Component/Errors/404/error404";
 import {isAdministrator, isUserLoggedIn} from "./Service/AuthService";
 import ResetPasswordUpdate from "./Component/ResetPasswordUpdate/ResetPasswordUpdate";
 import TwoFactorAuth from "./Component/TwoFactorAuth/twoFactorAuth";
-// import {SkeletonTheme} from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css'
 import {SkeletonTheme} from "react-loading-skeleton";
 
