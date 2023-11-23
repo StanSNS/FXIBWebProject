@@ -1,7 +1,8 @@
 package fxibBackend.constants;
 
 public class ConfigConst {
-    public final static String CUSTOM_DATE_FORMAT = "dd MMM yyyy HH:mm";
+    public final static String CUSTOM_DATE_FORMAT_PRESENT = "dd MMM yyyy HH:mm";
+    public final static String CUSTOM_DATE_FORMAT_RECEIVED = "MM/dd/yyyy HH:mm";
     public final static String EMAIL_HOST = "smtp.gmail.com";
     public final static int EMAIL_PORT = 587;
     public final static String EMAIL_ORIGIN = "forexindicesbulgaria@gmail.com";

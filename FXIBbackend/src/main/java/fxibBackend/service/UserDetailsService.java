@@ -14,6 +14,7 @@ import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.repository.InquiryEntityRepository;
 import fxibBackend.repository.TransactionEntityRepository;
 import fxibBackend.repository.UserEntityRepository;
+import fxibBackend.util.CustomDateFormatter;
 import fxibBackend.util.ValidateData;
 import fxibBackend.util.ValidationUtil;
 import jakarta.mail.MessagingException;
@@ -25,13 +26,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static fxibBackend.constants.ConfigConst.CUSTOM_DATE_FORMAT;
 import static fxibBackend.constants.OtherConst.*;
 import static fxibBackend.constants.ResponseConst.*;
 
@@ -51,6 +50,7 @@ public class UserDetailsService {
     private final TransactionEntityRepository transactionEntityRepository;
     private final EmailService emailService;
     private final InquiryEntityRepository inquiryEntityRepository;
+    private final CustomDateFormatter customDateFormatter;
 
     /**
      * Retrieves user details DTO based on the provided username and JWT token.
@@ -220,16 +220,16 @@ public class UserDetailsService {
     /**
      * Validates user data with JWT, creates and saves an inquiry entity, and sends an email.
      *
-     * @param title     The title of the inquiry.
-     * @param content   The content of the inquiry.
-     * @param username  The username associated with the inquiry.
-     * @param jwtToken  The JWT token for authorization.
+     * @param title    The title of the inquiry.
+     * @param content  The content of the inquiry.
+     * @param username The username associated with the inquiry.
+     * @param jwtToken The JWT token for authorization.
      * @throws MessagingException If there is an issue with sending the email.
      */
     public void sendInquiryEmailAndSave(String title, String content, String username, String jwtToken) throws MessagingException {
         UserEntity userEntity = validateData.validateUserWithJWT(username, jwtToken);
         InquiryEntity inquiryEntity = new InquiryEntity();
-        inquiryEntity.setDate(formatLocalDateTimeAsString(LocalDateTime.now()));
+        inquiryEntity.setDate(customDateFormatter.formatLocalDateTimeNowAsString(LocalDateTime.now()));
         inquiryEntity.setContent(content);
         inquiryEntity.setTitle(title);
         inquiryEntity.setCustomID(getRandomCustomIDNumber());
@@ -237,18 +237,6 @@ public class UserDetailsService {
         inquiryEntityRepository.save(inquiryEntity);
 
         emailService.sendInquiryEmail(inquiryEntity);
-    }
-
-
-    /**
-     * Formats a LocalDateTime object as a string using a custom date format.
-     *
-     * @param localDateTime The LocalDateTime object to be formatted.
-     * @return The formatted date string.
-     */
-    private String formatLocalDateTimeAsString(LocalDateTime localDateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(CUSTOM_DATE_FORMAT);
-        return localDateTime.format(formatter);
     }
 
 
@@ -262,7 +250,7 @@ public class UserDetailsService {
         int max = 99999999; // Largest 8-digit number
         String randomNumber = "INQ-" + (new Random().nextInt(max - min + 1) + min);
 
-        if (inquiryEntityRepository.existsByCustomID(randomNumber) ) {
+        if (inquiryEntityRepository.existsByCustomID(randomNumber)) {
             getRandomCustomIDNumber();
         }
 

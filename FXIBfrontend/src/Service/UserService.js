@@ -62,7 +62,7 @@ export const getAllUsernamesAndEmails = () => {
 
 
 // Function to get user details for a specific username and JWT token.
-export const getUserDetailsService = (username, jwtToken) => {
+export const getUserDetails = (username, jwtToken) => {
     const url = `http://localhost:8000?action=getAllUserDetails&username=${username}&jwtToken=${jwtToken}`
     return axios.get(url)
         .then((response) => {

@@ -10,6 +10,7 @@ import fxibBackend.exception.*;
 import fxibBackend.repository.RoleEntityRepository;
 import fxibBackend.repository.UserEntityRepository;
 import fxibBackend.security.JWT.JwtTokenProvider;
+import fxibBackend.util.CustomDateFormatter;
 import fxibBackend.util.ValidationUtil;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
@@ -53,6 +54,7 @@ public class AuthService {
     private final ValidationUtil validationUtil;
     private final EmailService emailService;
     private final LocationService locationService;
+    private final CustomDateFormatter customDateFormatter;
 
     /**
      * Registers a new user with the provided RegisterDTO information.
@@ -78,7 +80,7 @@ public class AuthService {
         user.setUsername(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-        user.setRegistrationDate(LocalDateTime.now());
+        user.setRegistrationDate(customDateFormatter.formatLocalDateTimeNowAsString(LocalDateTime.now()));
         user.setSubscription(DEFAULT_USER_SUBSCRIPTION);
         user.setBiography("");
         user.setResetToken("");

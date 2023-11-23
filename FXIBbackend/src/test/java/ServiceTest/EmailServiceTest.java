@@ -8,6 +8,7 @@ import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.repository.UserEntityRepository;
 import fxibBackend.service.EmailService;
+import fxibBackend.util.CustomDateFormatter;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.Before;
@@ -16,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static fxibBackend.constants.ResponseConst.PASSWORD_CHANGE_EMAIL_SENT_SUCCESSFULLY;
@@ -29,6 +31,8 @@ public class EmailServiceTest {
     @Mock
     private MimeMessage mimeMessage;
     @Mock
+    private CustomDateFormatter customDateFormatter;
+    @Mock
     private UserEntityRepository userEntityRepository;
     @Mock
     private JavaMailSender javaMailSender;
@@ -39,7 +43,8 @@ public class EmailServiceTest {
         userEntityRepository = Mockito.mock(UserEntityRepository.class);
         javaMailSender = Mockito.mock(JavaMailSender.class);
         mimeMessage = Mockito.mock(MimeMessage.class);
-        emailService = new EmailService(userEntityRepository, javaMailSender);
+        customDateFormatter = Mockito.mock(CustomDateFormatter.class);
+        emailService = new EmailService(userEntityRepository, javaMailSender,customDateFormatter);
     }
 
     @Test
@@ -124,7 +129,7 @@ public class EmailServiceTest {
 
     @Test
     public void testSendInquiryEmail() throws MessagingException {
-        EmailService emailService = new EmailService(userEntityRepository, javaMailSender);
+        EmailService emailService = new EmailService(userEntityRepository, javaMailSender,customDateFormatter);
 
         InquiryEntity inquiryEntity = new InquiryEntity();
         inquiryEntity.setTitle("Test Inquiry");
@@ -144,7 +149,7 @@ public class EmailServiceTest {
 
     @Test
     public void testSendBanUserEmail() throws MessagingException {
-        EmailService emailService = new EmailService(userEntityRepository, javaMailSender);
+        EmailService emailService = new EmailService(userEntityRepository, javaMailSender,customDateFormatter);
 
         UserEntity bannedUser = new UserEntity();
         bannedUser.setUsername("bannedUser");
@@ -159,7 +164,7 @@ public class EmailServiceTest {
 
     @Test
     public void testSendUnbanUserEmail() throws MessagingException {
-        EmailService emailService = new EmailService(userEntityRepository, javaMailSender);
+        EmailService emailService = new EmailService(userEntityRepository, javaMailSender,customDateFormatter);
 
         UserEntity unbannedUser = new UserEntity();
         unbannedUser.setUsername("unbannedUser");

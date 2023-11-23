@@ -8,13 +8,14 @@ import {
     getToken,
     isAdministrator,
     isUserBanned,
-    isUserLoggedIn, loggedUserEmail,
+    isUserLoggedIn,
+    loggedUserEmail,
     loggedUserUsername,
     logout
 } from "../../../Service/AuthService";
 import {
     getAllUserTransactions,
-    getUserDetailsService,
+    getUserDetails,
     logoutUser,
     updateUserBiographyService
 } from "../../../Service/UserService";
@@ -52,7 +53,7 @@ export default function Header() {
     useEffect(() => {
         async function fetchUserDetails() {
             try {
-                const userDetailsResponse = await getUserDetailsService(loggedUserUsername(), getToken().substring(7));
+                const userDetailsResponse = await getUserDetails(loggedUserUsername(), getToken().substring(7));
                 setUserDetails(userDetailsResponse);
                 setIsUserDetailsLoading(false)
             } catch (error) {
@@ -86,7 +87,7 @@ export default function Header() {
     const updateUserBiography = async () => {
         try {
             await updateUserBiographyService(loggedUserUsername(), getToken().substring(7), editedBiography);
-            const userDetailsResponse = await getUserDetailsService(loggedUserUsername(), getToken().substring(7));
+            const userDetailsResponse = await getUserDetails(loggedUserUsername(), getToken().substring(7));
             setUserDetails(userDetailsResponse);
         } catch (error) {
             console.error("Error updating user biography:" + error);
@@ -137,21 +138,6 @@ export default function Header() {
             }).catch((error) => {
             console.error(error)
         })
-    }
-
-    // Function to format a date string
-    function formatDate(inputDate) {
-        const monthNames = [
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-        ];
-        const localDateTime = new Date(inputDate);
-        const year = localDateTime.getFullYear().toString();
-        const month = monthNames[localDateTime.getMonth()];
-        const day = localDateTime.getDate().toString().padStart(2, '0');
-        const hour = localDateTime.getHours().toString().padStart(2, '0');
-        const minute = localDateTime.getMinutes().toString().padStart(2, '0');
-        return `${day}.${month}.${year} ${hour}:${minute}`;
     }
 
     return (
@@ -230,7 +216,7 @@ export default function Header() {
                                 </p>
                                 <p className="mb-1">
                                     <span className={paintClass}> <strong> Registration Date: </strong></span>
-                                    {formatDate(userDetails.registrationDate)}
+                                    {userDetails.registrationDate}
                                 </p>
                                 <p className="mb-1">
                                     <span className={paintClass}> <strong> Subscription Plan: </strong></span>

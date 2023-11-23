@@ -44,7 +44,7 @@ public class UserEntity extends BaseEntity {
 
     @Column
     @NotNull
-    private LocalDateTime registrationDate;
+    private String registrationDate;
 
     @Column
     @Size(max = 95)

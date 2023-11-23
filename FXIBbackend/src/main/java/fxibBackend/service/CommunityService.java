@@ -4,14 +4,17 @@ import fxibBackend.dto.CommunityDTOS.AnswerDTO;
 import fxibBackend.dto.CommunityDTOS.CommunityAgreeToTermsAndConditionsDTO;
 import fxibBackend.dto.CommunityDTOS.QuestionDTO;
 import fxibBackend.dto.CommunityDTOS.TopicDTO;
-import fxibBackend.entity.*;
+import fxibBackend.entity.AnswerEntity;
+import fxibBackend.entity.AnswerLikeEntity;
+import fxibBackend.entity.QuestionEntity;
+import fxibBackend.entity.UserEntity;
 import fxibBackend.entity.enums.TopicEnum;
 import fxibBackend.exception.AccessDeniedException;
 import fxibBackend.exception.DataValidationException;
 import fxibBackend.exception.InternalErrorException;
 import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.repository.*;
-import fxibBackend.repository.TopicEntityRepository;
+import fxibBackend.util.CustomDateFormatter;
 import fxibBackend.util.ValidateData;
 import fxibBackend.util.ValidationUtil;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +22,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static fxibBackend.constants.ConfigConst.CUSTOM_DATE_FORMAT;
 import static fxibBackend.constants.ResponseConst.ANSWER_DELETED_SUCCESSFULLY;
 import static fxibBackend.constants.ResponseConst.QUESTION_DELETED_SUCCESSFULLY;
 
@@ -44,6 +45,7 @@ public class CommunityService {
     private final ValidateData validateData;
     private final ValidationUtil validationUtil;
     private final TopicEntityRepository topicEntityRepository;
+    private final CustomDateFormatter customDateFormatter;
 
     /**
      * Sets the terms and conditions agreement status for a user.
@@ -222,7 +224,7 @@ public class CommunityService {
         question.setContent(content);
         question.setTopicEntity(topicEntityRepository.findTopicEntityByTopicEnum(TopicEnum.getFromText(topic)));
         question.setAnswers(new ArrayList<>());
-        question.setDate(formatLocalDateTimeAsString(LocalDateTime.now()));
+        question.setDate(customDateFormatter.formatLocalDateTimeNowAsString(LocalDateTime.now()));
         question.setSolved(false);
         question.setWriter(username);
         question.setDeleted(false);
@@ -245,17 +247,6 @@ public class CommunityService {
         return questionDTO;
     }
 
-
-    /**
-     * Formats a LocalDateTime object as a string using a custom date-time format.
-     *
-     * @param localDateTime The LocalDateTime object to be formatted.
-     * @return A string representation of the LocalDateTime in the specified format.
-     */
-    private String formatLocalDateTimeAsString(LocalDateTime localDateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(CUSTOM_DATE_FORMAT);
-        return localDateTime.format(formatter);
-    }
 
     /**
      * Adds a new answer to a question.
@@ -289,7 +280,7 @@ public class CommunityService {
         // Create a new AnswerEntity with the provided content and user information.
         AnswerEntity answer = new AnswerEntity();
         answer.setContent(content);
-        answer.setDate(formatLocalDateTimeAsString(LocalDateTime.now()));
+        answer.setDate(customDateFormatter.formatLocalDateTimeNowAsString(LocalDateTime.now()));
         answer.setWriter(username);
         answer.setVoteCount(0L);
         answer.setDeleted(false);

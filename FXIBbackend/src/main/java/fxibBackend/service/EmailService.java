@@ -7,6 +7,7 @@ import fxibBackend.entity.TransactionEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.repository.UserEntityRepository;
+import fxibBackend.util.CustomDateFormatter;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class EmailService {
      */
     private final UserEntityRepository userEntityRepository;
     private final JavaMailSender javaMailSender;
+    private final CustomDateFormatter customDateFormatter;
 
     /**
      * Sends a reset password email to the specified email address.
@@ -229,7 +231,7 @@ public class EmailService {
 
         helper.setText(String.format(USER_BAN_HTML_TEMPLATE
                         , bannedUser.getUsername()
-                        , LocalDateTime.now())
+                        , customDateFormatter.formatLocalDateTimeNowAsString(LocalDateTime.now()))
                 , true);
 
         javaMailSender.send(message);
@@ -250,7 +252,7 @@ public class EmailService {
 
         helper.setText(String.format(USER_UNBAN_HTML_TEMPLATE
                         , bannedUser.getUsername()
-                        , LocalDateTime.now())
+                        , customDateFormatter.formatLocalDateTimeNowAsString(LocalDateTime.now()))
                 , true);
 
         javaMailSender.send(message);

@@ -11,6 +11,7 @@ import fxibBackend.exception.DataValidationException;
 import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.repository.*;
 import fxibBackend.service.CommunityService;
+import fxibBackend.util.CustomDateFormatter;
 import fxibBackend.util.ValidateData;
 import fxibBackend.util.ValidationUtil;
 import org.junit.Assert;
@@ -53,6 +54,8 @@ public class CommunityServiceTests {
     private ValidationUtil validationUtil;
     @Mock
     private TopicEntityRepository topicEntityRepository;
+    @Mock
+    private CustomDateFormatter customDateFormatter;
 
     @Before
     public void setup() {
@@ -191,6 +194,7 @@ public class CommunityServiceTests {
         userEntity.setAgreedToTerms(true);
         userEntity.setQuestions(new ArrayList<>());
         TopicEntity topicEntity = new TopicEntity();
+
         when(validateData.validateUserWithJWT(anyString(), anyString())).thenReturn(userEntity);
         when(validateData.isUserBanned(anySet())).thenReturn(false);
         when(topicEntityRepository.findTopicEntityByTopicEnum(any())).thenReturn(topicEntity);

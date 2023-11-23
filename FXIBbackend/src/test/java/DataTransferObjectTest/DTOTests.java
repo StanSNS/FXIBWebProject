@@ -367,13 +367,13 @@ public class DTOTests {
         UserDetailsDTO userDetailsDTO = new UserDetailsDTO();
         userDetailsDTO.setUsername("User123");
         userDetailsDTO.setEmail("user@example.com");
-        userDetailsDTO.setRegistrationDate(LocalDateTime.of(1, 1, 1, 1, 1));
+        userDetailsDTO.setRegistrationDate("1.1.1.1.1");
         userDetailsDTO.setSubscription("Gold");
         userDetailsDTO.setBiography("This is a test biography");
 
         assertEquals("User123", userDetailsDTO.getUsername());
         assertEquals("user@example.com", userDetailsDTO.getEmail());
-        assertEquals(LocalDateTime.of(1, 1, 1, 1, 1), userDetailsDTO.getRegistrationDate());
+        assertEquals("1.1.1.1.1", userDetailsDTO.getRegistrationDate());
         assertEquals("Gold", userDetailsDTO.getSubscription());
         assertEquals("This is a test biography", userDetailsDTO.getBiography());
     }

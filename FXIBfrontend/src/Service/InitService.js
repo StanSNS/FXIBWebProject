@@ -9,7 +9,6 @@ axios.interceptors.request.use(
         return config;
     },
     function (error) {
-        console.log("We are here BUDDY")
         return Promise.reject(error);
     }
 );

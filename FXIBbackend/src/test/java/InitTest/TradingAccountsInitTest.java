@@ -5,6 +5,7 @@ import fxibBackend.inits.TradingAccountsInit;
 import fxibBackend.inits.TradingAccountJSONObjects.*;
 import fxibBackend.repository.TradeEntityRepository;
 import fxibBackend.repository.TradingAccountEntityRepository;
+import fxibBackend.util.CustomDateFormatter;
 import fxibBackend.util.ValidationUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,8 @@ public class TradingAccountsInitTest {
     @Mock
     private Gson gson;
     @Mock
+    private CustomDateFormatter customDateFormatter;
+    @Mock
     private ModelMapper modelMapper;
     @Mock
     private ValidationUtil validationUtil;
@@ -41,7 +44,8 @@ public class TradingAccountsInitTest {
                 tradingAccountEntityRepository,
                 gson,
                 modelMapper,
-                validationUtil
+                validationUtil,
+                customDateFormatter
         );
     }
 

@@ -16,6 +16,7 @@ import fxibBackend.repository.UserEntityRepository;
 import fxibBackend.security.JWT.JwtTokenProvider;
 import fxibBackend.service.EmailService;
 import fxibBackend.service.LocationService;
+import fxibBackend.util.CustomDateFormatter;
 import fxibBackend.util.ValidationUtil;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,6 +61,9 @@ public class AuthServiceTest {
     private EmailService emailService;
     @Mock
     private LocationService locationService;
+
+    @Mock
+    private CustomDateFormatter customDateFormatter;
     private fxibBackend.service.AuthService authService;
 
     @BeforeEach
@@ -68,7 +72,7 @@ public class AuthServiceTest {
         authService = new fxibBackend.service.AuthService(
                 userRepository, roleRepository, passwordEncoder,
                 authenticationManager, jwtTokenProvider, modelMapper,
-                validationUtil, emailService, locationService
+                validationUtil, emailService, locationService,customDateFormatter
         );
     }
 

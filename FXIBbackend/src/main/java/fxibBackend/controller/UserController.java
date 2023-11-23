@@ -41,11 +41,10 @@ public class UserController {
     @GetMapping
     public ResponseEntity<?> getUserDetails(@RequestParam String action, @RequestParam String username, @RequestParam String jwtToken) throws StripeException {
         // Handle user details or transactions request based on the provided action
+
         return switch (action) {
-            case GET_ALL_USER_DETAILS ->
-                    new ResponseEntity<>(userDetailsService.getUserDetailsDTO(username, jwtToken), HttpStatus.OK);
-            case GET_ALL_USER_TRANSACTIONS ->
-                    new ResponseEntity<>(userDetailsService.getAllUserTransactions(username, jwtToken), HttpStatus.OK);
+            case GET_ALL_USER_DETAILS -> new ResponseEntity<>(userDetailsService.getUserDetailsDTO(username, jwtToken), HttpStatus.OK);
+            case GET_ALL_USER_TRANSACTIONS -> new ResponseEntity<>(userDetailsService.getAllUserTransactions(username, jwtToken), HttpStatus.OK);
             default -> throw new MissingParameterException();
         };
     }

@@ -25,7 +25,7 @@ public class UserDetailsDTO {
     private String email;
 
     @NotNull
-    private LocalDateTime registrationDate;
+    private String registrationDate;
 
     private String subscription;
 

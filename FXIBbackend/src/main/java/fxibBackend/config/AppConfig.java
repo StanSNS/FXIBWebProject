@@ -2,16 +2,11 @@ package fxibBackend.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.ipgeolocation.api.Geolocation;
-import io.ipgeolocation.api.IPGeolocationAPI;
-import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 import static fxibBackend.constants.ConfigConst.*;
@@ -37,15 +32,7 @@ public class AppConfig {
      */
     @Bean
     public ModelMapper modelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.addConverter(new AbstractConverter<LocalDateTime, String>() {
-            @Override
-            protected String convert(LocalDateTime source) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(CUSTOM_DATE_FORMAT);
-                return source.format(formatter);
-            }
-        });
-        return modelMapper;
+        return new ModelMapper();
     }
 
     /**

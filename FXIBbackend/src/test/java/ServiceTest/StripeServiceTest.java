@@ -5,21 +5,16 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import com.stripe.model.ChargeCollection;
 import fxibBackend.dto.UserDetailsDTO.StripeTransactionDTO;
-import fxibBackend.repository.TopicEntityRepository;
 import fxibBackend.repository.TransactionEntityRepository;
 import fxibBackend.service.StripeService;
+import fxibBackend.util.CustomDateFormatter;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static fxibBackend.constants.ConfigConst.CUSTOM_DATE_FORMAT;
 import static fxibBackend.constants.OtherConst.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -37,9 +32,12 @@ public class StripeServiceTest {
     @Mock
     private TransactionEntityRepository transactionEntityRepository;
 
+    @Mock
+    private CustomDateFormatter customDateFormatter;
+
     @Before
     public void setUp() {
-        stripeService = new StripeService(transactionEntityRepository);
+        stripeService = new StripeService(transactionEntityRepository, customDateFormatter);
     }
 
     @Test
@@ -64,26 +62,6 @@ public class StripeServiceTest {
         assertEquals(0, result.size());
     }
 
-    @Test
-    public void testTimeStampToDate() {
-        long timestamp = 1635618727;
-        LocalDateTime expectedDateTime = LocalDateTime.ofInstant(
-                Instant.ofEpochSecond(timestamp),
-                ZoneId.systemDefault()
-        );
-
-        LocalDateTime result = stripeService.timeStampToDate(timestamp);
-        assertEquals(expectedDateTime, result);
-    }
-
-    @Test
-    public void testFormatLocalDateTimeAsString() {
-        LocalDateTime dateTime = LocalDateTime.of(2023, 10, 31, 12, 0, 0); // Replace with a valid date and time
-        String expectedFormattedDate = dateTime.format(DateTimeFormatter.ofPattern(CUSTOM_DATE_FORMAT));
-
-        String result = stripeService.formatLocalDateTimeAsString(dateTime);
-        assertEquals(expectedFormattedDate, result);
-    }
 
     @Test
     public void testTransformToDuration() {

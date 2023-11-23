@@ -13,6 +13,7 @@ import fxibBackend.inits.TradingAccountJSONObjects.TradeJSON;
 import fxibBackend.inits.TradingAccountJSONObjects.TradingAccountResponseJSON;
 import fxibBackend.repository.TradeEntityRepository;
 import fxibBackend.repository.TradingAccountEntityRepository;
+import fxibBackend.util.CustomDateFormatter;
 import fxibBackend.util.ValidationUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -41,11 +42,14 @@ public class TradingAccountsInit {
     private final Gson gson;
     private final ModelMapper modelMapper;
     private final ValidationUtil validationUtil;
+    private final CustomDateFormatter customDateFormatter;
+
     private final String sessionID = MYFXBOOK_SESSION_ID;
 
     /**
      * Initializes trading accounts and their associated trades if no records exist in the repositories.
      * Fetches trading account data from MyFxBook and saves it as TradingAccountEntity and TradeEntity records.
+     *
      * @throws IOException if there's an issue with network communication.
      */
     @PostConstruct
@@ -71,13 +75,20 @@ public class TradingAccountsInit {
                         throw new DataValidationException();
                     }
                     TradeEntity tradeEntity = modelMapper.map(tradeDTO, TradeEntity.class);
+                    tradeEntity.setOpenTime(customDateFormatter.formatCustomDateTime(tradeDTO.getOpenTime()));
+                    tradeEntity.setCloseTime(customDateFormatter.formatCustomDateTime(tradeDTO.getCloseTime()));
+
                     tradeEntityRepository.save(tradeEntity);
                     tradeEntityList.add(tradeEntity);
                 }
 
                 // Map the trading account data to a TradingAccountEntity and save it
                 TradingAccountEntity tradingAccountEntity = modelMapper.map(tradingAccountDTO, TradingAccountEntity.class);
+                tradingAccountEntity.setCreationDate(customDateFormatter.formatCustomDateTime(tradingAccountDTO.getCreationDate()));
+                tradingAccountEntity.setFirstTradeDate(customDateFormatter.formatCustomDateTime(tradingAccountDTO.getFirstTradeDate()));
+                tradingAccountEntity.setLastUpdateDate(customDateFormatter.formatCustomDateTime(tradingAccountDTO.getLastUpdateDate()));
                 tradingAccountEntity.setTrades(tradeEntityList);
+
                 tradingAccountEntityRepository.save(tradingAccountEntity);
             }
         }
@@ -86,6 +97,7 @@ public class TradingAccountsInit {
 
     /**
      * Retrieves all trading accounts from MyFxBook.
+     *
      * @return A TradingAccountResponseJSON containing trading account information.
      * @throws IOException if there's an issue with network communication.
      */
@@ -105,6 +117,7 @@ public class TradingAccountsInit {
 
     /**
      * Retrieves trade history for a specific trading account using its account ID.
+     *
      * @param accountID The unique account ID of the trading account.
      * @return A TradeHistoryJSON containing trade history information.
      * @throws IOException if there's an issue with network communication.
@@ -117,6 +130,7 @@ public class TradingAccountsInit {
 
     /**
      * Parses raw JSON data from a URL and returns it as a JSON string.
+     *
      * @param urlData The URL containing the raw JSON data to be fetched and parsed.
      * @return A JSON string containing the fetched data.
      * @throws IOException if there's an issue with network communication.

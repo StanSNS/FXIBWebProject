@@ -7,19 +7,16 @@ import com.stripe.model.ChargeCollection;
 import fxibBackend.dto.UserDetailsDTO.StripeTransactionDTO;
 import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.repository.TransactionEntityRepository;
+import fxibBackend.util.CustomDateFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static fxibBackend.constants.ConfigConst.CUSTOM_DATE_FORMAT;
 import static fxibBackend.constants.ConfigConst.STRIPE_API_KEY;
 import static fxibBackend.constants.OtherConst.*;
 
@@ -28,6 +25,7 @@ import static fxibBackend.constants.OtherConst.*;
 public class StripeService {
 
     private final TransactionEntityRepository transactionEntityRepository;
+    private final CustomDateFormatter customDateFormatter;
 
 
     /**
@@ -48,23 +46,25 @@ public class StripeService {
         }
         for (Charge charge : charges.getData()) {
             if (charge.getBillingDetails().getEmail().equals(email)) {
-                LocalDateTime billingDate = timeStampToDate(charge.getCreated());
+                LocalDateTime billingDate = customDateFormatter.timeStampToDate(charge.getCreated());
                 String amount = charge.getAmount().toString();
                 String duration = transformToDuration(amount);
                 LocalDateTime endOfBillingDate = billingDate.plusMonths(Long.parseLong(duration.split(" ")[0]));
                 String currency = charge.getCurrency();
                 String card = charge.getPaymentMethodDetails().getCard().getBrand() + " " + charge.getPaymentMethodDetails().getCard().getLast4();
                 String amountAsText = (Integer.parseInt(amount) / 100) + " " + currency.toUpperCase();
+
                 StripeTransactionDTO stripeTransactionDTO = new StripeTransactionDTO();
                 stripeTransactionDTO.setUserEmail(email);
-                stripeTransactionDTO.setBillingDate(formatLocalDateTimeAsString(billingDate));
+                stripeTransactionDTO.setBillingDate(customDateFormatter.formatLocalDateTimeNowAsString(billingDate));
                 stripeTransactionDTO.setDuration(duration);
-                stripeTransactionDTO.setEndOfBillingDate(formatLocalDateTimeAsString(endOfBillingDate));
+                stripeTransactionDTO.setEndOfBillingDate(customDateFormatter.formatLocalDateTimeNowAsString(endOfBillingDate));
                 stripeTransactionDTO.setAmount(amountAsText);
                 stripeTransactionDTO.setCard(card);
                 stripeTransactionDTO.setStatus(charge.getStatus());
                 stripeTransactionDTO.setReceipt(charge.getReceiptUrl());
                 stripeTransactionDTO.setDescription(charge.getCalculatedStatementDescriptor());
+
                 if (!transactionEntityRepository
                         .existsByAmountAndBillingDateAndCardAndDurationAndEndOfBillingDateAndUserEmail(
                                 stripeTransactionDTO.getAmount(),
@@ -81,27 +81,8 @@ public class StripeService {
         return transactionDTOS;
     }
 
-    /**
-     * Converts a timestamp to a LocalDateTime object.
-     *
-     * @param timestamp The timestamp to convert.
-     * @return The corresponding LocalDateTime.
-     */
-    public LocalDateTime timeStampToDate(long timestamp) {
-        Instant instant = Instant.ofEpochSecond(timestamp);
-        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-    }
 
-    /**
-     * Formats a LocalDateTime as a string using a custom date format.
-     *
-     * @param localDateTime The LocalDateTime to format.
-     * @return The formatted date as a string.
-     */
-    public String formatLocalDateTimeAsString(LocalDateTime localDateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(CUSTOM_DATE_FORMAT);
-        return localDateTime.format(formatter);
-    }
+
 
     /**
      * Transforms the transaction amount to a duration string based on predefined price constants.

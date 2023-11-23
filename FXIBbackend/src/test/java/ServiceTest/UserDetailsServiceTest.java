@@ -15,6 +15,7 @@ import fxibBackend.repository.UserEntityRepository;
 import fxibBackend.service.EmailService;
 import fxibBackend.service.StripeService;
 import fxibBackend.service.UserDetailsService;
+import fxibBackend.util.CustomDateFormatter;
 import fxibBackend.util.ValidateData;
 import fxibBackend.util.ValidationUtil;
 import jakarta.mail.MessagingException;
@@ -58,7 +59,8 @@ public class UserDetailsServiceTest {
     private ModelMapper modelMapper;
     @Mock
     private TransactionEntityRepository transactionEntityRepository;
-
+    @Mock
+    private CustomDateFormatter customDateFormatter;
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -71,7 +73,8 @@ public class UserDetailsServiceTest {
                 modelMapper,
                 transactionEntityRepository
                 , emailService
-                , inquiryEntityRepository
+                , inquiryEntityRepository,
+                customDateFormatter
         );
     }
 

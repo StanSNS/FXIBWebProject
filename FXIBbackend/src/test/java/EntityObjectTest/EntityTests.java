@@ -249,7 +249,7 @@ public class EntityTests {
         user.setEmail("user@example.com");
         user.setPassword("securePassword");
         user.setSubscription("Free");
-        user.setRegistrationDate(LocalDateTime.of(1, 1, 1, 1, 1));
+        user.setRegistrationDate("1,1,1,1,1,1");
         user.setBiography("Sample biography");
         user.setAgreedToTerms(true);
 
@@ -273,7 +273,7 @@ public class EntityTests {
         assertEquals("user@example.com", user.getEmail());
         assertEquals("securePassword", user.getPassword());
         assertEquals("Free", user.getSubscription());
-        assertEquals(LocalDateTime.of(1, 1, 1, 1, 1), user.getRegistrationDate());
+        assertEquals("1,1,1,1,1,1", user.getRegistrationDate());
         assertEquals("Sample biography", user.getBiography());
         assertTrue(user.getAgreedToTerms());
         assertEquals(1, user.getRoles().size());
