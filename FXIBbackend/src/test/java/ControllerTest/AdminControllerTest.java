@@ -7,7 +7,6 @@ import fxibBackend.dto.AdminDTOS.InquiryDTO;
 import fxibBackend.dto.AdminDTOS.RolesAdminDTO;
 import fxibBackend.exception.MissingParameterException;
 import fxibBackend.service.AdminService;
-import io.jsonwebtoken.MissingClaimException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -87,7 +86,7 @@ public class AdminControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
 
-        verify(adminService, times(1)).setUserNewRoles(banUsername, roles, jwtToken, loggedUsername);
+        verify(adminService, times(1)).banUser(banUsername, roles, jwtToken, loggedUsername);
     }
 
 

@@ -3,6 +3,7 @@ package fxibBackend.controller;
 import fxibBackend.dto.AdminDTOS.RolesAdminDTO;
 import fxibBackend.exception.MissingParameterException;
 import fxibBackend.service.AdminService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,9 +65,9 @@ public class AdminController {
      */
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(ADMIN_CONTROLLER_MAPPING)
-    public ResponseEntity<String> updateBanRoleUser(@RequestParam String jwtToken, @RequestParam String loggedUsername, @RequestParam String banUsername, @RequestBody Set<RolesAdminDTO> roles) {
+    public ResponseEntity<String> updateBanRoleUser(@RequestParam String jwtToken, @RequestParam String loggedUsername, @RequestParam String banUsername, @RequestBody Set<RolesAdminDTO> roles) throws MessagingException {
         // Return a ResponseEntity with a success message and an HTTP OK status if authorized
-        return new ResponseEntity<>(adminService.setUserNewRoles(banUsername, roles, jwtToken, loggedUsername), HttpStatus.OK);
+        return new ResponseEntity<>(adminService.banUser(banUsername, roles, jwtToken, loggedUsername), HttpStatus.OK);
     }
 
 

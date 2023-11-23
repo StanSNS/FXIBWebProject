@@ -2,6 +2,7 @@ package ServiceTest;
 
 import fxibBackend.dto.AuthorizationDTOS.LoginDTO;
 import fxibBackend.dto.UserDetailsDTO.LocationDTO;
+import fxibBackend.entity.InquiryEntity;
 import fxibBackend.entity.TransactionEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.ResourceNotFoundException;
@@ -119,5 +120,57 @@ public class EmailServiceTest {
         verify(javaMailSender, times(1)).send(any(MimeMessage.class));
 
     }
+
+
+    @Test
+    public void testSendInquiryEmail() throws MessagingException {
+        EmailService emailService = new EmailService(userEntityRepository, javaMailSender);
+
+        InquiryEntity inquiryEntity = new InquiryEntity();
+        inquiryEntity.setTitle("Test Inquiry");
+        inquiryEntity.setContent("This is a test inquiry");
+        inquiryEntity.setDate("2023-11-22");
+        inquiryEntity.setCustomID("123");
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail("user@example.com");
+        inquiryEntity.setUserEntity(userEntity);
+
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+
+        emailService.sendInquiryEmail(inquiryEntity);
+
+        verify(javaMailSender, times(1)).send(any(MimeMessage.class));
+    }
+
+    @Test
+    public void testSendBanUserEmail() throws MessagingException {
+        EmailService emailService = new EmailService(userEntityRepository, javaMailSender);
+
+        UserEntity bannedUser = new UserEntity();
+        bannedUser.setUsername("bannedUser");
+        bannedUser.setEmail("banned@example.com");
+
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+
+        emailService.sendBanUserEmail(bannedUser);
+
+        verify(javaMailSender, times(1)).send(any(MimeMessage.class));
+    }
+
+    @Test
+    public void testSendUnbanUserEmail() throws MessagingException {
+        EmailService emailService = new EmailService(userEntityRepository, javaMailSender);
+
+        UserEntity unbannedUser = new UserEntity();
+        unbannedUser.setUsername("unbannedUser");
+        unbannedUser.setEmail("unbanned@example.com");
+
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+
+        emailService.sendUnbanUserEmail(unbannedUser);
+
+        verify(javaMailSender, times(1)).send(any(MimeMessage.class));
+    }
+
 
 }

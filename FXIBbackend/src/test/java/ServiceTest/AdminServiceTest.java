@@ -11,8 +11,10 @@ import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.repository.InquiryEntityRepository;
 import fxibBackend.repository.UserEntityRepository;
 import fxibBackend.service.AdminService;
+import fxibBackend.service.EmailService;
 import fxibBackend.util.ValidateData;
 import fxibBackend.util.ValidationUtil;
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -43,6 +45,9 @@ public class AdminServiceTest {
 
     @Mock
     private ValidationUtil validationUtil;
+
+    @Mock
+    private EmailService emailService;
 
     @Mock
     private InquiryEntityRepository inquiryEntityRepository;
@@ -109,7 +114,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void testSetUserNewRoles() {
+    public void testSetUserNewRoles() throws MessagingException {
         String username = "exampleUsername";
         String jwtToken = "exampleToken";
         String loggedUsername = "exampleLoggedUsername";
@@ -132,7 +137,7 @@ public class AdminServiceTest {
 
         Set<RolesAdminDTO> roles = Collections.singleton(roleDto);
 
-        adminService.setUserNewRoles(username, roles, jwtToken, loggedUsername);
+        adminService.banUser(username, roles, jwtToken, loggedUsername);
 
         verify(userRepository, times(1)).findByUsername(username);
         verify(validateData, times(1)).validateUserWithJWT(loggedUsername, jwtToken);
@@ -146,9 +151,8 @@ public class AdminServiceTest {
         when(validateData.isUserBanned(userEntity.getRoles())).thenReturn(true);
         when(validationUtil.isValid(any(RoleEntity.class))).thenReturn(false);
 
-        assertThrows(DataValidationException.class, () -> adminService.setUserNewRoles(username, roles, jwtToken, loggedUsername));
+        assertThrows(DataValidationException.class, () -> adminService.banUser(username, roles, jwtToken, loggedUsername));
     }
-
 
 
     @Test

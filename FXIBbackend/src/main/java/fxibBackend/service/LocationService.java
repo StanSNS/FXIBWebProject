@@ -75,6 +75,7 @@ public class LocationService {
      */
     public LocationDTO currentLocation(String username) {
         Geolocation geolocation = new IPGeolocationAPI(GEOLOCATION_API_KEY).getGeolocation();
+
         LocationDTO locationDTO = new LocationDTO();
         locationDTO.setContinent(geolocation.getContinentName());
         locationDTO.setCity(geolocation.getCity());
@@ -82,6 +83,7 @@ public class LocationService {
         locationDTO.setIp(geolocation.getIP());
         locationDTO.setCountryFlagURL(geolocation.getCountryFlag());
         locationDTO.setUsername(username);
+
         if (validationUtil.isValid(locationDTO)) {
             return locationDTO;
         }

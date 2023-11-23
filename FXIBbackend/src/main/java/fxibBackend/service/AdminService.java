@@ -4,7 +4,6 @@ package fxibBackend.service;
 import fxibBackend.dto.AdminDTOS.AdminUserDTO;
 import fxibBackend.dto.AdminDTOS.InquiryDTO;
 import fxibBackend.dto.AdminDTOS.RolesAdminDTO;
-import fxibBackend.entity.InquiryEntity;
 import fxibBackend.entity.RoleEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.DataValidationException;
@@ -13,6 +12,7 @@ import fxibBackend.repository.InquiryEntityRepository;
 import fxibBackend.repository.UserEntityRepository;
 import fxibBackend.util.ValidateData;
 import fxibBackend.util.ValidationUtil;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -38,6 +38,7 @@ public class AdminService {
     private final ValidateData validateData;
     private final ValidationUtil validationUtil;
     private final InquiryEntityRepository inquiryEntityRepository;
+    private final EmailService emailService;
 
     /**
      * Retrieves a list of All users for the admin page which are not administrators.
@@ -79,7 +80,7 @@ public class AdminService {
      * @param loggedUsername The username of the requester who is making this change.
      * @throws DataValidationException if data validation fails for user roles or if the requester lacks authority.
      */
-    public String setUserNewRoles(String username, Set<RolesAdminDTO> roles, String jwtToken, String loggedUsername) {
+    public String banUser(String username, Set<RolesAdminDTO> roles, String jwtToken, String loggedUsername) throws MessagingException {
         // Validate the user with JWT token
         validateData.validateUserWithJWT(loggedUsername, jwtToken);
 
@@ -91,8 +92,12 @@ public class AdminService {
 
         // Check if the user is banned and update their biography accordingly
         if (!validateData.isUserBanned(userEntity.getRoles())) {
+            //Ban the user
             userEntity.setBiography(BANNED_USER_STATUS);
+            emailService.sendBanUserEmail(userEntity);
         } else {
+            //Unban the user
+            emailService.sendUnbanUserEmail(userEntity);
             userEntity.setBiography("");
         }
 
@@ -110,6 +115,7 @@ public class AdminService {
 
         // Save the updated user entity
         userRepository.save(userEntity);
+
 
         return USER_BANNED_SUCCESSFULLY;
     }

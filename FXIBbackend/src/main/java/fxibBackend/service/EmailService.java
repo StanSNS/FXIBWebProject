@@ -15,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -192,7 +193,6 @@ public class EmailService {
     }
 
 
-
     /**
      * Sends an inquiry email to the support team.
      *
@@ -211,7 +211,50 @@ public class EmailService {
                         , inquiryEntity.getDate(), inquiryEntity.getUserEntity().getEmail())
                 , true);
         javaMailSender.send(message);
-
     }
+
+
+    /**
+     * Sends an email to notify a user about being banned.
+     *
+     * @param bannedUser The user who has been banned.
+     * @throws MessagingException If there is an issue with sending the email.
+     */
+    public void sendBanUserEmail(UserEntity bannedUser) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
+        helper.setFrom(EMAIL_ORIGIN);
+        helper.setTo(bannedUser.getEmail());
+        helper.setSubject(USER_BAN_SUBJECT);
+
+        helper.setText(String.format(USER_BAN_HTML_TEMPLATE
+                        , bannedUser.getUsername()
+                        , LocalDateTime.now())
+                , true);
+
+        javaMailSender.send(message);
+    }
+
+    /**
+     * Sends an email to notify a user about being unbanned.
+     *
+     * @param bannedUser The user who has been unbanned.
+     * @throws MessagingException If there is an issue with sending the email.
+     */
+    public void sendUnbanUserEmail(UserEntity bannedUser) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
+        helper.setFrom(EMAIL_ORIGIN);
+        helper.setTo(bannedUser.getEmail());
+        helper.setSubject(USER_UNBAN_SUBJECT);
+
+        helper.setText(String.format(USER_UNBAN_HTML_TEMPLATE
+                        , bannedUser.getUsername()
+                        , LocalDateTime.now())
+                , true);
+
+        javaMailSender.send(message);
+    }
+
 
 }
