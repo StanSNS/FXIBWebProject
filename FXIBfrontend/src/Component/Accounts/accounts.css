@@ -2,29 +2,36 @@
     font-weight: bold;
     font-size: 22px;
 }
+
 .customAccount {
     border-top: var(--myLighBlue) 5px solid;
     border-radius: 15px;
     background: rgb(3, 167, 211);
     background: linear-gradient(180deg, rgba(3, 167, 211, 0.3218047752808989) 0%, rgba(255, 255, 255, 0) 50%);
 }
+
 .myfxColor {
     color: var(--myGreen);
 }
+
 .customRounded {
     border: 5px groove var(--myLighBlue);
     border-radius: 10px;
 }
+
 .updateColor {
     color: var(--myLighBlue);
 }
+
 .accIcon {
     color: var(--myOrange);
 }
+
 .first-letter-accounts-pop {
     animation: first-letter-accounts-pop 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
     animation-delay: 0ms;
 }
+
 @keyframes first-letter-accounts-pop {
     0% {
         transform: translateY(0);
@@ -37,10 +44,12 @@
         text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
     }
 }
+
 .second-letter-accounts-pop {
     animation: second-letter-accounts-pop 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
     animation-delay: 20ms;
 }
+
 @keyframes second-letter-accounts-pop {
     0% {
         transform: translateY(0);
@@ -53,10 +62,12 @@
         text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
     }
 }
+
 .third-letter-accounts-pop {
     animation: third-letter-accounts-pop 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
     animation-delay: 40ms;
 }
+
 @keyframes third-letter-accounts-pop {
     0% {
         transform: translateY(0);
@@ -69,10 +80,12 @@
         text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
     }
 }
+
 .fourth-letter-accounts-pop {
     animation: fourth-letter-accounts-pop 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
     animation-delay: 60ms;
 }
+
 @keyframes fourth-letter-accounts-pop {
     0% {
         transform: translateY(0);
@@ -85,10 +98,12 @@
         text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
     }
 }
+
 .fifth-letter-accounts-pop {
     animation: fifth-letter-accounts-pop 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
     animation-delay: 80ms;
 }
+
 @keyframes fifth-letter-accounts-pop {
     0% {
         transform: translateY(0);
@@ -101,10 +116,12 @@
         text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
     }
 }
+
 .sixth-letter-accounts-pop {
     animation: sixth-letter-accounts-pop 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
     animation-delay: 100ms;
 }
+
 @keyframes sixth-letter-accounts-pop {
     0% {
         transform: translateY(0);
@@ -117,10 +134,12 @@
         text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
     }
 }
+
 .seventh-letter-accounts-pop {
     animation: seventh-letter-accounts-pop 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
     animation-delay: 120ms;
 }
+
 @keyframes seventh-letter-accounts-pop {
     0% {
         transform: translateY(0);
@@ -133,10 +152,12 @@
         text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
     }
 }
+
 .eight-letter-accounts-pop {
     animation: eight-letter-accounts-pop 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both;
     animation-delay: 140ms;
 }
+
 @keyframes eight-letter-accounts-pop {
     0% {
         transform: translateY(0);
@@ -149,50 +170,63 @@
         text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
     }
 }
+
 .sectionHeaderAccountsStyling {
     font-size: 50px;
 }
+
 .errorColorText {
     color: var(--myEreor);
 }
+
 .table-container {
     border: 5px solid #343a40;
     border-radius: 15px;
     overflow: hidden;
 }
+
 .table-no-border {
     border: none;
 }
+
 .table-no-border thead th {
     border-bottom: none;
 }
+
 .table-no-border tbody tr {
     border-bottom: none;
 }
+
 .table-no-border tbody td {
     border-top: none;
     border-bottom: none;
 }
+
 .customColorClock {
     color: var(--myWhite);
 }
+
 .table-footer {
 
     background-color: #343a40;
     color: var(--myWhite);
     font-weight: bold;
 }
-.checkGreen{
+
+.checkGreen {
     color: var(--myGreen);
 }
+
 .collapse {
     max-width: 99%;
     overflow: hidden;
 }
+
 .table-container {
     max-height: none;
     overflow: hidden;
 }
+
 .historyButton {
     width: 6.5em;
     height: 2.3em;
@@ -208,9 +242,11 @@
     z-index: 1;
     overflow: hidden;
 }
+
 .historyButton:hover {
     color: var(--myBlack);
 }
+
 .historyButton:after {
     content: "";
     background: white;
@@ -223,6 +259,7 @@
     transform: skewX(-45deg) scale(0, 1);
     transition: all 0.5s;
 }
+
 .historyButton:hover:after {
     transform: skewX(-45deg) scale(1, 1);
     -webkit-transition: all 0.5s;
@@ -236,10 +273,16 @@
 }
 
 .scrollable-table::-webkit-scrollbar {
-    width: 0.01px;
+    width: 0 !important;
+    display: none;
 }
 
 
 .table-wrapper {
-    padding-right: 10px; /* Adjust the padding as needed */
+    overflow-x: auto;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }

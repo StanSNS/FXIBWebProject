@@ -133,7 +133,7 @@ export default function Footer() {
             <div className="wave wave1 text-center "></div>
 
             <div className="footer">
-                <div className="container">
+                <div className="container  justify-content-center">
                     <div className="row border_bo1 ">
                         <div className="col-md-4">
                             <br/>

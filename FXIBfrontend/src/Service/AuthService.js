@@ -21,7 +21,9 @@ const encryptData = (data) => {
 const decryptData = (data) => {
     let decData = CryptoJS.enc.Base64.parse(data).toString(CryptoJS.enc.Utf8);
     let bytes = CryptoJS.AES.decrypt(decData, SECRET_KEY).toString(CryptoJS.enc.Utf8);
-    return JSON.parse(bytes)
+    if (bytes) {
+        return JSON.parse(bytes);
+    }
 }
 
 // Function to store a token in the local storage.
@@ -29,8 +31,6 @@ export const storeToken = (token) => localStorage.setItem("token", token);
 
 // Function to retrieve a token from the local storage.
 export const getToken = () => (localStorage.getItem("token"));
-
-
 
 
 // Function to save the logged-in user's information in session storage.

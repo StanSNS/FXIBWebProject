@@ -64,7 +64,7 @@ export default function Accounts() {
 
             {tradingAccounts.map((account, index) => (
                 <div key={account.responseIdentity} className="p-3 mb-4 customAccount mt-5">
-                    <div className="d-flex ml-3 mb-4  ">
+                    <div className="row ml-3 mb-4 justify-content-center">
                         <Link
                             to={`https://www.myfxbook.com/members/FXIBulgaria/fxib-auto-trading/${account.responseIdentity}`}
                             target="_blank">
@@ -146,70 +146,76 @@ export default function Accounts() {
                             </div>
                         </div>
                     </div>
+
                     <div className="mt-4 text-center">
                         <button
                             data-toggle="collapse"
                             data-target={`#collapseTable${index}`}
-                            className="historyButton"> History
+                            className="historyButton">
+                            History
                         </button>
                         <div id={`collapseTable${index}`} className={`mt-4 collapse scrollable-table`}>
                             <div className="table-container ">
-                                <table className="table text-center table-hover table-no-border mb-0 ">
-                                    <thead className="thead-dark">
-                                    <tr>
-                                        <th>№</th>
-                                        <th><span
-                                            className="align-text-bottom customColorClock"><TbClockPlus/></span> Open
-                                            Time
-                                        </th>
-                                        <th><span
-                                            className="align-text-bottom customColorClock"><TbClockCheck/> </span> Close
-                                            Time
-                                        </th>
-                                        <th>Symbol</th>
-                                        <th>Action</th>
-                                        <th>Pips</th>
-                                        <th>Profit</th>
-                                        <th>Commissions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {account.trades.map((item, index) => (
-                                        <tr key={index}>
-                                            <td><span>  <strong> {account.trades.length - index} </strong></span>
-                                            </td>
+                                <div className="table-wrapper">
+                                    <div className="table-responsive">
+                                        <table className="table text-center table-hover table-no-border mb-0 ">
+                                            <thead className="thead-dark">
+                                            <tr>
+                                                <th>№</th>
+                                                <th><span
+                                                    className="align-text-bottom customColorClock"><TbClockPlus/></span> Open
+                                                    Time
+                                                </th>
+                                                <th><span
+                                                    className="align-text-bottom customColorClock"><TbClockCheck/> </span> Close
+                                                    Time
+                                                </th>
+                                                <th>Symbol</th>
+                                                <th>Action</th>
+                                                <th>Pips</th>
+                                                <th>Profit</th>
+                                                <th>Commissions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {account.trades.map((item, index) => (
+                                                <tr key={index}>
+                                                    <td>
+                                                        <span>  <strong> {account.trades.length - index} </strong></span>
+                                                    </td>
 
-                                            <td><span>  <strong> {item.openTime} </strong></span></td>
-                                            <td><span> <strong> {item.closeTime} </strong></span></td>
-                                            <td><span><span
-                                                className="align-text-bottom ">{item.action !== 'Deposit' ?
-                                                <BsCurrencyExchange/> : ""}</span> <strong> {item.symbol}</strong></span>
-                                            </td>
-                                            <td>{getActionIcon(item.action)}</td>
-                                            <td style={{color: item.pips > 0 ? "var(--myGreen)" : item.pips < 0 ? "var(--myOrange)" : 'black'}}>
-                                                <strong> {item.pips} </strong></td>
-                                            <td style={{color: item.profit > 0 ? "var(--myGreen)" : item.profit < 0 ? "var(--myOrange)" : 'black'}}>
-                                                <strong>{item.profit}</strong></td>
-                                            <td><strong> {item.commission} </strong></td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                    <tfoot className="table-footer">
-                                    <tr>
-                                        <td colSpan="8"> Verified by Myfxbook <span
-                                            className="checkGreen align-text-bottom ml-1"> <FaCheck/> </span>
-                                        </td>
-                                    </tr>
-                                    </tfoot>
-                                </table>
+                                                    <td><span>  <strong> {item.openTime} </strong></span></td>
+                                                    <td><span> <strong> {item.closeTime} </strong></span></td>
+                                                    <td><span><span
+                                                        className="align-text-bottom ">{item.action !== 'Deposit' ?
+                                                        <BsCurrencyExchange/> : ""}</span> <strong> {item.symbol}</strong></span>
+                                                    </td>
+                                                    <td>{getActionIcon(item.action)}</td>
+                                                    <td style={{color: item.pips > 0 ? "var(--myGreen)" : item.pips < 0 ? "var(--myOrange)" : 'black'}}>
+                                                        <strong> {item.pips} </strong></td>
+                                                    <td style={{color: item.profit > 0 ? "var(--myGreen)" : item.profit < 0 ? "var(--myOrange)" : 'black'}}>
+                                                        <strong>{item.profit}</strong></td>
+                                                    <td><strong> {item.commission} </strong></td>
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                            <tfoot className="table-footer">
+                                            <tr>
+                                                <td colSpan="8"> Verified by Myfxbook <span
+                                                    className="checkGreen align-text-bottom ml-1"> <FaCheck/> </span>
+                                                </td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
                     </div>
+
                 </div>
             ))}
         </div>
     )
 }
-
-
