@@ -46,6 +46,7 @@
     - @fortawesome/react-fontawesome
     - @react-icons/all-files
     - and react-icons
+- **Cloudinary Integration**: Utilizing the `@cloudinary/react` React component integrating with the Cloudinary media platform.
 - **jQuery**: The project depends on the jQuery library.
 - **Encrypt & Decrypt**: `Crypto.js` is added for encrypting and decrypting sessionStorage data.
 - **Module System**: Utilizes the esm package for ECMAScript Modules (ESM) support in Node.js.
