@@ -20,9 +20,10 @@ import {Button, Form, Modal} from "react-bootstrap";
 import {getAllTradingAccountsForFooter} from "../../../Service/TradingAccount";
 import {getToken, isUserLoggedIn, loggedUserEmail, loggedUserUsername} from "../../../Service/AuthService";
 import {sendInquiryEmail} from "../../../Service/UserService";
+import {Image} from "cloudinary-react";
+import {getFooterFXIBLogo, getFooterStripeLogo} from "../../../Service/CloudinaryService";
 
 export default function Footer() {
-
     const [tradingAccounts, setTradingAccounts] = useState([]); // State to store trading accounts data
     const [contactInfoModal, setContactInfoModal] = useState(false); // State to control the visibility of the contact info modal
     const [messageTitle, setMessageTitle] = useState(""); // State to store the title of a message
@@ -131,7 +132,6 @@ export default function Footer() {
     return (
         <footer className="my-footer">
             <div className="wave wave1 text-center "></div>
-
             <div className="footer">
                 <div className="container  justify-content-center">
                     <div className="row border_bo1 ">
@@ -139,11 +139,11 @@ export default function Footer() {
                             <br/>
                             <br/>
                             <Link to='/' className="firstCol ml-5" onClick={handleScrollToTop}>
-                                <img src={require('../../../images/logoFooter.png')} alt="logo"/>
+                                <Image publicId={getFooterFXIBLogo()}></Image>
                             </Link>
                             <br/>
                             <Link to='https://stripe.com/en-bg' target="_blank" className="firstCol ml-5">
-                                <img src={require('../../../images/stripe.png')} alt="stripe"/>
+                                <Image publicId={getFooterStripeLogo()}></Image>
                             </Link>
                             <br/>
                             <Link to='/risk-disclousure-terms-conditions' className="firstCol ml-5"

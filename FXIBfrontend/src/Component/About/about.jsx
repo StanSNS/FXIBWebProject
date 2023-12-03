@@ -3,12 +3,13 @@ import './about.css';
 import '../../globalCSS/css/bootstrap.css';
 import {getAllAboutData} from "../../Service/InitService";
 import {useNavigate} from "react-router-dom";
-import rightImage from '../../images/rightImage.png';
-import leftImage from '../../images/leftImage.png';
 import AboutSkeleton from "../../SkeletonLoader/AboutSkeleton";
+import {Image} from "cloudinary-react";
+import {getLeftAboutImagePublicID, getRightAboutImagePublicID} from "../../Service/CloudinaryService";
 
 export default function About() {
-
+    const leftImagePublicID = getLeftAboutImagePublicID(); // Left image ID from Cloudinary
+    const rightImagePublicID = getRightAboutImagePublicID(); // Right image ID from Cloudinary
     const [isLoading, setIsLoading] = useState(true);// Initializing state variable isLoading with initial value true
     const navigator = useNavigate();  // Create a navigator to redirect to different pages.
     const [aboutData, setAboutData] = useState([]); // Initialize the state variable for storing aboutData.
@@ -42,17 +43,15 @@ export default function About() {
 
             {isLoading && <AboutSkeleton/>}
 
-
             <div className="addMarginTop">
                 {aboutData.map((currAbout, index) => (
                     <section key={index} className={`about_section mt-${index % 2 === 0 ? 5 : 0}`}>
                         <div className="container">
                             <div className="row">
-
                                 <div className={`col-md-6 ${index % 2 === 0 ? "order-md-2" : ""}`}>
                                     <div className={`img-box ${index % 2 === 0 ? "rightCard" : "leftCard"}`}>
-                                        <img src={index % 2 === 0 ? rightImage : leftImage} alt={currAbout.title}
-                                             className={index % 2 === 0 ? "floatUp" : "floatDown align-items-center"}/>
+                                        <Image publicId={index % 2 === 0 ? rightImagePublicID : leftImagePublicID}
+                                               className={index % 2 === 0 ? "floatUp" : "floatDown align-items-center"}></Image>
                                     </div>
                                 </div>
 

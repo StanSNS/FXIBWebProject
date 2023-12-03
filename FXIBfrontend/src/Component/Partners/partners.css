@@ -21,7 +21,7 @@
 
 
 .myWave {
-    background: url("../../images/wave.png");
+    background: var(--background-image-url);
     width: 119%;
     height: 50px;
     margin-bottom: -25px;

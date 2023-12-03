@@ -4,6 +4,8 @@ import React, {useEffect, useState} from 'react';
 import {getAllPartnersData} from '../../Service/InitService';
 import {FaBalanceScaleLeft, FaClock, FaDesktop, FaDollarSign, FaExchangeAlt, FaHandshake} from "react-icons/fa";
 import PartnerSkeleton from "../../SkeletonLoader/PartnerSkeleton";
+import {getPartnerImageByPartnerTitle} from "../../Service/CloudinaryService";
+import {Image} from "cloudinary-react";
 
 export default function Partners() {
 
@@ -57,7 +59,7 @@ export default function Partners() {
                             <div className={`col-md-6 col-lg-4 ${index < 3 ? 'less-rows' : ''}`} key={index}>
                                 <div className="box">
                                     <div className="img-box mb-1">
-                                        <img src={require(`../../images/${partner.title}.jpg`)} alt={partner.title}/>
+                                        <Image publicId={getPartnerImageByPartnerTitle(partner.title)}></Image>
                                     </div>
                                     <div className="partnersBox">
                                         <h4 className="mb-2">{partner.title}</h4>

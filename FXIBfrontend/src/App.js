@@ -22,6 +22,8 @@ import ResetPasswordUpdate from "./Component/ResetPasswordUpdate/ResetPasswordUp
 import TwoFactorAuth from "./Component/TwoFactorAuth/twoFactorAuth";
 import 'react-loading-skeleton/dist/skeleton.css'
 import {SkeletonTheme} from "react-loading-skeleton";
+import {CloudinaryContext} from "cloudinary-react";
+import {getCloudName} from "./Service/CloudinaryService";
 
 function App() {
 
@@ -48,31 +50,33 @@ function App() {
 
     return (
         <>
-            <SkeletonTheme baseColor="var(--myWhite)" highlightColor="#8BDDF3FF">
-                <BrowserRouter>
-                    <Header/>
-                    <Routes>
-                        <Route path='/' element={<> <Hero/> <About/> <Partners/> <Pricing/> <Accounts/>  </>}></Route>
-                        <Route path='/about' element={<About/>}></Route>
-                        <Route path='/pricing' element={<Pricing/>}></Route>
-                        <Route path='/accounts' element={<Accounts/>}></Route>
-                        <Route path='/partners' element={<Partners/>}></Route>
-                        <Route path='/risk-disclousure-terms-conditions' element={<RiskAndTerms/>}></Route>
-                        <Route path='/community' element={<Community/>}></Route>
-                        <Route path='/500' element={<Error500/>}></Route>
-                        <Route path='/404' element={<Error404/>}></Route>
-                        <Route path="*" element={<Navigate to="/404"/>}/>
-                        <Route path="/admin" element={<AdminGuardedRoute element={<Admin/>}/>}/>
-                        <Route path='/auth/login' element={<LoggedUserGuardedRoute element={<Login/>}/>}/>
-                        <Route path='/auth/register' element={<LoggedUserGuardedRoute element={<Register/>}/>}/>
-                        <Route path='/auth/login/two-factor-auth' element={<LoggedUserGuardedRoute element={<TwoFactorAuth/>}/>}/>
-                        <Route path='/reset-password' element={<LoggedUserGuardedRoute element={<ResetPassword/>}/>}/>
-                        <Route path='/reset-password-update' element={<LoggedUserGuardedRoute element={<ResetPasswordUpdate/>}/>}/>
-                        <Route path='/change-password' element={<NotLoggedUserGuardedRoute element={<ChangePassword/>}/>}/>
-                    </Routes>
-                    <Footer/>
-                </BrowserRouter>
-            </SkeletonTheme>
+            <CloudinaryContext cloudName={getCloudName()}>
+                <SkeletonTheme baseColor="var(--myWhite)" highlightColor="#8BDDF3FF">
+                    <BrowserRouter>
+                        <Header/>
+                        <Routes>
+                            <Route path='/' element={<> <Hero/> <About/> <Partners/> <Pricing/> <Accounts/>  </>}></Route>
+                            <Route path='/about' element={<About/>}></Route>
+                            <Route path='/pricing' element={<Pricing/>}></Route>
+                            <Route path='/accounts' element={<Accounts/>}></Route>
+                            <Route path='/partners' element={<Partners/>}></Route>
+                            <Route path='/risk-disclousure-terms-conditions' element={<RiskAndTerms/>}></Route>
+                            <Route path='/community' element={<Community/>}></Route>
+                            <Route path='/500' element={<Error500/>}></Route>
+                            <Route path='/404' element={<Error404/>}></Route>
+                            <Route path="*" element={<Navigate to="/404"/>}/>
+                            <Route path="/admin" element={<AdminGuardedRoute element={<Admin/>}/>}/>
+                            <Route path='/auth/login' element={<LoggedUserGuardedRoute element={<Login/>}/>}/>
+                            <Route path='/auth/register' element={<LoggedUserGuardedRoute element={<Register/>}/>}/>
+                            <Route path='/auth/login/two-factor-auth' element={<LoggedUserGuardedRoute element={<TwoFactorAuth/>}/>}/>
+                            <Route path='/reset-password' element={<LoggedUserGuardedRoute element={<ResetPassword/>}/>}/>
+                            <Route path='/reset-password-update' element={<LoggedUserGuardedRoute element={<ResetPasswordUpdate/>}/>}/>
+                            <Route path='/change-password' element={<NotLoggedUserGuardedRoute element={<ChangePassword/>}/>}/>
+                        </Routes>
+                        <Footer/>
+                    </BrowserRouter>
+                </SkeletonTheme>
+            </CloudinaryContext>
         </>
     );
 }
