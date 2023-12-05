@@ -72,7 +72,7 @@ public class AuthServiceTest {
         authService = new fxibBackend.service.AuthService(
                 userRepository, roleRepository, passwordEncoder,
                 authenticationManager, jwtTokenProvider, modelMapper,
-                validationUtil, emailService, locationService,customDateFormatter
+                validationUtil, emailService, locationService, customDateFormatter
         );
     }
 

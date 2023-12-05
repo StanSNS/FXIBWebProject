@@ -1,7 +1,6 @@
 package UtilTest;
 
 import fxibBackend.inits.*;
-import fxibBackend.inits.TradingAccountsInit;
 import fxibBackend.repository.*;
 import fxibBackend.util.DataScheduler;
 import org.junit.Before;

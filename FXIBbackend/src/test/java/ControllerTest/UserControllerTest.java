@@ -5,9 +5,7 @@ import fxibBackend.controller.UserController;
 import fxibBackend.dto.UserDetailsDTO.StripeTransactionDTO;
 import fxibBackend.dto.UserDetailsDTO.UpdateUserBiographyDTO;
 import fxibBackend.dto.UserDetailsDTO.UserDetailsDTO;
-import fxibBackend.exception.AccessDeniedException;
 import fxibBackend.exception.MissingParameterException;
-import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.service.UserDetailsService;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +18,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fxibBackend.constants.ActionConst.GET_ALL_USER_DETAILS;
-import static fxibBackend.constants.ActionConst.GET_ALL_USER_TRANSACTIONS;
+import static fxibBackend.constants.ActionConst.*;
 import static org.aspectj.bridge.MessageUtil.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -92,20 +89,24 @@ class UserControllerTest {
     }
 
     @Test
-    void testSendInquiryEmail() throws MessagingException {
-        ResponseEntity<?> response = userController.sendInquiryEmail("Test Title", "Test Content", "testUser", "jwtToken");
+    void testInquiryReport_ReportProblemAndEmailSend() throws MessagingException {
+        ResponseEntity<?> response = userController.inquiryReport(REPORT_PROBLEM_AND_EMAIL_SEND, "title", "content", "imgURL", "username", "jwtToken");
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(userDetailsService).sendInquiryEmailAndSave("Test Title", "Test Content", "testUser", "jwtToken");
+        verify(userDetailsService, times(1)).saveReportAndSendEmail("title", "content", "imgURL", "username", "jwtToken");
     }
 
     @Test
-    void testSendInquiryEmailWithMissingParameters() throws MessagingException {
-        doThrow(new MissingParameterException()).when(userDetailsService)
-                .sendInquiryEmailAndSave("Test Title", "Test Content", "testUser", "jwtToken");
+    void testInquiryReport_SendInquiryAndEmailSend() throws MessagingException {
+        ResponseEntity<?> response = userController.inquiryReport(SEND_INQUIRY_AND_EMAIL_SEND, "title", "content", null, "username", "jwtToken");
 
-        assertThrows(MissingParameterException.class,() -> userController.sendInquiryEmail("Test Title", "Test Content", "testUser", "jwtToken"));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(userDetailsService, times(1)).sendInquiryEmailAndSave("title", "content", "username", "jwtToken");
     }
 
-
+    @Test
+    void testInquiryReport_InvalidAction() {
+        assertThrows(MissingParameterException.class,
+                () -> userController.inquiryReport("INVALID_ACTION", "title", "content", null, "username", "jwtToken"));
+    }
 }

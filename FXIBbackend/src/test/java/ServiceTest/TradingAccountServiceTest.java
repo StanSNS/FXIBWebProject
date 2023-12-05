@@ -2,7 +2,6 @@ package ServiceTest;
 
 import fxibBackend.dto.TradingAccountsDTOS.AccountPage.TradingAccountDTO;
 import fxibBackend.dto.TradingAccountsDTOS.Footer.TradingAccountFooterDTO;
-
 import fxibBackend.entity.DataEntity.TradingAccount.TradingAccountEntity;
 import fxibBackend.repository.TradingAccountEntityRepository;
 import fxibBackend.service.TradingAccountService;

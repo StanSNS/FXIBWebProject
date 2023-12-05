@@ -3,6 +3,7 @@ package ServiceTest;
 import fxibBackend.dto.AuthorizationDTOS.LoginDTO;
 import fxibBackend.dto.UserDetailsDTO.LocationDTO;
 import fxibBackend.entity.InquiryEntity;
+import fxibBackend.entity.ReportEntity;
 import fxibBackend.entity.TransactionEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.ResourceNotFoundException;
@@ -17,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static fxibBackend.constants.ResponseConst.PASSWORD_CHANGE_EMAIL_SENT_SUCCESSFULLY;
@@ -44,7 +44,7 @@ public class EmailServiceTest {
         javaMailSender = Mockito.mock(JavaMailSender.class);
         mimeMessage = Mockito.mock(MimeMessage.class);
         customDateFormatter = Mockito.mock(CustomDateFormatter.class);
-        emailService = new EmailService(userEntityRepository, javaMailSender,customDateFormatter);
+        emailService = new EmailService(userEntityRepository, javaMailSender, customDateFormatter);
     }
 
     @Test
@@ -129,7 +129,7 @@ public class EmailServiceTest {
 
     @Test
     public void testSendInquiryEmail() throws MessagingException {
-        EmailService emailService = new EmailService(userEntityRepository, javaMailSender,customDateFormatter);
+        EmailService emailService = new EmailService(userEntityRepository, javaMailSender, customDateFormatter);
 
         InquiryEntity inquiryEntity = new InquiryEntity();
         inquiryEntity.setTitle("Test Inquiry");
@@ -149,7 +149,7 @@ public class EmailServiceTest {
 
     @Test
     public void testSendBanUserEmail() throws MessagingException {
-        EmailService emailService = new EmailService(userEntityRepository, javaMailSender,customDateFormatter);
+        EmailService emailService = new EmailService(userEntityRepository, javaMailSender, customDateFormatter);
 
         UserEntity bannedUser = new UserEntity();
         bannedUser.setUsername("bannedUser");
@@ -164,7 +164,7 @@ public class EmailServiceTest {
 
     @Test
     public void testSendUnbanUserEmail() throws MessagingException {
-        EmailService emailService = new EmailService(userEntityRepository, javaMailSender,customDateFormatter);
+        EmailService emailService = new EmailService(userEntityRepository, javaMailSender, customDateFormatter);
 
         UserEntity unbannedUser = new UserEntity();
         unbannedUser.setUsername("unbannedUser");
@@ -175,6 +175,25 @@ public class EmailServiceTest {
         emailService.sendUnbanUserEmail(unbannedUser);
 
         verify(javaMailSender, times(1)).send(any(MimeMessage.class));
+    }
+
+
+    @Test
+    public void testSendReportEmail() throws MessagingException {
+        ReportEntity reportEntity = new ReportEntity();
+        reportEntity.setTitle("Test Report");
+        reportEntity.setDate("2023-12-05");
+        reportEntity.setContent("This is a test report");
+        reportEntity.setImgURL("http://example.com/image.png");
+
+        String userName = "testUser";
+        String email = "test@example.com";
+
+        when(javaMailSender.createMimeMessage()).thenReturn(Mockito.mock(MimeMessage.class));
+
+        emailService.sendReportEmail(reportEntity, userName, email);
+
+        verify(javaMailSender, Mockito.times(1)).send(any(MimeMessage.class));
     }
 
 

@@ -11,8 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import static fxibBackend.constants.ActionConst.GET_ALL_USER_DETAILS;
-import static fxibBackend.constants.ActionConst.GET_ALL_USER_TRANSACTIONS;
+import static fxibBackend.constants.ActionConst.*;
 import static fxibBackend.constants.MappingConstants.USER_CUSTOM_LOGOUT_PATHS;
 import static fxibBackend.constants.MappingConstants.USER_DETAILS__CONTROLLER_MAPPING;
 import static fxibBackend.constants.URLAccessConst.FRONTEND_BASE_URL;
@@ -43,8 +42,10 @@ public class UserController {
         // Handle user details or transactions request based on the provided action
 
         return switch (action) {
-            case GET_ALL_USER_DETAILS -> new ResponseEntity<>(userDetailsService.getUserDetailsDTO(username, jwtToken), HttpStatus.OK);
-            case GET_ALL_USER_TRANSACTIONS -> new ResponseEntity<>(userDetailsService.getAllUserTransactions(username, jwtToken), HttpStatus.OK);
+            case GET_ALL_USER_DETAILS ->
+                    new ResponseEntity<>(userDetailsService.getUserDetailsDTO(username, jwtToken), HttpStatus.OK);
+            case GET_ALL_USER_TRANSACTIONS ->
+                    new ResponseEntity<>(userDetailsService.getAllUserTransactions(username, jwtToken), HttpStatus.OK);
             default -> throw new MissingParameterException();
         };
     }
@@ -80,24 +81,38 @@ public class UserController {
 
 
     /**
-     * Handles a POST request for sending an inquiry email.
+     * Handles the submission of inquiries and reports via email based on the specified action.
      *
-     * @param title     The title of the inquiry.
-     * @param content   The content of the inquiry.
-     * @param username  The username associated with the inquiry.
-     * @param jwtToken  The JWT token for authorization.
-     * @return ResponseEntity with HTTP status OK if the email is sent successfully.
-     * @throws MessagingException If there is an issue with sending the email.
+     * @param action    The action to be performed, either "REPORT_PROBLEM_AND_EMAIL_SEND" or "SEND_INQUIRY_AND_EMAIL_SEND".
+     * @param title     The title of the inquiry or report.
+     * @param content   The content of the inquiry or report.
+     * @param imgURL    The URL of the image associated with the inquiry or report (optional).
+     * @param username  The username associated with the inquiry or report.
+     * @param jwtToken  The JWT token for user validation.
+     * @return A ResponseEntity indicating the success of the operation (HTTP 200 OK) or a MissingParameterException if the action is not recognized.
+     * @throws MessagingException If an error occurs while sending the email.
      */
     @PreAuthorize("hasAnyRole('ADMIN','USER','BANNED')")
     @PostMapping
-    public ResponseEntity<?> sendInquiryEmail(@RequestParam String title,
-                                              @RequestParam String content,
-                                              @RequestParam String username,
-                                              @RequestParam String jwtToken) throws MessagingException {
+    public ResponseEntity<?> inquiryReport(@RequestParam String action,
+                                           @RequestParam String title,
+                                           @RequestParam String content,
+                                           @RequestParam(required = false) String imgURL,
+                                           @RequestParam String username,
+                                           @RequestParam String jwtToken) throws MessagingException {
 
-        userDetailsService.sendInquiryEmailAndSave(title,content,username,jwtToken);
-        return new ResponseEntity<>(HttpStatus.OK);
+        switch (action) {
+            case REPORT_PROBLEM_AND_EMAIL_SEND -> {
+                userDetailsService.saveReportAndSendEmail(title, content, imgURL, username, jwtToken);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            case SEND_INQUIRY_AND_EMAIL_SEND -> {
+                userDetailsService.sendInquiryEmailAndSave(title, content, username, jwtToken);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+
+        throw new MissingParameterException();
     }
 
 

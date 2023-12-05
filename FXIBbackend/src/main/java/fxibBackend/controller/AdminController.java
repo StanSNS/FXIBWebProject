@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-import static fxibBackend.constants.ActionConst.GET_ALL_INQUIRIES_FOR_USER;
-import static fxibBackend.constants.ActionConst.GET_ALL_USERS_AS_ADMIN;
+import static fxibBackend.constants.ActionConst.*;
 import static fxibBackend.constants.MappingConstants.ADMIN_CONTROLLER_MAPPING;
 import static fxibBackend.constants.URLAccessConst.FRONTEND_BASE_URL;
 
@@ -50,6 +49,7 @@ public class AdminController {
         return switch (action) {
             case GET_ALL_USERS_AS_ADMIN -> new ResponseEntity<>(adminService.getAllAdminUserDTO(jwtToken, username), HttpStatus.OK);
             case GET_ALL_INQUIRIES_FOR_USER -> new ResponseEntity<>(adminService.getAllInquiriesForUser(currentUsername, jwtToken, username), HttpStatus.OK);
+            case GET_ALL_REPORTS_FOR_USER -> new ResponseEntity<>(adminService.getAllReportsForUser(currentUsername, jwtToken, username), HttpStatus.OK);
             default -> throw new MissingParameterException();
         };
     }

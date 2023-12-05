@@ -138,23 +138,129 @@ ul, li, ol {
 }
 
 .footerInquiryButton {
-    width: fit-content;
-    display: flex;
     padding: 0.8em 1.1em;
-    gap: 0.4rem;
     border: none;
     font-weight: bold;
     border-radius: 30px;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
-    background: rgb(3,167,211);
-    background: linear-gradient(90deg, rgba(3,167,211,1) 0%, rgba(253,70,70,1) 100%);
+    background: rgb(255, 255, 255);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0) 60%, rgba(3, 167, 211, 1) 100%);
     background-position: left center;
-    transition: background .3s ease;
+    transition: background 1.5s ease;
     color: #fff;
 }
 
 .footerInquiryButton:hover {
-    background-size: 320%;
-    background-position: right center;
+    background-size: 400%;
+    background-position: right;
     scale: 1.05;
 }
+
+.footerReportButton {
+    padding: 0.8em 1.1em;
+    border: none;
+    font-weight: bold;
+    border-radius: 30px;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,0) 60%, rgba(253,70,70,1) 100%);
+    background-position: left center;
+    transition: background 1.5s ease;
+    color: #fff;
+}
+
+.footerReportButton:hover {
+    background-size: 400%;
+    background-position: right;
+    scale: 1.05;
+}
+
+.uploadImageText{
+    font-weight: bold;
+    font-size: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.uploadButton {
+    font-family: inherit;
+    font-size: 20px;
+    background: #212121;
+    color: white;
+    fill: rgb(155, 153, 153);
+    padding: 0.7em 1em;
+    border: none;
+    border-radius: 15px;
+    font-weight: 1000;
+}
+
+.uploadButton .uploadText {
+    margin-left: 0.3em;
+    transition: all 0.3s ease-in-out;
+}
+
+.uploadButton .uploadIcon {
+    display: block;
+    transform-origin: center center;
+    transition: transform 0.3s ease-in-out;
+}
+
+
+.uploadButton:hover .uploadButtonIconWrapper {
+    transform: scale(1.25);
+    transition: .5s linear;
+}
+
+.uploadButton:hover .uploadIcon {
+    transform: translateX(2.8em) scale(1.4);
+    fill: #fff;
+}
+
+.uploadButton:hover .uploadText {
+    opacity: 0;
+    transition: .5s linear;
+}
+
+.uploadButton:active {
+    transform: scale(0.95);
+}
+
+.myLittleIconReport{
+    color: var(--myOrange);
+}
+
+.customSucessfullIconUpload{
+    color: var(--myGreen);
+    font-size: 50px;
+}
+
+
+
+
+

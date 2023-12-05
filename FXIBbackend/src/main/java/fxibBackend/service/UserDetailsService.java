@@ -6,12 +6,14 @@ import fxibBackend.dto.UserDetailsDTO.StripeTransactionDTO;
 import fxibBackend.dto.UserDetailsDTO.UpdateUserBiographyDTO;
 import fxibBackend.dto.UserDetailsDTO.UserDetailsDTO;
 import fxibBackend.entity.InquiryEntity;
+import fxibBackend.entity.ReportEntity;
 import fxibBackend.entity.TransactionEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.AccessDeniedException;
 import fxibBackend.exception.DataValidationException;
 import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.repository.InquiryEntityRepository;
+import fxibBackend.repository.ReportEntityRepository;
 import fxibBackend.repository.TransactionEntityRepository;
 import fxibBackend.repository.UserEntityRepository;
 import fxibBackend.util.CustomDateFormatter;
@@ -51,6 +53,7 @@ public class UserDetailsService {
     private final EmailService emailService;
     private final InquiryEntityRepository inquiryEntityRepository;
     private final CustomDateFormatter customDateFormatter;
+    private final ReportEntityRepository reportEntityRepository;
 
     /**
      * Retrieves user details DTO based on the provided username and JWT token.
@@ -228,12 +231,14 @@ public class UserDetailsService {
      */
     public void sendInquiryEmailAndSave(String title, String content, String username, String jwtToken) throws MessagingException {
         UserEntity userEntity = validateData.validateUserWithJWT(username, jwtToken);
+
         InquiryEntity inquiryEntity = new InquiryEntity();
         inquiryEntity.setDate(customDateFormatter.formatLocalDateTimeNowAsString(LocalDateTime.now()));
         inquiryEntity.setContent(content);
         inquiryEntity.setTitle(title);
-        inquiryEntity.setCustomID(getRandomCustomIDNumber());
+        inquiryEntity.setCustomID(getRandomCustomIDNumberINQ());
         inquiryEntity.setUserEntity(userEntity);
+
         inquiryEntityRepository.save(inquiryEntity);
 
         emailService.sendInquiryEmail(inquiryEntity);
@@ -245,16 +250,59 @@ public class UserDetailsService {
      *
      * @return The generated custom ID number.
      */
-    private String getRandomCustomIDNumber() {
+    private String getRandomCustomIDNumberINQ() {
         int min = 10000000; // Smallest 8-digit number
         int max = 99999999; // Largest 8-digit number
-        String randomNumber = "INQ-" + (new Random().nextInt(max - min + 1) + min);
+        String randomNumber = INQ_PREFIX + (new Random().nextInt(max - min + 1) + min);
 
         if (inquiryEntityRepository.existsByCustomID(randomNumber)) {
-            getRandomCustomIDNumber();
+            getRandomCustomIDNumberINQ();
         }
-
         return randomNumber;
+    }
+
+
+    /**
+     * Generates a random custom ID number for the report entity.
+     *
+     * @return The generated custom ID number.
+     */
+    public String getRandomCustomIDNumberREP() {
+        int min = 10000000; // Smallest 8-digit number
+        int max = 99999999; // Largest 8-digit number
+        String randomNumber = REPORT_PREFIX + (new Random().nextInt(max - min + 1) + min);
+
+        if (reportEntityRepository.existsByCustomID(randomNumber)) {
+            getRandomCustomIDNumberREP();
+        }
+        return randomNumber;
+    }
+
+
+    /**
+     * Saves a report entity and sends an email notification.
+     *
+     * @param title      The title of the report.
+     * @param content    The content of the report.
+     * @param imgURL     The URL of the report's image.
+     * @param username   The username associated with the report.
+     * @param jwtToken   The JWT token for user validation.
+     * @throws MessagingException If an error occurs while sending the email.
+     */
+    public void saveReportAndSendEmail(String title, String content, String imgURL, String username, String jwtToken) throws MessagingException {
+        UserEntity userEntity = validateData.validateUserWithJWT(username, jwtToken);
+
+        ReportEntity reportEntity = new ReportEntity();
+        reportEntity.setCustomID(getRandomCustomIDNumberREP());
+        reportEntity.setTitle(title);
+        reportEntity.setContent(content);
+        reportEntity.setDate(customDateFormatter.formatLocalDateTimeNowAsString(LocalDateTime.now()));
+        reportEntity.setImgURL(imgURL);
+        reportEntity.setUserEntity(userEntity);
+
+        reportEntityRepository.save(reportEntity);
+
+        emailService.sendReportEmail(reportEntity,userEntity.getUsername(),userEntity.getEmail());
     }
 
 

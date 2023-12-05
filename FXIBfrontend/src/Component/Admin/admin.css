@@ -154,16 +154,33 @@
     justify-content: space-between;
 }
 
-.customColorListAdmin{
+.customTextColorAdmin {
+    color: var(--myLighBlue);
+}
+
+.customColorListAdmin {
     border: none;
     background: none;
 
 }
 
 .customColorListAdmin:hover {
-    scale: 1.1;
+    scale: 1.2;
 }
 
-.customTextColorAdmin{
+.customColorReportAdmin {
+    border: none;
+    background: none;
+}
+
+.customColorReportAdmin:hover {
+    scale: 1.2;
+}
+
+.customReportIcon{
+    color: var(--myOrange);
+}
+
+.customInqIcon{
     color: var(--myLighBlue);
 }

@@ -14,7 +14,6 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -169,7 +168,8 @@ public class EntityTests {
         assertThrows(ResourceNotFoundException.class, () -> TopicEnum.getFromText("Invalid Topic"));
     }
 
-    private static class BaseEntityConcrete extends BaseEntity { }
+    private static class BaseEntityConcrete extends BaseEntity {
+    }
 
     @Test
     public void teslAllEntities() {
@@ -313,11 +313,9 @@ public class EntityTests {
 
     @Test
     public void testInquiryEntityProperties() {
-        // Create a sample UserEntity for testing
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername("testUser");
 
-        // Create an InquiryEntity
         InquiryEntity inquiryEntity = new InquiryEntity();
         inquiryEntity.setCustomID("INQ-12345678");
         inquiryEntity.setTitle("Test Inquiry");
@@ -325,11 +323,9 @@ public class EntityTests {
         inquiryEntity.setDate("2023-11-21");
         inquiryEntity.setUserEntity(userEntity);
 
-        // Validate the InquiryEntity using Bean Validation
         var violations = validator.validate(inquiryEntity);
         assertTrue(violations.isEmpty(), "Validation should pass for InquiryEntity");
 
-        // Test InquiryEntity properties
         assertEquals("INQ-12345678", inquiryEntity.getCustomID());
         assertEquals("Test Inquiry", inquiryEntity.getTitle());
         assertEquals("This is a test inquiry.", inquiryEntity.getContent());

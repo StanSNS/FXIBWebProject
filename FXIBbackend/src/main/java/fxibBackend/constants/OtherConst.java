@@ -14,4 +14,6 @@ public class OtherConst {
     public static final String DURATION_LEVEL_ONE = "Beginner";
     public static final String DURATION_LEVEL_TWO = "Intermediate";
     public static final String DURATION_LEVEL_THREE = "Expert";
+    public static final String INQ_PREFIX = "INQ-";
+    public static final String REPORT_PREFIX = "REP-";
 }

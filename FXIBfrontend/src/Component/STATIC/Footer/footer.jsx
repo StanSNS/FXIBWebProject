@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import './footer.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {
@@ -11,7 +11,7 @@ import {
     FaTwitter
 } from "react-icons/fa6";
 import {Link} from 'react-router-dom';
-import {FaEnvelopeOpenText, FaRegQuestionCircle, FaTimes} from "react-icons/fa";
+import {FaArrowDown, FaCheckCircle, FaEnvelopeOpenText, FaRegQuestionCircle, FaTimes} from "react-icons/fa";
 import {PiInstagramLogoFill} from "react-icons/pi";
 import {IoCalendarSharp} from "react-icons/io5";
 import {BiSolidBank} from "react-icons/bi";
@@ -19,9 +19,11 @@ import {GiBank} from "react-icons/gi";
 import {Button, Form, Modal} from "react-bootstrap";
 import {getAllTradingAccountsForFooter} from "../../../Service/TradingAccount";
 import {getToken, isUserLoggedIn, loggedUserEmail, loggedUserUsername} from "../../../Service/AuthService";
-import {sendInquiryEmail} from "../../../Service/UserService";
 import {Image} from "cloudinary-react";
 import {getFooterFXIBLogo, getFooterStripeLogo} from "../../../Service/CloudinaryService";
+import {MdCloudUpload} from "react-icons/md";
+import {HiSpeakerphone} from "react-icons/hi";
+import {saveInquiryAndSendEmail, saveReportAndSendEmail} from "../../../Service/UserService";
 
 export default function Footer() {
     const [tradingAccounts, setTradingAccounts] = useState([]); // State to store trading accounts data
@@ -34,6 +36,10 @@ export default function Footer() {
     const [titleCharColor, setTitleCharColor] = useState("text-info"); // State to determine the color of the character count for the message title
     const [contentCharColor, setContentCharColor] = useState("text-info"); // State to determine the color of the character count for the message content
     const [showSuccessModal, setShowSuccessModal] = useState(false); // State to control the visibility of the success modal
+    const [mode, setMode] = useState("reportProblem"); // Default mode is "reportProblem"
+    const [imageUploadedURL, setImageUploadedURL] = useState(null); // Condition if the image is being uploaded
+    const cloudinaryRef = useRef(); // Using useRef to create references for Cloudinary and the upload widget
+    const widgetRef = useRef();
 
 
     // Fetch trading accounts data when the component mounts
@@ -54,20 +60,23 @@ export default function Footer() {
     }
 
     // Function to handle opening the contact info modal
-    const handleContactInfoModal = () => {
+    const handleContactInfoModal = (mode) => {
+        setMode(mode);
         setContactInfoModal(true);
     };
 
     // Function to handle closing the contact info modal
     const handleCloseContactInfoModal = () => {
         setContactInfoModal(false);
+        setMessageTitle("")
+        setMessageContent("")
+        setTitleCharCount(0)
+        setContentCharCount(0)
+        setImageUploadedURL(null)
     };
 
     // Function to show success modal and automatically close it after 5 seconds
-    const showSuccessAndCloseModal = () => {
-        setShowSuccessModal(true);
-
-        // Automatically close the success modal after 5 seconds
+    const showSuccessModalHandler = () => {
         setTimeout(() => {
             setShowSuccessModal(false);
             handleCloseContactInfoModal();
@@ -77,22 +86,49 @@ export default function Footer() {
     // Function to handle submitting the contact info form
     const handleContactInfoSubmit = () => {
         if (messageTitle.length <= 50 && messageContent.length <= 1500) {
-            sendInquiryEmail(messageTitle, messageContent, loggedUserUsername(), getToken().substring(7))
-                .then((response) => {
-                    if (response.status === 200) {
-                        setMessageTitle("")
-                        setMessageContent("")
-                        setTitleCharCount(0)
-                        setContentCharCount(0)
-                        showSuccessAndCloseModal();
-                    }
-                })
-                .catch((error) => {
-                    // Handle error if the submission fails
-                    console.error('Failed to submit contact info', error);
-                });
+            if (mode === "reportProblem") {
+                saveReportAndSendEmail(messageTitle, messageContent, imageUploadedURL, loggedUserUsername(), getToken().substring(7))
+                    .then((response) => {
+                        if (response.status === 200) {
+                            handleCloseContactInfoModal()
+                            showSuccessModalHandler();
+                        }
+                    })
+                    .catch((error) => {
+                        // Handle error if the submission fails
+                        console.error('Failed to submit contact info', error);
+                    });
+
+
+            } else if (mode === "sendInquiry") {
+                saveInquiryAndSendEmail(messageTitle, messageContent, loggedUserUsername(), getToken().substring(7))
+                    .then((response) => {
+                        if (response.status === 200) {
+                            handleCloseContactInfoModal()
+                            showSuccessModalHandler();
+                        }
+                    })
+                    .catch((error) => {
+                        // Handle error if the submission fails
+                        console.error('Failed to submit contact info', error);
+                    });
+            }
         }
     };
+
+    // useEffect to initialize Cloudinary and create the upload widget
+    useEffect(() => {
+        cloudinaryRef.current = window.cloudinary;
+        widgetRef.current = cloudinaryRef.current.createUploadWidget({
+                cloudName: 'dazec0lqe',
+                uploadPreset: "oqvd8sju"
+            }, function (error, result) {
+                if ((error || result.event === 'success')) {
+                    setImageUploadedURL(result.info.url);
+                }
+            }
+        )
+    }, [])
 
     // Handle changes in the message title input
     const handleTitleChange = (e) => {
@@ -127,7 +163,6 @@ export default function Footer() {
             setColor("text-info");
         }
     };
-
 
     return (
         <footer className="my-footer">
@@ -265,19 +300,29 @@ export default function Footer() {
                                             <PiInstagramLogoFill/> <span className="ml-2">Instagram</span>
                                         </Link>
                                     </li>
-
-
-                                    {isUserLoggedIn() && <li>
-                                        <button className="footerInquiryButton"
-                                                onClick={handleContactInfoModal}>
-                                            <FaEnvelopeOpenText/> Email us !
-                                        </button>
-                                    </li>}
-
                                 </ul>
                             </div>
                         </div>
                     </div>
+
+                    <div>
+                        {isUserLoggedIn() &&
+                            <div className="mb-4">
+                                <button className="footerReportButton"
+                                        onClick={() => handleContactInfoModal("reportProblem")}>
+                                    <span className="align-text-bottom"><HiSpeakerphone/></span>
+                                    <span className="align-text-top"> Report a problem !</span>
+                                </button>
+
+                                <button className="footerInquiryButton ml-4"
+                                        onClick={() => handleContactInfoModal("sendInquiry")}>
+                                    <span className="align-text-bottom"><FaEnvelopeOpenText/></span>
+                                    <span className="align-text-top"> Send us Email</span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+
                 </div>
 
                 <div className="copyright">
@@ -308,12 +353,22 @@ export default function Footer() {
                 </div>
             </div>
 
-            <Modal show={contactInfoModal} onHide={handleCloseContactInfoModal} size="lg">
+            <Modal show={contactInfoModal} onHide={handleCloseContactInfoModal} size="lg" centered>
                 <Modal.Header>
-                    <Modal.Title>
-                        <span className="align-text-bottom myLittleIconInfo"><FaEnvelopeOpenText/> </span>
-                        Contact Information
-                    </Modal.Title>
+
+                    {mode === "reportProblem" &&
+                        <Modal.Title>
+                            <span className="align-text-bottom myLittleIconReport"><HiSpeakerphone/> </span>
+                            Report a problem !
+                        </Modal.Title>
+                    }
+
+                    {mode === "sendInquiry" &&
+                        <Modal.Title>
+                            <span className="align-text-bottom myLittleIconInfo"><FaEnvelopeOpenText/> </span>
+                            Contact Information
+                        </Modal.Title>
+                    }
 
                     <Button
                         variant="link"
@@ -363,6 +418,32 @@ export default function Footer() {
                                 className={`${contentCharColor}`}>{contentCharCount}</span> /1500 characters </small>
                         </Form.Group>
                     </Form>
+
+                    {imageUploadedURL !== null &&
+                        <div className="text-center">
+                            <span className="uploadImageText">Image uploaded successfully! </span>
+                            <div>
+                                <span className="customSucessfullIconUpload"><FaCheckCircle/></span>
+                            </div>
+                        </div>
+                    }
+
+                    {mode === "reportProblem" && !imageUploadedURL &&
+                        <div className="mt-1 text-center">
+                            <div className="uploadImageText">
+                                Upload image
+                            </div>
+                            <div className="uploadImageText">
+                                <FaArrowDown/>
+                            </div>
+                            <button className="uploadButton mt-2" onClick={() => widgetRef.current.open()}>
+                                <div className="uploadButtonIconWrapper">
+                                    <span className="uploadIcon"> <MdCloudUpload/>  <span
+                                        className="uploadText">Upload</span></span>
+                                </div>
+                            </button>
+                        </div>
+                    }
                 </Modal.Body>
                 <Modal.Footer className="justify-content-center">
                     <Button variant="dark" onClick={handleCloseContactInfoModal}>
@@ -373,7 +454,6 @@ export default function Footer() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
 
             <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)} centered>
                 <Modal.Body>

@@ -16,4 +16,8 @@ public class ActionConst {
     public static final String GET_ALL_USER_TRANSACTIONS = "getAllUserTransactions";
     public static final String GET_ALL_USERS_AS_ADMIN = "getAllUsersAsAdmin";
     public static final String GET_ALL_INQUIRIES_FOR_USER = "getAllInquiriesForUser";
+    public static final String GET_ALL_REPORTS_FOR_USER = "getAllReportsForUser";
+    public static final String REPORT_PROBLEM_AND_EMAIL_SEND = "reportProblem";
+    public static final String SEND_INQUIRY_AND_EMAIL_SEND = "sendInquiry";
+
 }

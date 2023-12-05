@@ -3,6 +3,7 @@ package fxibBackend.service;
 import fxibBackend.dto.AuthorizationDTOS.LoginDTO;
 import fxibBackend.dto.UserDetailsDTO.LocationDTO;
 import fxibBackend.entity.InquiryEntity;
+import fxibBackend.entity.ReportEntity;
 import fxibBackend.entity.TransactionEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.ResourceNotFoundException;
@@ -22,6 +23,8 @@ import java.util.Random;
 import java.util.UUID;
 
 import static fxibBackend.constants.ConfigConst.*;
+import static fxibBackend.constants.EmailTemplateConst.*;
+
 import static fxibBackend.constants.ResponseConst.*;
 
 @Service
@@ -93,8 +96,8 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
         helper.setFrom(EMAIL_ORIGIN);
         helper.setTo(userEntity.getEmail());
-        helper.setSubject(TWO_FACTOR_AUTH_SUBJECT);
-        helper.setText(String.format(TWO_FACTOR_AUTH_HTML_TEMPLATE, userEntity.getUsername(), code), true);
+        helper.setSubject(TWO_FACTOR_AUTH_SUBJECT_EMAIL);
+        helper.setText(String.format(TWO_FACTOR_AUTH_HTML_TEMPLATE_EMAIL, userEntity.getUsername(), code), true);
         javaMailSender.send(message);
 
         return TWO_FACTOR_CODE_EMAIL_SENT_SUCCESSFULLY;
@@ -129,8 +132,8 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
         helper.setFrom(EMAIL_ORIGIN);
         helper.setTo(userEntity.getEmail());
-        helper.setSubject(DIFFERENT_LOCATION_AUTH_SUBJECT);
-        helper.setText(String.format(DIFFERENT_LOCATION_HTML_TEMPLATE,
+        helper.setSubject(DIFFERENT_LOCATION_AUTH_SUBJECT_EMAIL);
+        helper.setText(String.format(DIFFERENT_LOCATION_HTML_TEMPLATE_EMAIL,
                 userEntity.getUsername(),
                 currentLocationDTO.getContinent(),
                 currentLocationDTO.getCountryFlagURL(),
@@ -161,8 +164,8 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
         helper.setFrom(EMAIL_ORIGIN);
         helper.setTo(email);
-        helper.setSubject(REGISTRATION_SUCCESS_SUBJECT);
-        helper.setText(String.format(REGISTRATION_SUCCESS_HTML_TEMPLATE, username), true);
+        helper.setSubject(REGISTRATION_SUCCESS_SUBJECT_EMAIL);
+        helper.setText(String.format(REGISTRATION_SUCCESS_HTML_TEMPLATE_EMAIL, username), true);
         javaMailSender.send(message);
     }
 
@@ -179,8 +182,8 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
         helper.setFrom(EMAIL_ORIGIN);
         helper.setTo(transactionEntity.getUserEmail());
-        helper.setSubject(SUBSCRIPTION_SUCCESS_SUBJECT);
-        helper.setText(String.format(SUBSCRIPTION_SUCCESS_HTML_TEMPLATE,
+        helper.setSubject(SUBSCRIPTION_SUCCESS_SUBJECT_EMAIL);
+        helper.setText(String.format(SUBSCRIPTION_SUCCESS_HTML_TEMPLATE_EMAIL,
                 username
                 , transactionEntity.getBillingDate()
                 , transactionEntity.getDuration()
@@ -227,9 +230,9 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
         helper.setFrom(EMAIL_ORIGIN);
         helper.setTo(bannedUser.getEmail());
-        helper.setSubject(USER_BAN_SUBJECT);
+        helper.setSubject(USER_BAN_SUBJECT_EMAIL);
 
-        helper.setText(String.format(USER_BAN_HTML_TEMPLATE
+        helper.setText(String.format(USER_BAN_HTML_TEMPLATE_EMAIL
                         , bannedUser.getUsername()
                         , customDateFormatter.formatLocalDateTimeNowAsString(LocalDateTime.now()))
                 , true);
@@ -248,9 +251,9 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
         helper.setFrom(EMAIL_ORIGIN);
         helper.setTo(bannedUser.getEmail());
-        helper.setSubject(USER_UNBAN_SUBJECT);
+        helper.setSubject(USER_UNBAN_SUBJECT_EMAIL);
 
-        helper.setText(String.format(USER_UNBAN_HTML_TEMPLATE
+        helper.setText(String.format(USER_UNBAN_HTML_TEMPLATE_EMAIL
                         , bannedUser.getUsername()
                         , customDateFormatter.formatLocalDateTimeNowAsString(LocalDateTime.now()))
                 , true);
@@ -259,4 +262,28 @@ public class EmailService {
     }
 
 
+    /**
+     * Sends an email notification for a submitted report.
+     *
+     * @param reportEntity The ReportEntity containing information about the report.
+     * @param userName     The username associated with the report.
+     * @param email        The email address to which the notification should be sent.
+     * @throws MessagingException If an error occurs while sending the email.
+     */
+    public void sendReportEmail(ReportEntity reportEntity, String userName, String email) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, EMAIL_ENCODING);
+        helper.setFrom(EMAIL_ORIGIN);
+        helper.setTo(email);
+        helper.setSubject(String.format(REPORT_EMAIL_SUBJECT, userName));
+
+        helper.setText(String.format(REPORT_EMAIL_HTML_TEMPLATE
+                        , reportEntity.getTitle()
+                        , reportEntity.getDate()
+                        , userName, reportEntity.getContent()
+                        , reportEntity.getImgURL())
+                , true);
+
+        javaMailSender.send(message);
+    }
 }

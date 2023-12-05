@@ -4,6 +4,7 @@ public class TableNameConst {
     public static final String ANSWERS_TABLE = "answers";
     public static final String LIKED_ANSWERS_TABLE = "liked_answers";
     public static final String QUESTIONS_TABLE = "questions";
+    public static final String REPORTS_TABLE = "reports";
     public static final String ROLES_TABLE = "roles";
     public static final String USERS_TABLE = "users";
     public static final String LOCATIONS_TABLE = "locations";

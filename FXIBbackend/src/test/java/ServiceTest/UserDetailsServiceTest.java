@@ -4,12 +4,14 @@ import com.stripe.exception.StripeException;
 import fxibBackend.dto.UserDetailsDTO.StripeTransactionDTO;
 import fxibBackend.dto.UserDetailsDTO.UserDetailsDTO;
 import fxibBackend.entity.InquiryEntity;
+import fxibBackend.entity.ReportEntity;
 import fxibBackend.entity.TransactionEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.AccessDeniedException;
 import fxibBackend.exception.DataValidationException;
 import fxibBackend.exception.ResourceNotFoundException;
 import fxibBackend.repository.InquiryEntityRepository;
+import fxibBackend.repository.ReportEntityRepository;
 import fxibBackend.repository.TransactionEntityRepository;
 import fxibBackend.repository.UserEntityRepository;
 import fxibBackend.service.EmailService;
@@ -28,7 +30,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -55,12 +59,16 @@ public class UserDetailsServiceTest {
     private EmailService emailService;
     @Mock
     private InquiryEntityRepository inquiryEntityRepository;
+
+    @Mock
+    private ReportEntityRepository reportEntityRepository;
     @Mock
     private ModelMapper modelMapper;
     @Mock
     private TransactionEntityRepository transactionEntityRepository;
     @Mock
     private CustomDateFormatter customDateFormatter;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -71,10 +79,11 @@ public class UserDetailsServiceTest {
                 validateData,
                 validationUtil,
                 modelMapper,
-                transactionEntityRepository
-                , emailService
-                , inquiryEntityRepository,
-                customDateFormatter
+                transactionEntityRepository,
+                emailService,
+                inquiryEntityRepository,
+                customDateFormatter,
+                reportEntityRepository
         );
     }
 
@@ -277,8 +286,42 @@ public class UserDetailsServiceTest {
     }
 
 
+    @Test
+    void testGetRandomCustomIDNumberREP() {
+        when(reportEntityRepository.existsByCustomID(any())).thenReturn(false);
 
+        String result = ReflectionTestUtils.invokeMethod(userDetailsService, "getRandomCustomIDNumberREP");
 
+        verify(reportEntityRepository, times(1)).existsByCustomID(any());
 
+        assertNotNull(result);
+        assertTrue(result.startsWith("REP"));
+    }
+
+    @Test
+    void testSaveReportAndSendEmail() throws MessagingException {
+        String title = "Test Title";
+        String content = "Test Content";
+        String imgURL = "https://example.com/image.jpg";
+        String username = "testUser";
+        String jwtToken = "testToken";
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername(username);
+
+        ReportEntity reportEntity = new ReportEntity();
+        reportEntity.setTitle(title);
+        reportEntity.setContent(content);
+        reportEntity.setDate(customDateFormatter.formatLocalDateTimeNowAsString(LocalDateTime.now()));
+        reportEntity.setImgURL(imgURL);
+
+        when(validateData.validateUserWithJWT(username, jwtToken)).thenReturn(userEntity);
+        when(reportEntityRepository.save(Mockito.any(ReportEntity.class))).thenReturn(reportEntity);
+
+        assertDoesNotThrow(() -> userDetailsService.saveReportAndSendEmail(title, content, imgURL, username, jwtToken));
+
+        verify(reportEntityRepository, times(1)).save(Mockito.any(ReportEntity.class));
+        verify(emailService, times(1)).sendReportEmail(Mockito.any(ReportEntity.class), eq(username), eq(userEntity.getEmail()));
+    }
 
 }

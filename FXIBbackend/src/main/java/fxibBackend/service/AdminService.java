@@ -3,11 +3,13 @@ package fxibBackend.service;
 
 import fxibBackend.dto.AdminDTOS.AdminUserDTO;
 import fxibBackend.dto.AdminDTOS.InquiryDTO;
+import fxibBackend.dto.AdminDTOS.ReportDTO;
 import fxibBackend.dto.AdminDTOS.RolesAdminDTO;
 import fxibBackend.entity.RoleEntity;
 import fxibBackend.entity.UserEntity;
 import fxibBackend.exception.*;
 import fxibBackend.repository.InquiryEntityRepository;
+import fxibBackend.repository.ReportEntityRepository;
 import fxibBackend.repository.UserEntityRepository;
 import fxibBackend.util.ValidateData;
 import fxibBackend.util.ValidationUtil;
@@ -37,6 +39,7 @@ public class AdminService {
     private final ValidateData validateData;
     private final ValidationUtil validationUtil;
     private final InquiryEntityRepository inquiryEntityRepository;
+    private final ReportEntityRepository reportEntityRepository;
     private final EmailService emailService;
 
     /**
@@ -140,8 +143,34 @@ public class AdminService {
         return inquiryEntityRepository
                 .findAllByUserEntity_Id(userEntityOptional.get().getId())
                 .stream()
-                .map(inquiryEntity -> modelMapper
-                        .map(inquiryEntity, InquiryDTO.class))
+                .map(inquiryEntity ->
+                        modelMapper.map(inquiryEntity, InquiryDTO.class))
+                .toList();
+    }
+
+
+    /**
+     * Retrieves a list of report DTOs for a specified user.
+     *
+     * @param currentUsername The username of the currently authenticated user making the request.
+     * @param jwtToken        The JWT token for user validation.
+     * @param username        The username for which reports are to be retrieved.
+     * @return A list of ReportDTOs associated with the specified user.
+     * @throws ResourceNotFoundException If the user with the provided currentUsername is not found.
+     */
+    public List<ReportDTO> getAllReportsForUser(String currentUsername, String jwtToken, String username) {
+        validateData.validateUserWithJWT(username, jwtToken);
+
+        Optional<UserEntity> userEntityOptional = userRepository.findByUsername(currentUsername);
+        if (userEntityOptional.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
+
+        return reportEntityRepository
+                .findAllByUserEntity_Id(userEntityOptional.get().getId())
+                .stream()
+                .map(reportEntity ->
+                        modelMapper.map(reportEntity, ReportDTO.class))
                 .toList();
     }
 }

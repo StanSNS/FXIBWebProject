@@ -109,7 +109,6 @@
             <artifactId>ipgeolocation</artifactId>
             <version>1.0.15</version>
         </dependency>
-
     </dependencies>
 
     <build>

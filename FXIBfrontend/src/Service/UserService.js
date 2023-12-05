@@ -131,8 +131,14 @@ export const logoutUser = (username, jwtToken) => {
 };
 
 // Function to send inquiry email.
-export const sendInquiryEmail = (title, content, username, jwtToken) => {
-    const url = `http://localhost:8000?title=${title}&content=${content}&username=${username}&jwtToken=${jwtToken}`
+export const saveInquiryAndSendEmail = (title, content, username, jwtToken) => {
+    const url = `http://localhost:8000?action=sendInquiry&title=${title}&content=${content}&username=${username}&jwtToken=${jwtToken}`
+    return axios.post(url)
+};
+
+// Function to send report email.
+export const saveReportAndSendEmail = (title, content,imgURL ,username, jwtToken) => {
+    const url = `http://localhost:8000?action=reportProblem&title=${title}&imgURL=${imgURL}&content=${content}&username=${username}&jwtToken=${jwtToken}`
     return axios.post(url)
 };
 

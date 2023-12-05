@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fxibBackend.controller.AdminController;
 import fxibBackend.dto.AdminDTOS.AdminUserDTO;
 import fxibBackend.dto.AdminDTOS.InquiryDTO;
+import fxibBackend.dto.AdminDTOS.ReportDTO;
 import fxibBackend.dto.AdminDTOS.RolesAdminDTO;
 import fxibBackend.exception.MissingParameterException;
 import fxibBackend.service.AdminService;
@@ -91,7 +92,7 @@ public class AdminControllerTest {
 
 
     @Test
-    public void testGetAllInquiriesForUser() throws Exception {
+    public void testGetAllInquiriesForUser() {
         InquiryDTO inquiryDTO1 = new InquiryDTO();
         inquiryDTO1.setCustomID("ID_1");
         inquiryDTO1.setTitle("Inquiry 1");
@@ -108,23 +109,39 @@ public class AdminControllerTest {
 
         ResponseEntity<?> response = adminController.getCommands("getAllInquiriesForUser", null, "jwtToken", "username");
 
-        // Verify that the response is as expected
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(inquiryList, response.getBody());
     }
 
     @Test
-    public void testMissingParameterException() {
-        // Test the case where a MissingParameterException is thrown.
+    public void testGetAllReportsForUser() {
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setCustomID("ID_1");
+        reportDTO.setTitle("Report 1");
+        reportDTO.setDate("2023-01-01");
 
-        // Mock the behavior of your service method to throw MissingParameterException
+        ReportDTO reportDTO1 = new ReportDTO();
+        reportDTO1.setCustomID("ID_2");
+        reportDTO1.setTitle("Report 2");
+        reportDTO1.setDate("2023-01-02");
+
+        List<ReportDTO> reportDTOList = Arrays.asList(reportDTO, reportDTO1);
+
+        when(adminService.getAllReportsForUser(null, "jwtToken", "username")).thenReturn(reportDTOList);
+
+        ResponseEntity<?> response = adminController.getCommands("getAllReportsForUser", null, "jwtToken", "username");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(reportDTOList, response.getBody());
+    }
+
+    @Test
+    public void testMissingParameterException() {
         when(adminService.getAllInquiriesForUser(any(), any(), any())).thenThrow(MissingParameterException.class);
 
-        // Call the controller method and expect an exception
         Exception exception = org.junit.jupiter.api.Assertions.assertThrows(MissingParameterException.class, () ->
                 adminController.getCommands("non-existing-path", null, "jwtToken", "username"));
 
-        // Verify that the exception is of type MissingParameterException
         assertEquals(MissingParameterException.class, exception.getClass());
     }
 

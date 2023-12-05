@@ -1,8 +1,11 @@
 package InitTest;
 
 import com.google.gson.Gson;
+import fxibBackend.inits.TradingAccountJSONObjects.MyFxBookAccountJSON;
+import fxibBackend.inits.TradingAccountJSONObjects.TradeHistoryJSON;
+import fxibBackend.inits.TradingAccountJSONObjects.TradeJSON;
+import fxibBackend.inits.TradingAccountJSONObjects.TradingAccountResponseJSON;
 import fxibBackend.inits.TradingAccountsInit;
-import fxibBackend.inits.TradingAccountJSONObjects.*;
 import fxibBackend.repository.TradeEntityRepository;
 import fxibBackend.repository.TradingAccountEntityRepository;
 import fxibBackend.util.CustomDateFormatter;
@@ -17,7 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class TradingAccountsInitTest {

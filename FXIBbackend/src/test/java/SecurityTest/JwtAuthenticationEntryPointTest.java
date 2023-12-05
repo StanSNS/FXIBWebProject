@@ -7,8 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.core.AuthenticationException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -28,7 +28,8 @@ public class JwtAuthenticationEntryPointTest {
     @Test
     void testCommence() throws Exception {
         MockHttpServletResponse response = new MockHttpServletResponse();
-        AuthenticationException authException = new AuthenticationException("Unauthorized") {};
+        AuthenticationException authException = new AuthenticationException("Unauthorized") {
+        };
 
         jwtAuthenticationEntryPoint.commence(request, response, authException);
 

@@ -2,20 +2,29 @@ import React, {useEffect, useState} from 'react';
 import {Button, Card, Form, Modal} from 'react-bootstrap';
 import './admin.css';
 import {FaExclamationTriangle, FaListAlt, FaLock, FaLockOpen, FaSearch, FaTimes, FaUserTimes} from "react-icons/fa";
-import {getAllInquiriesForUser, getAllUsers, updateBlockedUserRoles} from "../../Service/AdminSevice";
+import {
+    getAllInquiriesForUser,
+    getAllReportsForUser,
+    getAllUsers,
+    updateBlockedUserRoles
+} from "../../Service/AdminSevice";
 import {getToken, loggedUserUsername} from "../../Service/AuthService";
 import AdminSkeleton from "../../SkeletonLoader/AdminSkeleton";
+import {HiSpeakerphone} from "react-icons/hi";
+import {Link} from "react-router-dom";
 
 const AdminSection = () => {
 
     const [isLoading, setIsLoading] = useState(true); // State variable for loading indicator
     const [users, setUsers] = useState([]); // State variable for storing an array of users
     const [inquiries, setInquiries] = useState([]); // State variable for storing an array of inquiries
+    const [reports, setReports] = useState([]); // State variable for storing an array of reports
     const [showConfirmationModal, setShowConfirmationModal] = useState(false); // State variable to control the visibility of a confirmation modal
     const [userToBlock, setUserToBlock] = useState(null); // State variable to store information about the user to be blocked
     const [searchTerm, setSearchTerm] = useState(''); // State variable for storing the search term used in filtering
     const [selectedUser, setSelectedUser] = useState(''); // State variable for storing the selected user
     const [showInquiriesModal, setShowInquiriesModal] = useState(false); // State variable to control the visibility of an inquiries modal
+    const [showReportModal, setShowReportModal] = useState(false); // State variable to control the visibility of an reports modal
 
     const filteredUsers = users.filter((user) => user.username.toLowerCase().includes(searchTerm.toLowerCase()));  // Filter users based on the search term.
 
@@ -70,9 +79,25 @@ const AdminSection = () => {
 
     };
 
-    // Function to close the inquiries modal
+    // Function to close the report modal
     const closeInquiriesModal = () => {
         setShowInquiriesModal(false);
+    };
+
+
+    const openReportsModal = (currUsername) => {
+        setShowReportModal(true);
+        getAllReportsForUser(loggedUserUsername(), getToken().substring(7), currUsername)
+            .then((data) => {
+                setReports(data)
+                setSelectedUser(currUsername)
+            })
+
+    };
+
+    // Function to close the report modal
+    const closeReportsModal = () => {
+        setShowReportModal(false);
     };
 
 
@@ -122,14 +147,20 @@ const AdminSection = () => {
                                           ? 'blocked-user-card'
                                           : ''}`}>
                                     <Card.Body className="d-flex flex-column rounded">
-                                        <Card.Title
-                                            className="font-weight-bold mb-0 usernameColor customDisplayTitle">
+                                        <Card.Title className="font-weight-bold mb-0 usernameColor customDisplayTitle">
                                             <div className="mt-1">@{user.username.toUpperCase()}</div>
 
-                                            <button className="customColorListAdmin"
-                                                    onClick={() => openInquiriesModal(user.username)}>
-                                                <span><FaListAlt/></span>
-                                            </button>
+                                            <div>
+                                                <button className="customColorReportAdmin"
+                                                        onClick={() => openReportsModal(user.username)}>
+                                                    <span className="customReportIcon"><HiSpeakerphone/></span>
+                                                </button>
+
+                                                <button className="customColorListAdmin"
+                                                        onClick={() => openInquiriesModal(user.username)}>
+                                                    <span className="customInqIcon"><FaListAlt/></span>
+                                                </button>
+                                            </div>
 
                                         </Card.Title>
                                         <Card.Text className="mt-2 p-1">
@@ -141,9 +172,7 @@ const AdminSection = () => {
                                         </Card.Text>
 
                                         <Button
-                                            variant={user.roles.some(role => role.name === 'BANNED')
-                                                ? 'danger'
-                                                : 'info'}
+                                            variant={user.roles.some(role => role.name === 'BANNED') ? 'danger' : 'info'}
                                             onClick={() => {
                                                 setUserToBlock(user);
                                                 setShowConfirmationModal(true);
@@ -191,8 +220,10 @@ const AdminSection = () => {
 
             <Modal show={showInquiriesModal} onHide={closeInquiriesModal} centered size="xl">
                 <Modal.Header className="removeBorder">
-                    <Modal.Title>User Inquiries: <span
-                        className="customTextColorAdmin"> @{selectedUser}</span></Modal.Title>
+                    <Modal.Title>
+                        <span className="customInqIcon align-text-bottom"><FaListAlt/></span> User Inquiries:
+                        <span className="customTextColorAdmin"> @{selectedUser}</span>
+                    </Modal.Title>
                     <Button variant="link" className="close"
                             onClick={closeInquiriesModal}><FaTimes/></Button>
                 </Modal.Header>
@@ -217,6 +248,49 @@ const AdminSection = () => {
                                     <td>{inquiry.customID}</td>
                                     <td>{inquiry.date}</td>
                                     <td>{inquiry.title}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    }
+                </Modal.Body>
+            </Modal>
+
+            <Modal show={showReportModal} onHide={closeReportsModal} centered size="xl">
+                <Modal.Header className="removeBorder">
+                    <Modal.Title>
+                        <span className="customReportIcon align-text-bottom"><HiSpeakerphone/></span> User Reports:
+                        <span className="customTextColorAdmin"> @{selectedUser}</span><
+                        /Modal.Title>
+                    <Button variant="link" className="close"
+                            onClick={closeReportsModal}><FaTimes/></Button>
+                </Modal.Header>
+                <Modal.Body>
+                    {reports.length === 0
+                        ? (<div>
+                            <h4 className="text-center">
+                                <strong>No data found </strong> <FaExclamationTriangle className="mb-1 ml-1"/>
+                            </h4>
+                        </div>)
+                        : <table className="table">
+                            <thead>
+                            <tr>
+                                <th>REP-ID</th>
+                                <th>Submission Date</th>
+                                <th>Title</th>
+                                <th>Image</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {reports.map((report, index) => (
+                                <tr key={index}>
+                                    <td>{report.customID}</td>
+                                    <td>{report.date}</td>
+                                    <td>{report.title}</td>
+                                    <td>
+                                        <Link to={report.imgURL} target="_blank"
+                                              rel="noopener noreferrer"> Show </Link>
+                                    </td>
                                 </tr>
                             ))}
                             </tbody>
