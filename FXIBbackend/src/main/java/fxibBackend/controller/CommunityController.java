@@ -74,7 +74,7 @@ public class CommunityController {
                                            @RequestParam String username,
                                            @RequestParam(required = false) String questionID,
                                            @RequestParam(required = false) String answerID) {
-        // Handle various delete requests based on the provided action
+
         return switch (action) {
             case DELETE_QUESTION -> new ResponseEntity<>(communityService.deleteQuestion(username, jwtToken, Long.valueOf(questionID)), HttpStatus.OK);
             case DELETE_ANSWER -> new ResponseEntity<>(communityService.deleteAnswer(username, jwtToken, Long.valueOf(answerID)), HttpStatus.OK);

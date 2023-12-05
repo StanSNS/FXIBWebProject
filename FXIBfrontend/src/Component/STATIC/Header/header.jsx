@@ -22,6 +22,7 @@ import {
 import {FaUserLargeSlash} from "react-icons/fa6";
 import UserDetailsSkeleton from "../../../SkeletonLoader/UserDetailsSkeleton";
 import UserTransactionsSkeleton from "../../../SkeletonLoader/UserTrsnsactionsSkeleton";
+import {IoMdRefresh} from "react-icons/io";
 
 export default function Header() {
 
@@ -66,15 +67,21 @@ export default function Header() {
         }
     }, [showUserDetailsModal]);
 
+
     // Function to handle showing the user transactions
-    const handleShowTransactions = async () => {
+    const handleShowTransactions = () => {
+        handleFetchUserTransactions()
+        setShowTransactionsModal(true);
+    };
+
+    const handleFetchUserTransactions = async () => {
         getAllUserTransactions(loggedUserUsername(), getToken().substring(7))
             .then((data) => {
                 setUserTransactions(data)
                 setIsTransactionsLoading(false)
             })
-        setShowTransactionsModal(true);
-    };
+    }
+
 
     // Function to handle editing the biography
     const handleEditBiography = () => {
@@ -370,10 +377,15 @@ export default function Header() {
                     </Modal.Body>
                     <Modal.Footer className="justify-content-center removeBorder p-0 m-0 mb-3">
                         <Button
-                            className="ml-0 mr-0"
+                            variant="info"
+                            onClick={() => handleFetchUserTransactions()}>
+                            Refresh <span className="align-text-bottom"><IoMdRefresh/></span>
+                        </Button>
+
+                        <Button
                             variant="dark"
                             onClick={() => setShowTransactionsModal(false)}>
-                            Close
+                            Close <FaTimes/>
                         </Button>
                     </Modal.Footer>
                 </div>

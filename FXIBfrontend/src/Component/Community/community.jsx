@@ -592,8 +592,7 @@ const Community = () => {
                                 </button>
                                 <div className="ml-0">
                                     <Dropdown>
-                                        <Dropdown.Toggle variant="light" id="dropdown-basic"
-                                                         className="communityButton">
+                                        <Dropdown.Toggle variant="light" id="dropdown-basic" className="communityButton">
                                             Sort By
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>

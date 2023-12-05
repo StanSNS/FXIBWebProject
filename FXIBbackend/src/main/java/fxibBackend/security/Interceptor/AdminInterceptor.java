@@ -32,6 +32,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         if (!queryString.isEmpty()) {
             // Split the query string into parts
             String[] parts = queryString.split("&");
+
             String username = parts[1].split("=")[1];
             String jwtToken = parts[2].split("=")[1];
 

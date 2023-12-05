@@ -138,7 +138,7 @@ export const getAllTopics = () => {
 
 // Function to delete a question by its ID.
 export const deleteQuestionID = (username, jwtToken, questionID) => {
-    const url = `http://localhost:8000/community/deleteQuestion?username=${username}&jwtToken=${jwtToken}&questionID=${questionID}`;
+    const url = `http://localhost:8000/community/deleteQuestion?questionID=${questionID}&username=${username}&jwtToken=${jwtToken}`;
     return axios.delete(url)
         .then((response) => {
             if (response.status === 200) {
@@ -154,7 +154,7 @@ export const deleteQuestionID = (username, jwtToken, questionID) => {
 
 // Function to delete an answer by its ID.
 export const deleteAnswerID = (username, jwtToken, answerID) => {
-    const url = `http://localhost:8000/community/deleteAnswer?username=${username}&jwtToken=${jwtToken}&answerID=${answerID}`;
+    const url = `http://localhost:8000/community/deleteAnswer?answerID=${answerID}&username=${username}&jwtToken=${jwtToken}`;
     return axios.delete(url)
         .then((response) => {
             if (response.status === 200) {
