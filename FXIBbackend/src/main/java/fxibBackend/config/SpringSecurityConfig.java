@@ -76,6 +76,7 @@ public class SpringSecurityConfig implements WebMvcConfigurer {
                     RESET_PASSWORD_UPDATE_PATH,
                     TWO_FACTOR_AUTH_CONTROLLER_MAPPING_LOGIN
             ).permitAll();
+            authorize.requestMatchers(AUTH_SWAGGER_WHITELIST).permitAll();
             authorize.requestMatchers("/admin").authenticated();
             authorize.requestMatchers("/admin").hasRole(ADMIN_C);
             authorize.anyRequest().authenticated();
@@ -85,6 +86,27 @@ public class SpringSecurityConfig implements WebMvcConfigurer {
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
+    /**
+     * Whitelist of URL patterns for which authentication is not required. Requests to these endpoints are allowed without
+     * authentication, and they typically include authentication-related endpoints and Swagger API documentation.
+     *
+     * <p>The URLs in this whitelist are:</p>
+     * <ul>
+     *     <li>{@code "/api/v1/auth/**"}: Endpoints related to authentication.</li>
+     *     <li>{@code "/v3/api-docs/**"}: Swagger API documentation JSON endpoint.</li>
+     *     <li>{@code "/v3/api-docs.yaml"}: Swagger API documentation YAML endpoint.</li>
+     *     <li>{@code "/swagger-ui/**"}: Swagger UI resources.</li>
+     *     <li>{@code "/swagger-ui.html"}: Swagger UI HTML page.</li>
+     * </ul>
+     */
+    private final String[] AUTH_SWAGGER_WHITELIST = {
+            "/api/v1/auth/**",
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+    };
 
     /**
      * Creates an AuthenticationManager using the provided AuthenticationConfiguration.
