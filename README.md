@@ -19,20 +19,22 @@
 - **Email Sending**: Uses `spring-boot-starter-mail` for email functionality.
 - **Gson**: A library for JSON serialization and deserialization.
 - **IP geolocation**:  Provides functionalities to query and retrieve geolocation data based on IP addresses.
+- **Swagger Integration**:  Explore and understand the project's APIs effortlessly with the integrated Swagger UI.
+- **Flyway Database Migrations**:  Ensure consistent database schema management across different environments with Flyway.
 - **JUnit and AssertJ**: Used for testing and test assertions.
 
 ### Entity table relations
 
 - Below, you will find the table relations between the entities in the database.
 
-![table relations](https://i.imgur.com/ONQpWSe.png)
+![table relations](https://i.imgur.com/BPmlXze.png)
 
 
 ### Testing
 
 - Below, you will find the coverage percentage obtained from the JUnit testing.
 
-![test coverage](https://i.imgur.com/6oIMLOt.png)
+![test coverage](https://i.imgur.com/Q5H8ztM.png)
 
 ## Frontend
 
